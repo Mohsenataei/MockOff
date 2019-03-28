@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_person_add_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:drawableLeft="@drawable/ic_user_plus"
+            android:drawablePadding="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/sign_in"
+            android:layout_width="91dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/more_btn_coop_req"
+            android:text="SIGNUP"
+            android:textColor="@color/blue" />
+        <Button
+            android:drawableLeft="@drawable/ic_sign_in_alt"
+            android:drawablePadding="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/sign_up"
+            android:layout_width="91dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/more_btn_coop_req"
+            android:text="ENTER"
+            android:textColor="@color/blue" />
+
+    </LinearLayout>
+
+
+    <Spinner
+        android:id="@+id/drawer_spinner"
+        android:layout_gravity="center"
+        android:layout_width="186dp"
+        android:layout_height="wrap_content">
+
+    </Spinner>
+
+</LinearLayout>

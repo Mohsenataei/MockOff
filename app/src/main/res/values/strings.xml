@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Uniqueoff1</string>
+    <string name="username_field_hint">نام و نام خانوادگی</string>
+    <string name="password_field_hint">رمز ورود</string>
+    <string name="re_password_field_hint">تایید رمز ورود</string>
+    <string name="phone_number_field_hint">شماره تلفن</string>
+    <string name="email_field_hint">آدرس ایمیل</string>
+    <string name="sign_up_btn">ثبت نام</string>
+    <string name="sign_in_btn">ورود</string>
+    <string name="already_signed_text">قبلا ثبت نام کرده اید؟</string>
+    <string name="didnot_signed_text">هنوز ثبت نام نکرده اید؟</string>
+    <string name="enter">ورود</string>
+    <string name="sign_up_with_google_btn">ثبت نام از طریق گوگل</string>
+    <string name="classification_btn">دسته بندی</string>
+    <string name="cooperation_name_field">نام</string>
+    <string name="cooperation_family_field"> نام خانوادگی</string>
+    <string name="cooperation_email_field">ایمیل</string>
+    <string name="cooperation_phone_field">شماره تماس</string>
+    <string name="cooperation_center_name_field">نام مرکز</string>
+    <string name="cooperation_description_field">توضیحات</string>
+    <string name="cooperation_text">درخواست همکاری</string>
+    <string name="send">ارسال</string>
+    <string name="sign_up_email">ایمیل</string>
+    <string name="confirm">تایید</string>
+    <string name="cancel">لغو</string>
+    <string name="educational">آموزشی</string>
+    <string name="cloth">پوشاک</string>
+    <string name="health">سلامت</string>
+    <string name="cafe">کافی شاپ</string>
+    <string name="restaurant">رستوران</string>
+    <string name="culture">فرهنگی</string>
+    <string name="services">خدمات</string>
+    <string name="amusement">تفریحی</string>
+    <string name="makeups">آرایشی</string>
+    <string name="more_options">موارد دیگر</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="cities">
+        <item>
+            <string name="hamedan">همدان</string>
+        </item>
+        <item>
+            <string name="malayer">ملایر</string>
+        </item>
+        <item>
+            <string name="nahavand">نهاوند</string>
+        </item>
+        <item>
+            <string name="asadabad">اسد آباد</string>
+        </item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test_navigation_drawer">TestNavigationDrawer</string>
+
+</resources>

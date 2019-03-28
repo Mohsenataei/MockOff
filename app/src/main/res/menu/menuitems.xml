@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/FAQ"
+        android:checkable="true"
+        android:icon="@drawable/ic_question"
+        android:title="سوالات متداول">
+    </item>
+    <item
+        android:id="@+id/cntctus"
+        android:checkable="true"
+        android:icon="@drawable/ic_phone"
+        android:title="ارتباط با ما">
+    </item>
+    <item
+        android:id="@+id/coopration"
+        android:checkable="true"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="همکاری با ما">
+    </item>
+    <item
+        android:id="@+id/shareus"
+        android:checkable="true"
+        android:icon="@drawable/ic_share_alt"
+        android:title="پیشنهاد به دوستان">
+    </item>
+</menu>
