@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+// this function opens navigation menu
     public void hideFragment(){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_down, R.anim.slide_up);
