@@ -31,7 +31,7 @@
                 android:drawableLeft="@drawable/ic_user_plus"
                 android:drawablePadding="5dp"
                 android:paddingLeft="10dp"
-                android:id="@+id/sign_in"
+                android:id="@+id/slider_sign_up"
                 android:layout_width="91dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"

@@ -8,4 +8,11 @@
     tools:context=".TestNavigationDrawer"
     tools:showIn="@layout/app_bar_test_navigation_drawer">
 
+    <TextView
+        android:id="@+id/contnet"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MAIN CONTENT"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -13,14 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".TestNavigationDrawer"
+            android:label="@string/title_activity_test_navigation_drawer"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".HomeActivity">
             <intent-filter>
@@ -38,10 +43,7 @@
         <activity android:name=".contact_us" />
 
         <activity android:name=".navigationdrawer" />
-        <activity
-            android:name=".TestNavigationDrawer"
-            android:label="@string/title_activity_test_navigation_drawer"
-            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>
