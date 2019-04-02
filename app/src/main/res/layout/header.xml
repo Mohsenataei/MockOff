@@ -18,33 +18,35 @@
             android:layout_height="77dp"
             android:src="@drawable/ic_user"
             />
+
         <LinearLayout
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
-                
-                android:drawableLeft="@drawable/ic_user_plus"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
+
                 android:id="@+id/header_sign_in"
                 android:layout_width="91dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/more_btn_coop_req"
-                android:text="@string/sign_up_btn"
-                android:textColor="@color/blue" />
-            <Button
-                android:drawableLeft="@drawable/ic_sign_in_alt"
+                android:drawableLeft="@drawable/ic_user_plus"
                 android:drawablePadding="5dp"
                 android:paddingLeft="10dp"
+                android:text="@string/sign_up_btn"
+                android:textColor="@color/blue" />
+
+            <Button
                 android:id="@+id/sign_up"
                 android:layout_width="91dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="25dp"
                 android:background="@drawable/more_btn_coop_req"
+                android:drawableLeft="@drawable/ic_sign_in_alt"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
                 android:text="ENTER"
                 android:textColor="@color/blue" />
         </LinearLayout>

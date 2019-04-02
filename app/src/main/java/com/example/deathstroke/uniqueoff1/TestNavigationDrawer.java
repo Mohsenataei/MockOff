@@ -48,15 +48,16 @@ public class TestNavigationDrawer extends AppCompatActivity
                 main.setTranslationX(-slideX);
             }
         };
-        Button btndrw = findViewById(R.id.btndrw);
-        btndrw.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-                float slideX = drawerLayout.getWidth() * 5;
-                main.setTranslationX(-slideX);
-            }
-        });
+
+//        Button btndrw = findViewById(R.id.btndrw);
+//        btndrw.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                float slideX = drawerLayout.getWidth() * 5;
+//                main.setTranslationX(-slideX);
+//            }
+//        });
         LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.header,null);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -82,15 +83,6 @@ public class TestNavigationDrawer extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

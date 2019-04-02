@@ -1,5 +1,6 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -145,7 +146,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
     private void gotoHome (){
-       Intent gotohome = new Intent(this,HomeActivity.class);
+       Intent gotohome = new Intent(this,TestNavigationDrawer.class);
        startActivity(gotohome);
     }
 

@@ -58,7 +58,7 @@ public class SingInActivity extends AppCompatActivity {
 
     }
     private void gotoHomePage(){
-        Intent gotohome = new Intent(this,HomeActivity.class);
+        Intent gotohome = new Intent(this,TestNavigationDrawer.class);
         startActivity(gotohome);
     }
 

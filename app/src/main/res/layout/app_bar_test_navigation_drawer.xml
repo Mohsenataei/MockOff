@@ -14,13 +14,6 @@
         android:background="@color/coop_item_color"
         android:layout_height="100dp">
 
-        <Button
-            android:id="@+id/btndrw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="test btn"/>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.AppBarLayout
@@ -42,15 +35,5 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topbar">
-
-        <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-    </android.support.design.widget.CoordinatorLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/topbar"/>
 </android.support.constraint.ConstraintLayout>
