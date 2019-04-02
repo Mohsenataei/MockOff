@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class TestNavigationDrawer extends AppCompatActivity
         final TextView tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.setScrimColor(Color.TRANSPARENT);
+        final ConstraintLayout main = findViewById(R.id.mainall);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close) {
             @Override
@@ -43,9 +45,18 @@ public class TestNavigationDrawer extends AppCompatActivity
                 super.onDrawerSlide(drawerView, slideOffset);
                // getActionBar().setTitle("is it working ?");
                 float slideX = drawerView.getWidth() * slideOffset;
-                tv.setTranslationX(-slideX);
+                main.setTranslationX(-slideX);
             }
         };
+        Button btndrw = findViewById(R.id.btndrw);
+        btndrw.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+                float slideX = drawerLayout.getWidth() * 5;
+                main.setTranslationX(-slideX);
+            }
+        });
         LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.header,null);
         NavigationView navigationView = findViewById(R.id.nav_view);
