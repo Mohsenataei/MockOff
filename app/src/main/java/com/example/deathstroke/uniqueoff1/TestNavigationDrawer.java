@@ -49,7 +49,7 @@ public class TestNavigationDrawer extends AppCompatActivity
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         final ConstraintLayout main = findViewById(R.id.mainall);
-        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {

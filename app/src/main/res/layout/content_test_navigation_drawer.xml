@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,101 +8,141 @@
     tools:context=".TestNavigationDrawer"
     tools:showIn="@layout/app_bar_test_navigation_drawer">
 
-    <RelativeLayout
-        android:id="@+id/contnet"
+
+    <android.support.v7.widget.SearchView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/search_view"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="جست و جو">
+
+    </android.support.v7.widget.SearchView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 
-        <android.support.v7.widget.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="55dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/search_view"
-            android:elevation="5dp"
-            app:queryHint="جست و جو">
+    <TextView
+        android:id="@+id/hottest_offs_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/HottestOffs"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="225dp" />
 
-        </android.support.v7.widget.SearchView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="100dp" />
+        <android.support.v7.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:elevation="15dp"
+            android:paddingBottom="2dp">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            app:tabBackground="@drawable/tab_selector"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp" />
-
-        <TextView
-            android:id="@+id/hottest_offs_txtvw"
-            android:layout_width="wrap_content"
-            android:layout_height="46dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="265dp"
-            android:gravity="center_horizontal"
-            android:text="@string/HottestOffs"
-            android:textColor="#000000" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="164dp">
-
-            <android.support.v7.widget.CardView
-                android:layout_marginStart="30dp"
-                android:elevation="15dp"
-                android:layout_width="120dp"
-                android:layout_height="100dp"
-                android:paddingBottom="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp">
-
-                </LinearLayout>
-
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="120dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="35dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:elevation="5dp">
 
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-    </RelativeLayout>
+            </LinearLayout>
 
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="35dp"
+            android:elevation="5dp">
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.0"
+        app:layout_constraintGuide_begin="20dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1"
+        app:layout_constraintGuide_begin="20dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4"
+        app:layout_constraintGuide_begin="20dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7"
+        app:layout_constraintGuide_begin="20dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.0"
+        app:layout_constraintGuide_begin="20dp" />
 </android.support.constraint.ConstraintLayout>
