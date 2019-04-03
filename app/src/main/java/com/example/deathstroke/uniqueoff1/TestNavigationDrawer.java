@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +20,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class TestNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Button share_us,sign_up;
+    Button share_us,sign_up,sign_in;
+    Spinner cities;
+    ViewPager viewPager;
+    int images[] = {R.drawable.slider1,R.drawable.slider2,R.drawable.slider3};
+    SliderAdapter sliderAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -34,7 +42,7 @@ public class TestNavigationDrawer extends AppCompatActivity
         setContentView(R.layout.activity_test_navigation_drawer);
         final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         Log.e("esmal agha", "onCreate: TestNavigation Drawer" );
-        final TextView tv = findViewById(R.id.contnet);
+        //final LinearLayout tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         final ConstraintLayout main = findViewById(R.id.mainall);
@@ -48,16 +56,6 @@ public class TestNavigationDrawer extends AppCompatActivity
                 main.setTranslationX(-slideX);
             }
         };
-
-//        Button btndrw = findViewById(R.id.btndrw);
-//        btndrw.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                drawerLayout.openDrawer(GravityCompat.START);
-//                float slideX = drawerLayout.getWidth() * 5;
-//                main.setTranslationX(-slideX);
-//            }
-//        });
         LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.header,null);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -69,15 +67,31 @@ public class TestNavigationDrawer extends AppCompatActivity
         sign_up.setTypeface(hintFont);
 
         share_us = headerLayout.findViewById(R.id.share_us);
+        sign_in = headerLayout.findViewById(R.id.header_sign_up);
         share_us.setTypeface(hintFont);
         //share_us.setText("Clicked");
         share_us.setOnClickListener(v->{
             Intent moveToSignIn = new Intent(this,SingInActivity.class);
             startActivity(moveToSignIn);
         });
-        sign_up.setOnClickListener(v->{
-            startActivity(new Intent(this,SignUpActivity.class));
+//        sign_up.setOnClickListener(v->{
+//            startActivity(new Intent(this,SignUpActivity.class));
+//        });
+        sign_in.setTypeface(hintFont);
+        sign_in.setOnClickListener(v->{
+            startActivity(new Intent(this,SingInActivity.class));
         });
+        cities = findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.cities,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        try {
+            cities.setAdapter(adapter);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("in navigation :", "onCreate: "+ e );
+        }
+
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
@@ -90,6 +104,9 @@ public class TestNavigationDrawer extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        viewPager = findViewById(R.id.viewPager);
+        sliderAdapter = new SliderAdapter(this,images);
+        viewPager.setAdapter(sliderAdapter);
     }
 
     @Override

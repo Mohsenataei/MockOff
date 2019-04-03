@@ -39,9 +39,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         Typeface hintFont = Typeface.createFromAsset(getAssets(),"fonts/B Yekan+.ttf"); // works ? yes
-        Typeface awesomeRegular = Typeface.createFromAsset(getAssets(),"fonts/Font-Awesome-5-Free-Regular-400.ttf");
-        Typeface awesomeSolid = Typeface.createFromAsset(getAssets(),"fonts/Font-Awesome-5-Free-Solid-900.ttf");
-
         username_field = findViewById(R.id.sign_up_username);
         username_field.setTypeface(hintFont);
         password_field = findViewById(R.id.password);
