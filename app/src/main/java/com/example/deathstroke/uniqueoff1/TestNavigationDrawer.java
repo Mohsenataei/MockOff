@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +32,9 @@ public class TestNavigationDrawer extends AppCompatActivity
 
     Button share_us,sign_up,sign_in;
     Spinner cities;
+    TextView hotoffs;
     ViewPager viewPager;
+    TabLayout tabLayout;
     int images[] = {R.drawable.slider1,R.drawable.slider2,R.drawable.slider3};
     SliderAdapter sliderAdapter;
     @Override
@@ -56,6 +59,9 @@ public class TestNavigationDrawer extends AppCompatActivity
                 main.setTranslationX(-slideX);
             }
         };
+        hotoffs = findViewById(R.id.hottest_offs_txtvw);
+        hotoffs.setTypeface(hintFont);
+
         LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.header,null);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -97,16 +103,24 @@ public class TestNavigationDrawer extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        try {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.border_color));
         navigationView.setNavigationItemSelectedListener(this);
+        tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
         sliderAdapter = new SliderAdapter(this,images);
         viewPager.setAdapter(sliderAdapter);
+        tabLayout.setupWithViewPager(viewPager,true);
     }
 
     @Override
