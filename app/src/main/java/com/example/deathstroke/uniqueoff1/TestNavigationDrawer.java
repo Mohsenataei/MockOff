@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -30,6 +32,8 @@ import android.widget.TextView;
 public class TestNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    final static String TAG = "amoo jelal";
+
     Button share_us,sign_up,sign_in,followed_centers,terms_of_service,contact_us,edit,exit,bookmarks;
     Spinner cities;
     TextView hotoffs;
@@ -37,6 +41,16 @@ public class TestNavigationDrawer extends AppCompatActivity
     TabLayout tabLayout;
     int images[] = {R.drawable.slider1,R.drawable.slider2,R.drawable.slider3};
     SliderAdapter sliderAdapter;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
+    new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()){
+
+            }
+            return false;
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -44,7 +58,6 @@ public class TestNavigationDrawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_navigation_drawer);
         final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        Log.e("esmal agha", "onCreate: TestNavigation Drawer" );
         //final LinearLayout tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -69,14 +82,31 @@ public class TestNavigationDrawer extends AppCompatActivity
 
         View headerLayout = navigationView.getHeaderView(0);
 
-        sign_up = headerLayout.findViewById(R.id.header_sign_in);
+        sign_up = headerLayout.findViewById(R.id.header_sign_up);
         sign_up.setTypeface(hintFont);
 
 
         share_us = headerLayout.findViewById(R.id.share_us);
-        sign_in = headerLayout.findViewById(R.id.header_sign_up);
+        sign_in = headerLayout.findViewById(R.id.header_sign_in);
+
+        followed_centers = headerLayout.findViewById(R.id.followed_centers);
+        followed_centers.setTypeface(hintFont);
+
+        terms_of_service = headerLayout.findViewById(R.id.terms);
+        terms_of_service.setTypeface(hintFont);
+
+        contact_us = headerLayout.findViewById(R.id.contact_us);
+        contact_us.setTypeface(hintFont);
+        bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
+        bookmarks.setTypeface(hintFont);
+
+        edit = headerLayout.findViewById(R.id.edit);
+        edit.setTypeface(hintFont);
+
+        exit = headerLayout.findViewById(R.id.EXIT);
+        exit.setTypeface(hintFont);
+
         share_us.setTypeface(hintFont);
-        //share_us.setText("Clicked");
         share_us.setOnClickListener(v->{
             Intent moveToSignIn = new Intent(this,SingInActivity.class);
             startActivity(moveToSignIn);
@@ -88,10 +118,11 @@ public class TestNavigationDrawer extends AppCompatActivity
 
         try {
             sign_in.setOnClickListener(v->{
-                startActivity(new Intent(this,SingInActivity.class));
+                startActivity(new Intent(getApplicationContext(),SingInActivity.class));
             });
         }catch (Exception e){
-
+            e.printStackTrace();
+            Log.e(TAG, "onCreate: ",e );
         }
         cities = findViewById(R.id.cities_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -115,10 +146,10 @@ public class TestNavigationDrawer extends AppCompatActivity
             e.printStackTrace();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.border_color));
         navigationView.setNavigationItemSelectedListener(this);

@@ -11,47 +11,54 @@
         android:layout_height="77dp"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_user"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-
-        android:id="@+id/header_sign_up"
-        android:layout_width="91dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/more_btn_coop_req"
-        android:drawableLeft="@drawable/ic_user_plus"
-        android:drawablePadding="5dp"
-        android:paddingLeft="10dp"
-        android:text="@string/sign_up_btn"
-        android:textColor="@color/blue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_profile" />
-
-    <Button
-        android:id="@+id/header_sign_in"
-        android:layout_width="91dp"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:id="@+id/log_layout"
+        android:layout_width="193dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/more_btn_coop_req"
-        android:drawableStart="@drawable/ic_sign_in_alt"
-        android:drawablePadding="5dp"
-        android:paddingLeft="10dp"
-        android:text="@string/sign_in_btn"
-        android:textColor="@color/blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/header_sign_up"
-        app:layout_constraintTop_toBottomOf="@+id/nav_profile" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/nav_profile">
+
+        <Button
+            android:id="@+id/header_sign_up"
+            android:layout_width="91dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="2dp"
+            android:background="@drawable/more_btn_coop_req"
+            android:drawableStart="@drawable/ic_user_plus"
+            android:drawablePadding="5dp"
+            android:paddingStart="10dp"
+            android:text="@string/sign_up_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="93dp" />
+
+        <Button
+            android:id="@+id/header_sign_in"
+            android:layout_width="91dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/more_btn_coop_req"
+            android:drawableStart="@drawable/ic_sign_in_alt"
+            android:drawablePadding="5dp"
+            android:paddingStart="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/sign_in_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="93dp" />
+    </LinearLayout>
+
 
     <Spinner
         android:id="@+id/cities_spinner"
@@ -61,17 +68,17 @@
         android:layout_gravity="center"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="148dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/spinner_background"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_sign_in">
+        app:layout_constraintTop_toTopOf="parent">
 
     </Spinner>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:id="@+id/linearLayout3"
         android:layout_width="200dp"
         android:layout_height="1dp"
@@ -79,10 +86,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="#000"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cities_spinner" />/
-        >
+        app:layout_constraintTop_toBottomOf="@+id/cities_spinner" />
 
     <Button
         android:id="@+id/bookmark_centers"
@@ -118,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bookmark_centers" />
 
     <Button
-        android:id="@+id/tems"
+        android:id="@+id/terms"
         android:layout_width="186dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -160,40 +167,76 @@
         android:text="پیشنهاد به دوستان"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tems" />
+        app:layout_constraintTop_toBottomOf="@+id/terms" />
 
-    <Button
-        android:id="@+id/EXIT"
-        android:layout_width="72sp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
+    <LinearLayout
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_sign_out_alt"
-        android:text="خروج"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toEndOf="@+id/edit"
-        app:layout_constraintTop_toBottomOf="@+id/contact_us" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/contact_us"
+        app:layout_constraintVertical_bias="0.0">
 
-    <Button
-        android:id="@+id/edit"
-        android:layout_width="105dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_cog"
-        android:text="ویرایش"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_us" />
+        <Button
+            android:id="@+id/EXIT"
+            android:layout_width="65sp"
+            android:layout_height="40dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_sign_out_alt"
+            android:text="خروج" />
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_cog"
+            android:text="ویرایش" />
+    </LinearLayout>
+
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_percent="0.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="80dp"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="280dp"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="317dp"
+        app:layout_constraintGuide_percent="1.0" />
+
+
 
 </android.support.constraint.ConstraintLayout>

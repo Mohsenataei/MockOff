@@ -41,6 +41,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="HottestOffs">تخفیف های داغ</string>
+    <string name="title_classification">دسته بندی</string>
+    <string name="title_my_codes">کد های من</string>
+    <string name="title_nearest_offs">تخفیف های اطراف من</string>
+    <string name="title_home">خانه</string>
     <string-array name="cities">
         <item>
             <string name="hamedan">همدان</string>
