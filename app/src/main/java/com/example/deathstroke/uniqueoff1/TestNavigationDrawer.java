@@ -30,7 +30,7 @@ import android.widget.TextView;
 public class TestNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Button share_us,sign_up,sign_in;
+    Button share_us,sign_up,sign_in,followed_centers,terms_of_service,contact_us,edit,exit,bookmarks;
     Spinner cities;
     TextView hotoffs;
     ViewPager viewPager;
@@ -72,6 +72,7 @@ public class TestNavigationDrawer extends AppCompatActivity
         sign_up = headerLayout.findViewById(R.id.header_sign_in);
         sign_up.setTypeface(hintFont);
 
+
         share_us = headerLayout.findViewById(R.id.share_us);
         sign_in = headerLayout.findViewById(R.id.header_sign_up);
         share_us.setTypeface(hintFont);
@@ -84,9 +85,14 @@ public class TestNavigationDrawer extends AppCompatActivity
 //            startActivity(new Intent(this,SignUpActivity.class));
 //        });
         sign_in.setTypeface(hintFont);
-        sign_in.setOnClickListener(v->{
-            startActivity(new Intent(this,SingInActivity.class));
-        });
+
+        try {
+            sign_in.setOnClickListener(v->{
+                startActivity(new Intent(this,SingInActivity.class));
+            });
+        }catch (Exception e){
+
+        }
         cities = findViewById(R.id.cities_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.cities,android.R.layout.simple_spinner_item);
