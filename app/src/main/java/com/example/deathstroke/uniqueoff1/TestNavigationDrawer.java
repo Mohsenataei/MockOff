@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TestNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -116,9 +117,9 @@ public class TestNavigationDrawer extends AppCompatActivity
             Intent moveToSignIn = new Intent(this,SingInActivity.class);
             startActivity(moveToSignIn);
         });
-//        sign_up.setOnClickListener(v->{
-//            startActivity(new Intent(this,SignUpActivity.class));
-//        });
+        sign_up.setOnClickListener(v->{
+            startActivity(new Intent(this,SignUpActivity.class));
+        });
         sign_in.setTypeface(hintFont);
 
         try {
@@ -127,22 +128,23 @@ public class TestNavigationDrawer extends AppCompatActivity
             });
         }catch (Exception e){
             e.printStackTrace();
-            Log.e(TAG, "onCreate: ",e );
+            Log.e(TAG, "onCreate: " + e );
         }
-        cities = findViewById(R.id.cities_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.cities,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        try {
-            cities.setAdapter(adapter);
-        }catch (Exception e){
-            e.printStackTrace();
-            Log.e("in navigation :", "onCreate: "+ e );
+        cities = headerLayout.findViewById(R.id.cities_spinner);
+        if(cities == null){
+            Log.e("asad :", "spinner is null!!");
+        }else {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            try {
+                cities.setAdapter(adapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("in navigation :", "onCreate: " + e);
+            }
         }
-
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         try {
