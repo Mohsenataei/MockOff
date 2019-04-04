@@ -45,6 +45,11 @@
     <string name="title_my_codes">کد های من</string>
     <string name="title_nearest_offs">تخفیف های اطراف من</string>
     <string name="title_home">خانه</string>
+    <string name="address">همدان، ساختمان زاگرس، واحد 2</string>
+    <string name="phone_number">081-3335555</string>
+    <string name="email">info@uniqeoff.com</string>
+    <string name="social_network">شبکه های اجتماعی</string>
+    <string name="cooperation_request">درخواست همکاری</string>
     <string-array name="cities">
         <item>
             <string name="hamedan">همدان</string>

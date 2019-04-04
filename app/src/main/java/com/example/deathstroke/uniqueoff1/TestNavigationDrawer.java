@@ -34,7 +34,7 @@ public class TestNavigationDrawer extends AppCompatActivity
 
     final static String TAG = "amoo jelal";
 
-    Button share_us,sign_up,sign_in,followed_centers,terms_of_service,contact_us,edit,exit,bookmarks;
+    Button share_us,sign_up,sign_in,followed_centers,terms_of_service,Contact_us,edit,exit,bookmarks,coopreq;
     Spinner cities;
     TextView hotoffs;
     ViewPager viewPager;
@@ -95,8 +95,8 @@ public class TestNavigationDrawer extends AppCompatActivity
         terms_of_service = headerLayout.findViewById(R.id.terms);
         terms_of_service.setTypeface(hintFont);
 
-        contact_us = headerLayout.findViewById(R.id.contact_us);
-        contact_us.setTypeface(hintFont);
+        Contact_us = headerLayout.findViewById(R.id.contact_us);
+        Contact_us.setTypeface(hintFont);
         bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
         bookmarks.setTypeface(hintFont);
 
@@ -105,6 +105,11 @@ public class TestNavigationDrawer extends AppCompatActivity
 
         exit = headerLayout.findViewById(R.id.EXIT);
         exit.setTypeface(hintFont);
+        coopreq = findViewById(R.id.gotocoop);
+
+        coopreq.setOnClickListener(v->{
+            startActivity(new Intent(this, contact_us.class));
+        });
 
         share_us.setTypeface(hintFont);
         share_us.setOnClickListener(v->{
@@ -155,6 +160,9 @@ public class TestNavigationDrawer extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
+        viewPager.setClipToPadding(false);
+        viewPager.setPadding(40,0,40,0);
+        viewPager.setPageMargin(20);
         sliderAdapter = new SliderAdapter(this,images);
         viewPager.setAdapter(sliderAdapter);
         tabLayout.setupWithViewPager(viewPager,true);

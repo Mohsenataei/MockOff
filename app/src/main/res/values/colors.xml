@@ -13,4 +13,6 @@
     <color name="usercolor">#7EA0B7</color>
     <color name="backarrowcolor">#444C56</color>
     <color name="drawer_button">#212B35</color>
+    <color name="instagram_color">#F14D4D</color>
+    <color name="telegram_color">#31A9DD</color>
 </resources>

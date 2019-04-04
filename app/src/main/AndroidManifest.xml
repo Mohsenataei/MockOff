@@ -29,7 +29,7 @@
             android:name=".Pop"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".contact_us" />
-
+        <activity android:name=".FAQ"></activity>
     </application>
 
 </manifest>
