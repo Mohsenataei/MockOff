@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class SingInActivity extends AppCompatActivity {
 
-    private static final String TAG = "SingInActivity" ;
+    private static final String TAG = "mohsen" ;
     EditText email_field;
     EditText password_field;
     ImageButton sign_in_back_btn;
@@ -35,6 +35,9 @@ public class SingInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_in);
+
+        Toast.makeText(this, "what the hell is going on ?", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onCreate: is it even working ?");
 
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
 

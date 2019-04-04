@@ -28,13 +28,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TestNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    final static String TAG = "amoo jelal";
+    final static String TAG = "jelal";
 
-    Button share_us,sign_up,sign_in,followed_centers,terms_of_service,Contact_us,edit,exit,bookmarks,coopreq;
+    Button share_us,sign_up,sign_in,followed_centers,terms_of_service,Contact_us,edit,exit,bookmarks,coopreq,testbtn;
     Spinner cities;
     TextView hotoffs;
     ViewPager viewPager;
@@ -107,27 +108,36 @@ public class TestNavigationDrawer extends AppCompatActivity
         exit.setTypeface(hintFont);
         coopreq = findViewById(R.id.gotocoop);
 
-        coopreq.setOnClickListener(v->{
-            startActivity(new Intent(this, contact_us.class));
-        });
+       try {
+           coopreq.setOnClickListener(v->{
+               startActivity(new Intent(this, SignUpActivity.class));
+
+           });
+       }catch (Exception e) {
+           e.printStackTrace();
+           Log.e("jelal", "onCreate: ", e );
+       }
 
         share_us.setTypeface(hintFont);
         share_us.setOnClickListener(v->{
             Intent moveToSignIn = new Intent(this,SingInActivity.class);
             startActivity(moveToSignIn);
         });
-//        sign_up.setOnClickListener(v->{
-//            startActivity(new Intent(this,SignUpActivity.class));
-//        });
+        sign_up.setOnClickListener(v->{
+            startActivity(new Intent(this,SignUpActivity.class));
+        });
         sign_in.setTypeface(hintFont);
 
         try {
+
             sign_in.setOnClickListener(v->{
                 startActivity(new Intent(getApplicationContext(),SingInActivity.class));
+                Toast.makeText(this, "bug in sign in click", Toast.LENGTH_SHORT).show();
             });
         }catch (Exception e){
             e.printStackTrace();
             Log.e(TAG, "onCreate: ",e );
+            Toast.makeText(this, "bug in sign in click" + e, Toast.LENGTH_SHORT).show();
         }
         cities = findViewById(R.id.cities_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
