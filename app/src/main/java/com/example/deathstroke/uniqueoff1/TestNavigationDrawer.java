@@ -136,23 +136,22 @@ public class TestNavigationDrawer extends AppCompatActivity
             });
         }catch (Exception e){
             e.printStackTrace();
-            Log.e(TAG, "onCreate: ",e );
-            Toast.makeText(this, "bug in sign in click" + e, Toast.LENGTH_SHORT).show();
         }
-        cities = findViewById(R.id.cities_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.cities,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        try {
-            cities.setAdapter(adapter);
-        }catch (Exception e){
-            e.printStackTrace();
-            Log.e("in navigation :", "onCreate: "+ e );
+        cities = headerLayout.findViewById(R.id.cities_spinner);
+        if(cities == null){
+            Log.e("asad :", "spinner is null!!");
+        }else {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            try {
+                cities.setAdapter(adapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("in navigation :", "onCreate: " + e);
+            }
         }
-
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         try {
