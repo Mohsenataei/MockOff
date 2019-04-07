@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Shop">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/shopViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <RelativeLayout
+        android:id="@+id/shop_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/shadow"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:text="باشگاه تناسب اندام فلورا"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="40dp"
+                android:background="#000" />
+
+            <Button
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="270dp"
+                android:layout_height="52dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="left"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="45dp"
+                android:gravity="end"
+                android:text="در صورت ارائه تخفیف به من اطلاع بده"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="45dp"
+                android:orientation="vertical">
+
+                <ImageView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/ic_grin_beam" />
+
+                <TextView
+                    android:id="@+id/shop_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="4.5"
+                    android:textColor="@color/grin_beam_color" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/shop_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="فروشگاه هم اکنون بسته می باشد" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/shadow"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shop_status">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="0dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="5dp">
+
+            <Button
+                android:layout_gravity="start"
+                android:padding="50dp"
+                android:drawableBottom="@drawable/ic_shop_map_marker_alt"
+                android:drawablePadding="150dp"
+                android:text="مکان روی نقشه"
+                android:layout_marginStart="8dp"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="75dp"
+                android:layout_height="100dp" />
+            <Button
+                android:text="اطلاعات"
+                style="?attr/borderlessButtonStyle"
+                android:layout_marginStart="100dp"
+                android:layout_width="75dp"
+                android:layout_height="100dp" />
+
+            <Button
+                android:layout_marginStart="200dp"
+                android:layout_width="75dp"
+                android:layout_height="100dp" />
+
+            <Button
+                android:layout_gravity="end"
+                android:layout_width="75dp"
+                android:layout_height="100dp" />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

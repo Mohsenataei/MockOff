@@ -3,14 +3,14 @@ package com.example.deathstroke.uniqueoff1;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,64 +22,71 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TestNavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     final static String TAG = "jelal";
 
-    Button share_us,sign_up,sign_in,followed_centers,terms_of_service,Contact_us,edit,exit,bookmarks,coopreq,testbtn;
+    Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn;
     Spinner cities;
     TextView hotoffs;
     ViewPager viewPager;
     TabLayout tabLayout;
-    int images[] = {R.drawable.slider1,R.drawable.slider2,R.drawable.slider3};
+    int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
     SliderAdapter sliderAdapter;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
-    new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()){
+    protected DrawerLayout drawerLayout;
+    CardView cardView;
 
-            }
-            return false;
-        }
-    };
+    protected ActionBarDrawerToggle actionBarDrawerToggle;
+    protected ConstraintLayout main;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+
+                    }
+                    return false;
+                }
+            };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        // supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_navigation_drawer);
-        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        Toast.makeText(this, "is it happen for second time?", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.main_drawer);
+        drawerLayout = findViewById(R.id.drawer_layout);
         //final LinearLayout tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.setScrimColor(Color.TRANSPARENT);
-        final ConstraintLayout main = findViewById(R.id.mainall);
+        main = findViewById(R.id.mainall);
         //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close) {
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-               // getActionBar().setTitle("is it working ?");
+                // getActionBar().setTitle("is it working ?");
                 float slideX = drawerView.getWidth() * slideOffset;
                 main.setTranslationX(-slideX);
             }
         };
         hotoffs = findViewById(R.id.hottest_offs_txtvw);
-        hotoffs.setTypeface(hintFont);
+        if (hotoffs == null) {
+            Log.d(TAG, "onCreate: hott of is null");
+        } else hotoffs.setTypeface(hintFont);
 
         LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.header,null);
+        final View view = inflater.inflate(R.layout.header, null);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         View headerLayout = navigationView.getHeaderView(0);
 
@@ -98,6 +105,9 @@ public class TestNavigationDrawer extends AppCompatActivity
 
         Contact_us = headerLayout.findViewById(R.id.contact_us);
         Contact_us.setTypeface(hintFont);
+        Contact_us.setOnClickListener(v -> {
+            startActivity(new Intent(this, contact_us.class));
+        });
         bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
         bookmarks.setTypeface(hintFont);
 
@@ -108,43 +118,57 @@ public class TestNavigationDrawer extends AppCompatActivity
         exit.setTypeface(hintFont);
         coopreq = findViewById(R.id.gotocoop);
 
-       try {
-           coopreq.setOnClickListener(v->{
-               startActivity(new Intent(this, SignUpActivity.class));
+        try {
+            coopreq.setOnClickListener(v -> {
+                startActivity(new Intent(this, SignUpActivity.class));
 
-           });
-       }catch (Exception e) {
-           e.printStackTrace();
-           Log.e("jelal", "onCreate: ", e );
-       }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("jelal", "onCreate: ", e);
+        }
 
         share_us.setTypeface(hintFont);
-        share_us.setOnClickListener(v->{
-            Intent moveToSignIn = new Intent(this,SingInActivity.class);
+        share_us.setOnClickListener(v -> {
+            Intent moveToSignIn = new Intent(this, SingInActivity.class);
+            Drawable img = getApplicationContext().getDrawable(R.drawable.ic_arrow_left);
+            share_us.setCompoundDrawables(img, null, null, null);
             startActivity(moveToSignIn);
         });
-        sign_up.setOnClickListener(v->{
-            startActivity(new Intent(this,SignUpActivity.class));
+        sign_up.setOnClickListener(v -> {
+            startActivity(new Intent(this, SignUpActivity.class));
         });
         sign_in.setTypeface(hintFont);
 
         try {
 
-            sign_in.setOnClickListener(v->{
-                startActivity(new Intent(getApplicationContext(),SingInActivity.class));
+            sign_in.setOnClickListener(v -> {
+                startActivity(new Intent(getApplicationContext(), SingInActivity.class));
                 Toast.makeText(this, "bug in sign in click", Toast.LENGTH_SHORT).show();
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         cities = headerLayout.findViewById(R.id.cities_spinner);
-        if(cities == null){
+        //cities.setOnItemSelectedListener(getApplicationContext());
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        if (cities == null) {
             Log.e("asad :", "spinner is null!!");
-        }else {
+        } else {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                     R.array.cities, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             try {
+
                 cities.setAdapter(adapter);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -156,7 +180,7 @@ public class TestNavigationDrawer extends AppCompatActivity
         setSupportActionBar(toolbar);
         try {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -166,22 +190,28 @@ public class TestNavigationDrawer extends AppCompatActivity
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.border_color));
-        navigationView.setNavigationItemSelectedListener(this);
+        // navigationView.setNavigationItemSelectedListener(this);
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(40,0,40,0);
+        viewPager.setPadding(40, 0, 40, 0);
         viewPager.setPageMargin(20);
-        sliderAdapter = new SliderAdapter(this,images);
+        sliderAdapter = new SliderAdapter(this, images);
         viewPager.setAdapter(sliderAdapter);
-        tabLayout.setupWithViewPager(viewPager,true);
+        tabLayout.setupWithViewPager(viewPager, true);
+        cardView = findViewById(R.id.left_card_view);
+        cardView.setOnClickListener(v->{
+            Toast.makeText(this, "it's workin yay", Toast.LENGTH_SHORT).show();
+        });
+
+
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -209,28 +239,9 @@ public class TestNavigationDrawer extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    private void HandleOnclickItem() {
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
+
 }

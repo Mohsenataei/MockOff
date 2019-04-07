@@ -1,7 +1,8 @@
 package com.example.deathstroke.uniqueoff1;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.HashMap;
 
 import Service.RetrofitClient;
 import retrofit2.Call;
@@ -58,6 +57,13 @@ public class SignUpActivity extends AppCompatActivity {
         sign_up_back_btn = findViewById(R.id.sign_up_back_btn);
         google_sign_up = findViewById(R.id.sign_up_wih_google);
         google_sign_up.setTypeface(hintFont);
+
+        SharedPreferences user_info = getSharedPreferences("UserInfo",0);
+        SharedPreferences.Editor editor = user_info.edit();
+        editor.putString("Username",username_field.getText().toString());
+        editor.putString("Password",password_field.getText().toString());
+        editor.commit();
+
         Intent gotoHome;
         button.setOnClickListener((view)->{
             userSignUp();
@@ -86,12 +92,15 @@ public class SignUpActivity extends AppCompatActivity {
         // form validation for user inputs :
         if (name.isEmpty()){
             username_field.setError("لطفا نام را وارد کنید");
+
             username_field.requestFocus();
+
             return;
         }
         if(cell_phone.isEmpty()){
             cell_phone_field.setError("لطفا شماره تلفن را وارد کنید");
             cell_phone_field.requestFocus();
+
             return;
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -101,6 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         if (password.isEmpty()){
             password_field.setError("لطفا رمز ورود را وارد کنید");
+
             password_field.requestFocus();
             return;
         }
@@ -143,7 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
     private void gotoHome (){
-       Intent gotohome = new Intent(this,TestNavigationDrawer.class);
+       Intent gotohome = new Intent(this,MainActivity.class);
        startActivity(gotohome);
     }
 

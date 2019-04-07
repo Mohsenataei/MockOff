@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <ImageView
@@ -62,15 +63,13 @@
 
     <Spinner
         android:id="@+id/cities_spinner"
-        style="@style/spinner_style"
         android:layout_width="190dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-
         android:layout_marginStart="8dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/spinner_background"
+        android:background="@drawable/spinner_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +99,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_check"
+        android:drawableStart="@drawable/ic_check"
         android:drawablePadding="25dp"
         android:text="تخفیف های نشان شده"
         app:layout_constraintEnd_toEndOf="parent"

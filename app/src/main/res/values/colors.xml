@@ -15,4 +15,6 @@
     <color name="drawer_button">#212B35</color>
     <color name="instagram_color">#F14D4D</color>
     <color name="telegram_color">#31A9DD</color>
+    <color name="grin_beam_color">#535BFE</color>
+    <color name="shop_icon_color">#3B8796</color>
 </resources>

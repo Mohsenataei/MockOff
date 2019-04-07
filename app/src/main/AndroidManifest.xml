@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TestNavigationDrawer"
+            android:name=".MainActivity"
             android:label="@string/title_activity_test_navigation_drawer"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,7 +29,9 @@
             android:name=".Pop"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".contact_us" />
-        <activity android:name=".FAQ"></activity>
+        <activity android:name=".FAQ" />
+        <activity android:name=".CoopRquest" />
+        <activity android:name=".Shop"></activity>
     </application>
 
 </manifest>

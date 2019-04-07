@@ -46,7 +46,7 @@ public class BottomNavigation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_test_navigation_drawer);
+        setContentView(R.layout.content_main_activity);
         BottomNavigationView bnv = findViewById(R.id.navigation);
 
         mTextMessage = (TextView) findViewById(R.id.message);

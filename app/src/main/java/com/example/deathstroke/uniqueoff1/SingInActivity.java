@@ -5,16 +5,10 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.reflect.Type;
-import java.util.HashMap;
 
 import Service.RetrofitClient;
 import retrofit2.Call;
@@ -61,7 +55,7 @@ public class SingInActivity extends AppCompatActivity {
 
     }
     private void gotoHomePage(){
-        Intent gotohome = new Intent(this,TestNavigationDrawer.class);
+        Intent gotohome = new Intent(this,MainActivity.class);
         startActivity(gotohome);
     }
 

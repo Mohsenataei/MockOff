@@ -8,7 +8,7 @@
     tools:context=".contact_us">
 
 
-   <LinearLayout
+    <LinearLayout
        android:id="@+id/linearLayout4"
        android:layout_width="322dp"
        android:layout_height="70dp"
