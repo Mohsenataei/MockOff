@@ -116,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
         exit = headerLayout.findViewById(R.id.EXIT);
         exit.setTypeface(hintFont);
-        coopreq = findViewById(R.id.gotocoop);
+        coopreq = findViewById(R.id.gotoSHOP);
 
         try {
             coopreq.setOnClickListener(v -> {
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(this, Shop.class));
 
             });
         } catch (Exception e) {
