@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         Contact_us = headerLayout.findViewById(R.id.contact_us);
         Contact_us.setTypeface(hintFont);
         Contact_us.setOnClickListener(v -> {
+            Toast.makeText(this, "on contact us click", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, contact_us.class));
         });
         bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
@@ -203,10 +204,7 @@ public class MainActivity extends AppCompatActivity {
         cardView.setOnClickListener(v->{
             Toast.makeText(this, "it's workin yay", Toast.LENGTH_SHORT).show();
         });
-
-
     }
-
     @Override
     public void onBackPressed() {
         // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
