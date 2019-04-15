@@ -6,9 +6,11 @@
     tools:context=".shop_map_fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/shop_map_location"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Map implementation goes here " />
+        android:layout_height="wrap_content">
+    </org.osmdroid.views.MapView>
 
 </FrameLayout>

@@ -17,4 +17,5 @@
     <color name="telegram_color">#31A9DD</color>
     <color name="grin_beam_color">#535BFE</color>
     <color name="shop_icon_color">#3B8796</color>
+    <color name="indicator_border_color">#707070</color>
 </resources>

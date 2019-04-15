@@ -28,11 +28,20 @@ public class Shop extends AppCompatActivity {
 
         });
         b2.setOnClickListener(view ->{
-            shop_map_fragment map_fragment = new shop_map_fragment();
+            shop_attr_fragment attr_fragment = new shop_attr_fragment();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.frg_holder,map_fragment);
+            ft.replace(R.id.frg_holder,attr_fragment);
             ft.commit();
+        });
+
+        b3.setOnClickListener(view->{
+        shop_map_fragment map_fragment = new shop_map_fragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frg_holder,map_fragment);
+        ft.commit();
+
         });
     }
 

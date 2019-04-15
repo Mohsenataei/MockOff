@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     final static String TAG = "jelal";
 
-    Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn;
+    Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
     Spinner cities;
     TextView hotoffs;
     ViewPager viewPager;
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         Contact_us = headerLayout.findViewById(R.id.contact_us);
         Contact_us.setTypeface(hintFont);
         Contact_us.setOnClickListener(v -> {
+            Toast.makeText(this, "on contact us click", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, contact_us.class));
         });
         bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
@@ -117,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
         exit = headerLayout.findViewById(R.id.EXIT);
         exit.setTypeface(hintFont);
         coopreq = findViewById(R.id.gotoSHOP);
+
+        mapbutton = findViewById(R.id.map_button);
+        mapbutton.setOnClickListener(v->{
+             startActivity(new Intent(this,Map.class));
+         });
 
         try {
             coopreq.setOnClickListener(v -> {
@@ -203,10 +209,7 @@ public class MainActivity extends AppCompatActivity {
         cardView.setOnClickListener(v->{
             Toast.makeText(this, "it's workin yay", Toast.LENGTH_SHORT).show();
         });
-
-
     }
-
     @Override
     public void onBackPressed() {
         // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
