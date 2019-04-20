@@ -51,6 +51,14 @@
     <string name="social_network">شبکه های اجتماعی</string>
     <string name="cooperation_request">درخواست همکاری</string>
     <string name="notif">اعلانات</string>
+    <string name="shop_information">اطلاعات</string>
+    <string name="mocatag_description">  وب‌سایتی است که آخرین و بهترین تخفیف‌های رستوران‌ها،‌ مراکز
+ ورزشی،‌ مراکز تفریحی،‌ فروشگاه‌ها،‌ هتل‌ها و غیره را تا ۹۰٪ تخفیف
+ارائه می‌دهد</string>
+    <string name="I_Did_Not_Get_Tag">من یونیکاف را خریده‌ام اما کد کوپن را دریافت نکرده‌ام</string>
+    <string name="How_To_Use">من کد کوپن را دریافت کرده‌ام،‌ چگونه آن را استفاده کنم؟</string>
+    <string name="cannot_use">من کد کوپن را دریافت کرده‌ام،‌ اما نمی‌توانم  استفاده کنم</string>
+
     <string-array name="cities">
         <item>
             <string name="hamedan">همدان</string>
@@ -71,5 +79,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test_navigation_drawer">TestNavigationDrawer</string>
     <string name="title_activity_test">Test</string>
+    <string name="shop_location">مکان روی نقشه</string>
+    <string name="shop_offs">تخفیفات</string>
+    <string name="what_is_mocatag">موکاتک چیست ؟</string>
+    <string name="IWantToRegisterACenter">درخواست ثبت مرکز را دارم</string>
+    <string name="IWantToWorkAsAVisitor">می خواهم بعنوان بازاریاب با شما همکاری کنم</string>
+    <string name="IWantToGetHired">می خواهم در یونیکاف استخدام شوم</string>
+    <string name="shop_is_closed">فروشگاه هم اکنون بسته می باشد</string>
+    <string name="notify_me_on_new_offs">در صورت ارائه تخفیف به من اطلاع بده</string>
 
 </resources>
