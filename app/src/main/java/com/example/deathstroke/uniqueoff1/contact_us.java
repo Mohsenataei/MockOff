@@ -8,11 +8,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class contact_us extends AppCompatActivity {
+public class contact_us extends AppCompatActivity implements  DrawerLayout.DrawerListener {
     protected DrawerLayout drawerLayout;
     protected ActionBarDrawerToggle actionBarDrawerToggle;
     protected ConstraintLayout main;
@@ -21,6 +22,7 @@ public class contact_us extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
         drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(this);
         main = findViewById(R.id.mainall);
 
         main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
@@ -36,26 +38,34 @@ public class contact_us extends AppCompatActivity {
                 Toast.makeText(contact_us.this, "drawebtn is null!!!", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(contact_us.this, "drawebtn is not null", Toast.LENGTH_SHORT).show();
                 drawebtn.setOnClickListener(view -> {
                     NavigationView navigationView = findViewById(R.id.nav_view);
-                    //Toast.makeText(contact_us.this, "opening drawer", Toast.LENGTH_SHORT).show();
-                   drawerLayout.openDrawer(navigationView);
-                    float slideX = navigationView.getWidth();
-                    main.setTranslationX(-slideX);
+                    drawerLayout.openDrawer(navigationView);
                 });
             }
-            drawerLayout.addDrawerListener(actionBarDrawerToggle);
-            actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-                @Override
-                public void onDrawerSlide(View drawerView, float slideOffset) {
-                    super.onDrawerSlide(drawerView, slideOffset);
-                    // getActionBar().setTitle("is it working ?");
-                    Toast.makeText(contact_us.this, "why main content is not moving ?", Toast.LENGTH_SHORT).show();
-                    float slideX = drawerView.getWidth() * slideOffset;
-                    main.setTranslationX(-slideX);
-                }
-            };
         }
+    }
+    @Override
+    public void onDrawerOpened(View arg0) {
+        //write your code
+    }
+
+    @Override
+    public void onDrawerClosed(View arg0) {
+        //write your code
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        //write your code
+        // getActionBar().setTitle("is it working ?");
+        Toast.makeText(contact_us.this, "why main content is not moving ?", Toast.LENGTH_SHORT).show();
+        float slideX = drawerView.getWidth() * slideOffset;
+        main.setTranslationX(-slideX);
+    }
+
+    @Override
+    public void onDrawerStateChanged(int arg0) {
+        //write your code
     }
 }

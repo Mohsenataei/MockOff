@@ -25,7 +25,7 @@ public class Shop extends AppCompatActivity {
     private ImageView shop_location,shop_info,shop_offs;
     private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view;
     private Button notify_me_button;
-    private int images[] = {R.drawable.s1, R.drawable.s2, R.drawable.s3};
+    private int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
