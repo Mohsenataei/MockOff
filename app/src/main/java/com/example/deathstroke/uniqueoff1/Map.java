@@ -1,9 +1,11 @@
 package com.example.deathstroke.uniqueoff1;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +17,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.DelayedMapListener;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
@@ -44,12 +48,10 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                     .addApi(LocationServices.API)
                     .build();
         }
-
         checkPermissionsState();
 //
-//        Context ctx = getApplicationContext();
-//        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-//        setContentView(R.layout.activity_map);
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 //        initializemap();
 //        myLocationoverlay = new MyLocationOverlay(this, map);
 //        myLocationoverlay.disableMyLocation(); // not on by default
@@ -57,12 +59,12 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 //        myLocationoverlay.disableFollowLocation();
 //        myLocationoverlay.setDrawAccuracyEnabled(true);
 //        map = findViewById(R.id.main_map);
-//        map.setTileSource(TileSourceFactory.MAPNIK);
-//        IMapController mapController = map.getController();
-//        mapController.setZoom(9.5);
-//        GeoPoint startPoint = new GeoPoint(34.796830, 48.514820);
-//        mapController.setCenter(startPoint);
-//        map.setBuiltInZoomControls(true);
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        IMapController mapController = mapView.getController();
+        mapController.setZoom(9.5);
+        GeoPoint startPoint = new GeoPoint(34.796830, 48.514820);
+        mapController.setCenter(startPoint);
+        mapView.setBuiltInZoomControls(true);
 //        map.setMultiTouchControls(true);
     }
 
@@ -124,6 +126,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         oMapLocationOverlay.enableFollowLocation();
         oMapLocationOverlay.enableMyLocation();
         oMapLocationOverlay.enableFollowLocation();
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
         CompassOverlay compassOverlay = new CompassOverlay(this, mapView);
         compassOverlay.enableCompass();
@@ -141,7 +144,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 
                 Log.i("zoom", "" + mapView.getMapCenter().getLatitude() + ", " + mapView.getMapCenter().getLongitude());
                 TextView latLongTv = (TextView) findViewById(R.id.textView);
-                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
+//                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
                 return true;
             }
 
@@ -156,7 +159,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 
                 Log.i("scroll", "" + mapView.getMapCenter().getLatitude() + ", " + mapView.getMapCenter().getLongitude());
                 TextView latLongTv = (TextView) findViewById(R.id.textView);
-                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
+//                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
                 return true;
             }
         }, 1000));
