@@ -205,10 +205,6 @@ public class MainActivity extends AppCompatActivity {
         sliderAdapter = new SliderAdapter(this, images);
         viewPager.setAdapter(sliderAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
-        cardView = findViewById(R.id.left_card_view);
-        cardView.setOnClickListener(v->{
-            Toast.makeText(this, "it's workin yay", Toast.LENGTH_SHORT).show();
-        });
     }
     @Override
     public void onBackPressed() {
