@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -62,7 +61,6 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
     public void onDrawerSlide(View drawerView, float slideOffset) {
         //write your code
         // getActionBar().setTitle("is it working ?");
-        //Toast.makeText(contact_us.this, "why main content is not moving ?", Toast.LENGTH_SHORT).show();
         float slideX = drawerView.getWidth() * slideOffset;
         main.setTranslationX(-slideX);
     }

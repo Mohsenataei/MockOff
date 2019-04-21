@@ -32,7 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     final static String TAG = "jelal";
 
@@ -44,21 +44,19 @@ public class MainActivity extends AppCompatActivity {
     int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
     SliderAdapter sliderAdapter;
     protected DrawerLayout drawerLayout;
+    protected ConstraintLayout main;
     ImageView bookmark1, bookmark2;
     Boolean book1_flag ,book2_flag;
-
-    protected ActionBarDrawerToggle actionBarDrawerToggle;
-    protected ConstraintLayout main;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-
-                    }
-                    return false;
-                }
-            };
+    //    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
+//            new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                @Override
+//                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                    switch (item.getItemId()) {
+//
+//                    }
+//                    return false;
+//                }
+//            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,23 +64,32 @@ public class MainActivity extends AppCompatActivity {
         // supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
         Toast.makeText(this, "is it happen for second time?", Toast.LENGTH_SHORT).show();
-        setContentView(R.layout.main_drawer);
+        setContentView(R.layout.home);
         drawerLayout = findViewById(R.id.drawer_layout);
         book1_flag = book2_flag = false;
         //final LinearLayout tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
-        drawerLayout.setScrimColor(Color.TRANSPARENT);
-        main = findViewById(R.id.mainall);
+        main = findViewById(R.id.mainall1);
         //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-                // getActionBar().setTitle("is it working ?");
-                float slideX = drawerView.getWidth() * slideOffset;
-                main.setTranslationX(-slideX);
+
+        main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
+        if(drawerLayout == null){
+            Toast.makeText(this, "drawerLayout is null", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            drawerLayout.setScrimColor(Color.TRANSPARENT);
+            //drawerLayout.closeDrawers();
+            ImageButton drawebtn = findViewById(R.id.drawebtn);
+            if(drawebtn == null){
+                Toast.makeText(MainActivity.this, "drawebtn is null!!!", Toast.LENGTH_SHORT).show();
             }
-        };
+            else {
+                drawebtn.setOnClickListener(view -> {
+                    NavigationView navigationView = findViewById(R.id.nav_view);
+                    drawerLayout.openDrawer(navigationView);
+                });
+            }
+        }
         hotoffs = findViewById(R.id.hottest_offs_txtvw);
         if (hotoffs == null) {
             Log.d(TAG, "onCreate: hott of is null");
@@ -94,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
 //        navigationView.setNavigationItemSelectedListener(this);
         String text = "<strike><font color=\'#757575\'>Some text</font></strike>";
 
-        sample_test = findViewById(R.id.card_description);
-        sample_test.setText(Html.fromHtml(text));
+       // sample_test = findViewById(R.id.card_description);
+        //sample_test.setText(Html.fromHtml(text));
 
         View headerLayout = navigationView.getHeaderView(0);
 
@@ -216,22 +223,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("in navigation :", "onCreate: " + e);
             }
         }
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        try {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.border_color));
-        // navigationView.setNavigationItemSelectedListener(this);
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
@@ -261,29 +252,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test_navigation_drawer, menu);
-        return true;
+    public void onDrawerOpened(View arg0) {
+        //write your code
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onDrawerClosed(View arg0) {
+        //write your code
     }
 
-    private void HandleOnclickItem() {
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        Toast.makeText(this, "is it even working ?", Toast.LENGTH_SHORT).show();
+        float slideX = drawerView.getWidth() * slideOffset;
+        main.setTranslationX(-slideX);
+    }
 
+    @Override
+    public void onDrawerStateChanged(int arg0) {
+        //write your code
     }
 
 
