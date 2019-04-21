@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
     Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
     Spinner cities;
-    TextView hotoffs;
+    TextView hotoffs,sample_test;
     ViewPager viewPager;
     TabLayout tabLayout;
     int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
     SliderAdapter sliderAdapter;
     protected DrawerLayout drawerLayout;
-    CardView cardView;
+    ImageView bookmark1, bookmark2;
+    Boolean book1_flag ,book2_flag;
 
     protected ActionBarDrawerToggle actionBarDrawerToggle;
     protected ConstraintLayout main;
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "is it happen for second time?", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.main_drawer);
         drawerLayout = findViewById(R.id.drawer_layout);
+        book1_flag = book2_flag = false;
         //final LinearLayout tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -87,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
         final View view = inflater.inflate(R.layout.header, null);
         NavigationView navigationView = findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
+        String text = "<strike><font color=\'#757575\'>Some text</font></strike>";
+
+        sample_test = findViewById(R.id.card_description);
+        sample_test.setText(Html.fromHtml(text));
 
         View headerLayout = navigationView.getHeaderView(0);
 
@@ -111,6 +120,32 @@ public class MainActivity extends AppCompatActivity {
         });
         bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
         bookmarks.setTypeface(hintFont);
+
+        bookmark1 = findViewById(R.id.bookmark1);
+        bookmark1.setOnClickListener(v->{
+            if (!book1_flag){
+                doBookMark(bookmark1);
+                book1_flag = true;
+            }else {
+                undoBookMark(bookmark1);
+                book1_flag = false;
+            }
+        });
+
+        bookmark2 = findViewById(R.id.bookmark2);
+        bookmark2.setOnClickListener(v->{
+            if (!book2_flag){
+                doBookMark(bookmark2);
+                book2_flag = true;
+            }else {
+                undoBookMark(bookmark2);
+                book2_flag = false;
+            }
+        });
+
+
+
+        bookmark2 = findViewById(R.id.bookmark2);
 
         edit = headerLayout.findViewById(R.id.edit);
         edit.setTypeface(hintFont);
@@ -206,6 +241,15 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sliderAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
     }
+
+    private void doBookMark(ImageView imageView) {
+        imageView.setImageResource(R.drawable.ic_bookmark_onclick);
+    }
+
+    private void undoBookMark(ImageView imageView){
+        imageView.setImageResource(R.drawable.ic_bookmark);
+    }
+
     @Override
     public void onBackPressed() {
         // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
