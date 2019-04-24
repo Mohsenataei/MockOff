@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -36,7 +37,8 @@
         <activity android:name=".CoopRquest" />
         <activity android:name=".Shop" />
         <activity android:name=".NearestOffs" />
-        <activity android:name=".Map"></activity>
+        <activity android:name=".Map" />
+        <activity android:name=".QRCode"></activity>
     </application>
 
 </manifest>

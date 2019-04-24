@@ -2,18 +2,25 @@ package com.example.deathstroke.uniqueoff1;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class Shop extends AppCompatActivity {
+public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     RelativeLayout b1,b3,b2;
 
@@ -23,13 +30,19 @@ public class Shop extends AppCompatActivity {
     boolean flag = false;
     boolean off_flag, map_flag, info_flag,notify_me_flag;
     private ImageView shop_location,shop_info,shop_offs;
-    private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view;
+    private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view,appbar_tv;
     private Button notify_me_button;
     private int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
+    protected DrawerLayout drawerLayout;
+    protected ConstraintLayout main;
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop);
+        setContentView(R.layout.shop);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(this);
+        drawerLayout.setDrawerElevation(0);
+        main = findViewById(R.id.this_one);
         off_flag = map_flag = info_flag = notify_me_flag = false;
         shop_location = findViewById(R.id.shop_location_image_view);
         shop_location_text_view = findViewById(R.id.shop_loc_text);
@@ -41,6 +54,14 @@ public class Shop extends AppCompatActivity {
         shop_offs = findViewById(R.id.shop_offs_image_view);
         shop_offs_text_view = findViewById(R.id.shop_offs_textView);
         shop_offs_text_view.setTypeface(yekanFont);
+//
+//        ImageButton imageButton = findViewById(R.id.drawebtn);
+//
+//        imageButton.setOnClickListener(v->{
+//            Toast.makeText(this, "clicked on drawer button ", Toast.LENGTH_SHORT).show();
+//            NavigationView navigationView = findViewById(R.id.nav_view);
+//            drawerLayout.openDrawer(navigationView);
+//        });
 
         notify_me_button = findViewById(R.id.notify_me_button);
         notify_me_button.setTypeface(yekanFont);
@@ -57,7 +78,32 @@ public class Shop extends AppCompatActivity {
             }
         });
 
+        main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
+        if(drawerLayout == null){
+            Toast.makeText(this, "drawerLayout is null", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            drawerLayout.setScrimColor(Color.TRANSPARENT);
+            //drawerLayout.closeDrawers();
+            try {
+                ImageButton drawebtn = findViewById(R.id.drawebtn);
+                if(drawebtn == null){
+                    Toast.makeText(Shop.this, "drawebtn is null!!!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    drawebtn.setOnClickListener(view -> {
+                        Toast.makeText(this, "clicked on a button", Toast.LENGTH_SHORT).show();
+                        NavigationView navigationView = findViewById(R.id.nav_view);
+                        drawerLayout.openDrawer(navigationView);
+                    });
+                }
+            }catch (Exception e) {
+                Log.e("in shop page", "onCreate: is it working ?",e );
+                e.printStackTrace();
+            }
 
+
+        }
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.shopViewPager);
         setViewPager();
@@ -169,6 +215,27 @@ public class Shop extends AppCompatActivity {
         shop_offs_text_view.setTextColor(getResources().getColor(R.color.shop_icon_color));
         shop_offs.setBackgroundResource(R.drawable.ic_percentage);
         b2.setBackground(getDrawable(R.drawable.shop_botton_style));
+    }
+    @Override
+    public void onDrawerOpened(View arg0) {
+        //write your code
+    }
+
+    @Override
+    public void onDrawerClosed(View arg0) {
+        //write your code
+    }
+
+
+
+    @Override
+    public void onDrawerStateChanged(int arg0) {
+        //write your code
+    }
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        float slideX = drawerView.getWidth() * slideOffset;
+        main.setTranslationX(-slideX);
     }
 
 }

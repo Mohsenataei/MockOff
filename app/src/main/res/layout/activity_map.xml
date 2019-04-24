@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     tools:context=".Map">
+    <include layout="@layout/app_bar"/>
 
     <org.osmdroid.views.MapView
         android:id="@+id/main_map"

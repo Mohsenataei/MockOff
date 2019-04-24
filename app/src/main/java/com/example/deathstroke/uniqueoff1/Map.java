@@ -3,14 +3,20 @@ package com.example.deathstroke.uniqueoff1;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
@@ -29,7 +35,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-public class Map extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+import Service.SetTypefaces;
+
+public class Map extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DrawerLayout.DrawerListener {
 
     private static final int MULTIPLE_PERMISSION_REQUEST_CODE = 4;
     private  MapView mapView ;
@@ -37,10 +45,18 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 //    private MapController mapController;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
+    protected DrawerLayout drawerLayout;
+    protected ConstraintLayout main;
+    Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.map);
+        Typeface yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
+        navigationView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(this);
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -66,6 +82,19 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         mapController.setCenter(startPoint);
         mapView.setBuiltInZoomControls(true);
 //        map.setMultiTouchControls(true);
+        TextView tv = findViewById(R.id.app_bar_text);
+        tv.setText("تخفیف های اطراف من");
+        View headerLayout = navigationView.getHeaderView(0);
+        sign_in = headerLayout.findViewById(R.id.header_sign_in);
+        sign_up = headerLayout.findViewById(R.id.header_sign_up);
+        bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
+        terms_of_service = headerLayout.findViewById(R.id.terms);
+        share_us = headerLayout.findViewById(R.id.share_us);
+        Contact_us = headerLayout.findViewById(R.id.contact_us);
+        edit = headerLayout.findViewById(R.id.edit);
+        exit = headerLayout.findViewById(R.id.exit);
+
+        SetTypefaces.setButtonTypefaces(yekanFont,sign_in,sign_up,bookmarks,terms_of_service,share_us,Contact_us,edit,exit);
     }
 
     private void checkPermissionsState() {
@@ -191,5 +220,27 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onDrawerOpened(View arg0) {
+        //write your code
+    }
+
+    @Override
+    public void onDrawerClosed(View arg0) {
+        //write your code
+    }
+
+
+
+    @Override
+    public void onDrawerStateChanged(int arg0) {
+        //write your code
+    }
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        float slideX = drawerView.getWidth() * slideOffset;
+        main.setTranslationX(-slideX);
     }
 }

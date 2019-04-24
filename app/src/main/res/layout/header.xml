@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/nav_profile"
@@ -12,7 +13,7 @@
         android:layout_height="77dp"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_user"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,17 +21,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <LinearLayout
         android:id="@+id/log_layout"
         android:layout_width="193dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="104dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/nav_profile">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/header_sign_up"
@@ -49,27 +50,179 @@
             android:id="@+id/header_sign_in"
             android:layout_width="91dp"
             android:layout_height="40dp"
+            android:layout_marginStart="5dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/more_btn_coop_req"
             android:drawableStart="@drawable/ic_sign_in_alt"
             android:drawablePadding="5dp"
             android:paddingStart="10dp"
-            android:layout_marginStart="5dp"
             android:text="@string/sign_in_btn"
             app:layout_constraintEnd_toEndOf="parent"
             tools:layout_editor_absoluteY="93dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/header_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="8dp"
+        android:text="موکاتگ"
+        android:textSize="36sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="210dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/bookmark_centers"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableStart="@drawable/ic_check"
+            android:drawablePadding="25dp"
+            android:text="تخفیف های نشان شده"
+            />
+        <Button
+            android:id="@+id/followed_centers"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_store"
+            android:text="مراکز دنبال شده"
+            />
+        <Button
+            android:id="@+id/terms"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_info"
+            android:text="شرایط استفاده"
+            />
+        <Button
+            android:id="@+id/header_faq"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_question"
+            android:text="سوالات متداول" />
+        <Button
+            android:id="@+id/contact_us"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_phone"
+            android:text="ارتباط با ما"
+            />
+        <Button
+            android:id="@+id/share_us"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawer_buttons_style"
+            android:drawableLeft="@drawable/ic_share_alt"
+            android:text="پیشنهاد به دوستان"
+            />
+        <LinearLayout
+            android:background="#000"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            android:layout_width="180dp"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            >
+
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="65sp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/drawer_buttons_style"
+                android:drawableLeft="@drawable/ic_sign_out_alt"
+                android:text="خروج" />
+
+            <Button
+                android:id="@+id/edit"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/drawer_buttons_style"
+                android:drawableLeft="@drawable/ic_cog"
+                android:text="ویرایش" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
 
     <Spinner
         android:id="@+id/cities_spinner"
-        android:layout_width="190dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="156dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/spinner_border"
+        android:entries="@array/cities"
+        android:popupElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,118 +243,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cities_spinner" />
 
-    <Button
-        android:id="@+id/bookmark_centers"
-        android:layout_width="186dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableStart="@drawable/ic_check"
-        android:drawablePadding="25dp"
-        android:text="تخفیف های نشان شده"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cities_spinner" />
 
 
-    <Button
-        android:id="@+id/followed_centers"
-        android:layout_width="186dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_store"
-        android:text="مراکز دنبال شده"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bookmark_centers" />
 
-    <Button
-        android:id="@+id/terms"
-        android:layout_width="186dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_info"
-        android:text="شرایط استفاده"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followed_centers" />
 
-    <Button
-        android:id="@+id/contact_us"
-        android:layout_width="186dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_phone"
-        android:text="ارتباط با ما"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/share_us" />
 
-    <Button
-        android:id="@+id/share_us"
-        android:layout_width="186dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/drawer_buttons_style"
-        android:drawableLeft="@drawable/ic_share_alt"
-        android:text="پیشنهاد به دوستان"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/terms" />
 
-    <LinearLayout
-        android:layout_width="186dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintHorizontal_bias="0.363"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toBottomOf="@+id/contact_us"
-        app:layout_constraintVertical_bias="0.0">
 
-        <Button
-            android:id="@+id/EXIT"
-            android:layout_width="65sp"
-            android:layout_height="40dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/drawer_buttons_style"
-            android:drawableLeft="@drawable/ic_sign_out_alt"
-            android:text="خروج" />
 
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/drawer_buttons_style"
-            android:drawableLeft="@drawable/ic_cog"
-            android:text="ویرایش" />
-    </LinearLayout>
+
+
+
+
 
 
     <android.support.constraint.Guideline
@@ -217,25 +270,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="80dp"
-        app:layout_constraintGuide_percent="0.20" />
+        app:layout_constraintGuide_end="329dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="280dp"
-        app:layout_constraintGuide_percent="0.80" />
+        app:layout_constraintGuide_end="82dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="317dp"
-        app:layout_constraintGuide_percent="1.0" />
+        app:layout_constraintGuide_end="0dp" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6"
+        app:layout_constraintGuide_begin="20dp" />
 
 
 </android.support.constraint.ConstraintLayout>

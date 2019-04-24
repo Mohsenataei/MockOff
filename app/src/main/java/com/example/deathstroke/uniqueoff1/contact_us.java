@@ -20,6 +20,7 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
         setContentView(R.layout.activity_contact_us);
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(this);
+
         main = findViewById(R.id.mainall);
         ImageButton back = findViewById(R.id.back_button);
 
@@ -34,6 +35,7 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
         else {
             Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
             drawerLayout.setScrimColor(Color.TRANSPARENT);
+            drawerLayout.setDrawerElevation(0);
             //drawerLayout.closeDrawers();
             ImageButton drawebtn = findViewById(R.id.drawebtn);
             if(drawebtn == null){

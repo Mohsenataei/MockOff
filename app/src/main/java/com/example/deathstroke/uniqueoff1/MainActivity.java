@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
     Spinner cities;
-    TextView hotoffs,sample_test;
+    TextView hotoffs,sample_test,appname;
     ViewPager viewPager;
     TabLayout tabLayout;
     int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
@@ -58,26 +58,31 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 //                }
 //            };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         // supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
-        Toast.makeText(this, "is it happen for second time?", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.home);
         drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(this);
         book1_flag = book2_flag = false;
         //final LinearLayout tv = findViewById(R.id.contnet);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
-        main = findViewById(R.id.mainall1);
+        main = findViewById(R.id.mainall3);
         //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
-        main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
+        main.setOnClickListener(view -> {
+            startActivity(new Intent(this,Map.class));
+            Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show();
+        });
         if(drawerLayout == null){
             Toast.makeText(this, "drawerLayout is null", Toast.LENGTH_SHORT).show();
         }
         else {
             drawerLayout.setScrimColor(Color.TRANSPARENT);
+            drawerLayout.setDrawerElevation(0);
             //drawerLayout.closeDrawers();
             ImageButton drawebtn = findViewById(R.id.drawebtn);
             if(drawebtn == null){
@@ -93,7 +98,17 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         hotoffs = findViewById(R.id.hottest_offs_txtvw);
         if (hotoffs == null) {
             Log.d(TAG, "onCreate: hott of is null");
-        } else hotoffs.setTypeface(hintFont);
+        } else
+        {
+            hotoffs.setTypeface(hintFont);
+            hotoffs.setOnClickListener(v->{
+                startActivity(new Intent(this,Shop.class));
+            });
+        }
+        testbtn = findViewById(R.id.generateqrcode);
+        testbtn.setOnClickListener(v->{
+            startActivity(new Intent(this,QRCode.class));
+        });
 
         LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.header, null);
@@ -101,20 +116,32 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 //        navigationView.setNavigationItemSelectedListener(this);
         String text = "<strike><font color=\'#757575\'>Some text</font></strike>";
 
-       // sample_test = findViewById(R.id.card_description);
-        //sample_test.setText(Html.fromHtml(text));
+        sample_test = findViewById(R.id.card_description);
+        sample_test.setText(Html.fromHtml(text));
 
         View headerLayout = navigationView.getHeaderView(0);
 
+        appname = headerLayout.findViewById(R.id.header_app_name);
+        appname.setTypeface(hintFont);
+        //appname.setVisibility(View.VISIBLE);
         sign_up = headerLayout.findViewById(R.id.header_sign_up);
         sign_up.setTypeface(hintFont);
+       // sign_up.setVisibility(View.INVISIBLE);
 
 
         share_us = headerLayout.findViewById(R.id.share_us);
+        share_us.setOnClickListener(v->{
+            startActivity(new Intent(this,CoopRquest.class));
+        });
+
         sign_in = headerLayout.findViewById(R.id.header_sign_in);
+       // sign_in.setVisibility(View.INVISIBLE);
 
         followed_centers = headerLayout.findViewById(R.id.followed_centers);
         followed_centers.setTypeface(hintFont);
+        followed_centers.setOnClickListener(v->{
+            startActivity(new Intent(this,FAQ.class));
+        });
 
         terms_of_service = headerLayout.findViewById(R.id.terms);
         terms_of_service.setTypeface(hintFont);
@@ -157,32 +184,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         edit = headerLayout.findViewById(R.id.edit);
         edit.setTypeface(hintFont);
 
-        exit = headerLayout.findViewById(R.id.EXIT);
+        exit = headerLayout.findViewById(R.id.exit);
         exit.setTypeface(hintFont);
-        coopreq = findViewById(R.id.gotoSHOP);
-
-        mapbutton = findViewById(R.id.map_button);
-        mapbutton.setOnClickListener(v->{
-             startActivity(new Intent(this,Map.class));
-         });
-
-        try {
-            coopreq.setOnClickListener(v -> {
-                startActivity(new Intent(this, Shop.class));
-
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("jelal", "onCreate: ", e);
-        }
 
         share_us.setTypeface(hintFont);
-        share_us.setOnClickListener(v -> {
-            Intent moveToSignIn = new Intent(this, SingInActivity.class);
-            Drawable img = getApplicationContext().getDrawable(R.drawable.ic_arrow_left);
-            share_us.setCompoundDrawables(img, null, null, null);
-            startActivity(moveToSignIn);
-        });
+//        share_us.setOnClickListener(v -> {
+//            Intent moveToSignIn = new Intent(this, SingInActivity.class);
+//            Drawable img = getApplicationContext().getDrawable(R.drawable.ic_arrow_left);
+//            share_us.setCompoundDrawables(img, null, null, null);
+//            startActivity(moveToSignIn);
+//        });
         sign_up.setOnClickListener(v -> {
             startActivity(new Intent(this, SignUpActivity.class));
         });
@@ -212,9 +223,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         if (cities == null) {
             Log.e("asad :", "spinner is null!!");
         } else {
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.cities, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities,R.layout.spinner_text_view);
+            adapter.setDropDownViewResource(R.layout.spinner_text_view);
             try {
 
                 cities.setAdapter(adapter);
@@ -261,17 +272,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         //write your code
     }
 
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-        Toast.makeText(this, "is it even working ?", Toast.LENGTH_SHORT).show();
-        float slideX = drawerView.getWidth() * slideOffset;
-        main.setTranslationX(-slideX);
-    }
+
 
     @Override
     public void onDrawerStateChanged(int arg0) {
         //write your code
     }
-
-
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        float slideX = drawerView.getWidth() * slideOffset;
+        main.setTranslationX(-slideX);
+    }
 }

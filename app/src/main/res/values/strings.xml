@@ -87,5 +87,7 @@
     <string name="IWantToGetHired">می خواهم در یونیکاف استخدام شوم</string>
     <string name="shop_is_closed">فروشگاه هم اکنون بسته می باشد</string>
     <string name="notify_me_on_new_offs">در صورت ارائه تخفیف به من اطلاع بده</string>
+    <string name="save_in_gallery">ذخیره در گالری</string>
+    <string name="allright">بسیار خب</string>
 
 </resources>
