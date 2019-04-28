@@ -61,7 +61,8 @@
             <TextView
                 android:id="@+id/qrcode_num"
                 android:text="123456789"
-                android:textSize="36sp"
+                android:layout_gravity="center"
+                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <LinearLayout
@@ -71,9 +72,9 @@
                 android:layout_height="match_parent"/>
             <TextView
                 android:id="@+id/tag"
-                android:layout_gravity="end"
-                android:textSize="36sp"
-                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                android:textSize="24sp"
+                android:layout_marginStart="18dp"
                 android:text="کد"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

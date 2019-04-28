@@ -65,8 +65,8 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
     @Bind(R.id.my_codes_main_page)
     ConstraintLayout main;
 
-    @Bind(R.id.mycodes_list_view)
-    RecyclerView mycodes_list;
+//    @Bind(R.id.mycodes_list_view)
+//    RecyclerView mycodes_list;
 
     BottomNavigationView bottomNavigationView;
 
@@ -97,9 +97,9 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 //        );
         API_TOKEN = SaveSharedPreference.getAPITOKEN(this);
       //  mycodes_list.setLayoutManager(staggeredGridLayoutManager);
-
-        mycodes_list.setLayoutManager(layoutManager);
-        mycodes_list.setItemAnimator(new DefaultItemAnimator());
+//
+//        mycodes_list.setLayoutManager(layoutManager);
+//        mycodes_list.setItemAnimator(new DefaultItemAnimator());
 
         appbar_tv.setText("کدهای من");
         appbar_tv.setTypeface(yekanfont);
@@ -181,7 +181,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 
                     codes = response.body().getCodes();
                     adapter = new MycodeslistAdapter(codes,MyCodes.this);
-                    mycodes_list.setAdapter(adapter);
+                    //mycodes_list.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
                 }else {

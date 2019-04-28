@@ -40,7 +40,7 @@ import Service.SetTypefaces;
 
 public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
-    private TextView tag_name,tag_count,tag_status,tag,tag_code,qrcode_tv;
+    private TextView tag_name,tag_count,tag_status,tag,tag_code,qrcode_tv,qrcode_code;
     private ImageButton drawerbtn,backbtn;
     private ImageView qrcode;
     private Button save_to_gallery, alriht;
@@ -53,6 +53,7 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
     Context context;
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,7 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
         tag_code = findViewById(R.id.qrcode_num);
         qrcode_tv = findViewById(R.id.just_appbar_tv);
         qrcode_tv.setText("کدهای من");
+        qrcode_code = findViewById(R.id.qrcode_num);
         backbtn = findViewById(R.id.back_button);
 
         backbtn.setOnClickListener(view -> {
@@ -116,6 +118,16 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
             View headerLayout = navigationView.getHeaderView(0);
 
         }
+
+
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
 
 
 
@@ -178,7 +190,8 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
     }
 
     private void generateqrcode(){
-        String sample = "thisissampleforgenerationagainandagain";
+        String sample = randomAlphaNumeric(15);
+        qrcode_code.setText(sample);
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(sample,BarcodeFormat.QR_CODE,500,500);

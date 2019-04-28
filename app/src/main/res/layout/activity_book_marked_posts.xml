@@ -7,12 +7,14 @@
     android:id="@+id/bookmarked_page"
     android:layoutDirection="ltr"
     tools:context=".BookMarkedPosts">
+
     <include
+        android:id="@+id/include3"
         layout="@layout/just_fucking_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
+   <!-- <android.support.v7.widget.RecyclerView
         android:id="@+id/bookmarked_posts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +27,145 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </android.support.v7.widget.RecyclerView>
+    -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/include3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline3">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_gravity="end"
+                android:background="@color/home_background">
+
+
+                <ImageView
+                    android:id="@+id/shop_image_view"
+                    android:layout_width="166dp"
+                    android:layout_height="93dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="8dp"
+                    android:elevation="10dp"
+                    android:src="@drawable/shop2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.04"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/bookmark3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bookmark_background"
+                    android:elevation="10dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_bookmark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.061"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/home_card_shadow"
+                    android:elevation="5dp">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="103dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="30dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/shopname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginBottom="18dp"
+                            android:text="پیتزا ویژه سر آشپز"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/shop_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="4dp"
+                            android:text="پدر خوب"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/postname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="باشگاه بندسازی هیوانا" />
+
+                        <TextView
+                            android:id="@+id/off_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:id="@+id/old_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="250dp"
+                            android:layout_marginTop="40dp" />
+
+                        <TextView
+                            android:id="@+id/new_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="250dp"
+                            android:layout_marginTop="60dp" />
+
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

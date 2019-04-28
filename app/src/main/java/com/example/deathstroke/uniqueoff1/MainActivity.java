@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     Boolean book1_flag ,book2_flag;
     BottomNavigationView bottomNavigationView;
     android.support.v7.widget.SearchView searchView;
+    Button qrcode,shop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +77,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawebtn = findViewById(R.id.drawebtn);
         drawebtn.setOnClickListener(view -> {
             drawerLayout.openDrawer(navigationView);
+        });
+
+
+        qrcode = findViewById(R.id.generateqrcode);
+        qrcode.setOnClickListener(v->{
+            startActivity(new Intent(MainActivity.this,QRCode.class));
+        });
+        shop = findViewById(R.id.shop_button);
+        shop.setOnClickListener(v->{
+            startActivity(new Intent(MainActivity.this,Shop.class));
         });
 
         View header_items = navigationView.getHeaderView(0);
