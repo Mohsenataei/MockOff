@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include
-            layout="@layout/activity_faq"
+            layout="@layout/activity_my_codes"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
@@ -21,6 +21,7 @@
         android:id="@+id/nav_view"
         android:layout_width="220dp"
         android:layout_height="match_parent"
+        android:elevation="0dp"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header" />

@@ -4,34 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/map_page"
+    android:id="@+id/bookmarked_page"
     android:layoutDirection="ltr"
-    tools:context=".Map">
-    <include layout="@layout/just_fucking_appbar"/>
-
-    <org.osmdroid.views.MapView
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-        android:id="@+id/main_map"
+    tools:context=".BookMarkedPosts">
+    <include
+        layout="@layout/just_fucking_appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
 
-    </org.osmdroid.views.MapView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bookmarked_posts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        app:labelVisibilityMode="labeled"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         app:itemTextColor="@color/nav_color"
         app:itemIconTint="@color/nav_color"
-        app:itemBackground="@color/white"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation" />
+
 
 </android.support.constraint.ConstraintLayout>

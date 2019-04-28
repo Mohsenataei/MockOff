@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import Service.RetrofitClient;
+import Service.SaveSharedPreference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,6 +74,7 @@ public class SingInActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d(TAG,"onResponse, Server Response :" + response);
                 String s = response.body();
+                SaveSharedPreference.setAPITOKEN(SingInActivity.this,s);
                 try {
                     Log.d(TAG,"onResponse API TOKEN IS :" + s);
                 }catch (NullPointerException e){

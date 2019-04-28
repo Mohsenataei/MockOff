@@ -1,6 +1,5 @@
 package com.example.deathstroke.uniqueoff1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,35 +23,37 @@ import Service.SaveSharedPreference;
 import Service.SetTypefaces;
 import butterknife.ButterKnife;
 
-public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListener {
+public class FollowedShops extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
-    BottomNavigationView bottomNavigationView;
-    private TextView t1,t2,t3,t4,t5,t6;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
-    protected NavigationView navigationView;
-    TextView appbar_tv,appname;
-    Typeface yekanfont;
-    private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
+    BottomNavigationView bottomNavigationView;
     ImageButton drawer,backbtn;
+    NavigationView navigationView;
+    Typeface yekanfont;
+    TextView appbar_tv,appname;
+    private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.faq);
-        t1 = findViewById(R.id.textview1);
-        t2 = findViewById(R.id.textview2);
-        t3 = findViewById(R.id.textview3);
-        t4 = findViewById(R.id.textview4);
-        t5 = findViewById(R.id.textview5);
-        drawer = findViewById(R.id.drawebtn);
-        navigationView = findViewById(R.id.nav_view);
+        yekanfont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
+        setContentView(R.layout.followed_shops);
+        bottomNavigationView = findViewById(R.id.navigation);
+        main = findViewById(R.id.followed_page);
         drawerLayout = findViewById(R.id.drawer_layout);
-        drawerLayout.addDrawerListener(this);
-        drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.setDrawerElevation(0);
-        main = findViewById(R.id.mainall);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
+        drawerLayout.addDrawerListener(this);
+        navigationView = findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawebtn);
+
+        drawer.setOnClickListener(view -> {
+
+            drawerLayout.openDrawer(navigationView);
+        });
+
         appbar_tv = findViewById(R.id.just_appbar_tv);
-        appbar_tv.setText("سوالات متداول");
+        appbar_tv.setText("مراکز دنبال شده");
         appbar_tv.setTypeface(yekanfont);
         backbtn = findViewById(R.id.back_button);
 
@@ -59,17 +61,9 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
             finish();
         });
 
-        if (main == null) {
-            Toast.makeText(this, "main u looking for is null", Toast.LENGTH_SHORT).show();
-        }
-
-        drawer.setOnClickListener(v->{
-            Toast.makeText(this, "clicked on drawer button ", Toast.LENGTH_SHORT).show();
-            drawerLayout.openDrawer(navigationView);
-        });
-
-        Typeface yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
-        setTexttypeface(yekanFont,t1,t2,t3,t4,t5);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(0);
+//        menuItem.setChecked(true);
 
         View header_items = navigationView.getHeaderView(0);
 
@@ -77,14 +71,9 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
 
         setHeaderitems();
         handleNavDrawerItemClick();
-        SetTypefaces.setButtonTypefaces(yekanFont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
+        SetTypefaces.setButtonTypefaces(yekanfont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
 
-
-        bottomNavigationView = findViewById(R.id.navigation);
-//        Menu menu = bottomNavigationView.getMenu();
-//        MenuItem menuItem = menu.getItem(0);
-//        menuItem.setChecked(true);
-        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
+        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanfont);
         for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
             MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
             SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
@@ -95,21 +84,20 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.navigation_home :
-                    startActivity(new Intent(FAQ.this,MainActivity.class));
+                    startActivity(new Intent(FollowedShops.this,MainActivity.class));
                     break;
                 case R.id.navigation_nearest_off :
-                    startActivity(new Intent(FAQ.this,Map.class));
+                    startActivity(new Intent(FollowedShops.this,Map.class));
                     break;
                 case R.id.navigation_my_codes :
-                    startActivity(new Intent(FAQ.this,MyCodes.class));
+                    startActivity(new Intent(FollowedShops.this,MyCodes.class));
                     break;
                 case R.id.classification:
-                    startActivity(new Intent(FAQ.this,Classification.class));
+                    startActivity(new Intent(FollowedShops.this,Classification.class));
                     break;
             }
             return false;
         });
-
     }
     private void initilizeheaderbuttons(View header_items) {
         ButterKnife.bind(header_items);
@@ -127,24 +115,23 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
     }
     private void handleNavDrawerItemClick(){
         signup.setOnClickListener(view->{
-            startActivity(new Intent(FAQ.this,SignUpActivity.class));
+            startActivity(new Intent(FollowedShops.this,SignUpActivity.class));
         });
         signin.setOnClickListener(view->{
-            startActivity(new Intent(FAQ.this,SingInActivity.class));
+            startActivity(new Intent(FollowedShops.this,SingInActivity.class));
         });
 
         bookmarks.setOnClickListener(view -> {
-            startActivity(new Intent(FAQ.this,BookMarkedPosts.class));
+            startActivity(new Intent(FollowedShops.this,BookMarkedPosts.class));
         });
 
         followed_centers.setOnClickListener(view -> {
-            startActivity(new Intent(FAQ.this,FollowedShops.class));
-            //drawerLayout.closeDrawer(navigationView);
+            //startActivity(new Intent(FollowedShops.this,FollowedShops.class));
+            drawerLayout.closeDrawer(navigationView);
         });
 
         frequently_asked_questions.setOnClickListener(view -> {
-            //startActivity(new Intent(FAQ.this,FAQ.class));
-            drawerLayout.closeDrawer(navigationView);
+            startActivity(new Intent(FollowedShops.this,FAQ.class));
         });
 
 //        terms_off_service.setOnClickListener(view->{
@@ -152,7 +139,7 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
 //        });
 
         contactus.setOnClickListener(view->{
-            startActivity(new Intent(FAQ.this,contact_us.class));
+            startActivity(new Intent(FollowedShops.this,contact_us.class));
         });
 
         share_with_friends.setOnClickListener(view -> {
@@ -172,7 +159,7 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
 
     }
     private void setHeaderitems() {
-        if(SaveSharedPreference.getAPITOKEN(FAQ.this).length() > 0  ){
+        if(SaveSharedPreference.getAPITOKEN(FollowedShops.this).length() > 0  ){
             signin.setVisibility(View.INVISIBLE);
             signup.setVisibility(View.INVISIBLE);
             appname.setVisibility(View.VISIBLE);
@@ -180,19 +167,7 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
             appname.setTypeface(yekanfont);
         }
     }
-    private void setTexttypeface(Typeface tf, TextView... textViews){
 
-        for (TextView tv: textViews) {
-            tv.setTypeface(tf);
-        }
-
-    }
-
-    private void setButtonTypeface(Typeface tf, Button... buttons){
-        for (Button btn: buttons){
-            btn.setTypeface(tf);
-        }
-    }
     @Override
     public void onDrawerOpened(View arg0) {
         //write your code

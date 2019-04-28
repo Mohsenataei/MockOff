@@ -1,21 +1,28 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import Service.CustomTypefaceSpan;
 import Service.SetTypefaces;
 
 public class CoopRquest extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
+    BottomNavigationView bottomNavigationView;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
     TextView appbar_textview;
@@ -28,7 +35,9 @@ public class CoopRquest extends AppCompatActivity implements DrawerLayout.Drawer
         setContentView(R.layout.coop);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerElevation(0);
         drawerLayout.addDrawerListener(this);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
         main = findViewById(R.id.main_content);
 
         appbar_textview = findViewById(R.id.just_appbar_tv);
@@ -58,6 +67,35 @@ public class CoopRquest extends AppCompatActivity implements DrawerLayout.Drawer
         exit = headerLayout.findViewById(R.id.exit);
 
         SetTypefaces.setButtonTypefaces(yekan_font,sign_in,sign_up,bookmarks,terms_of_service,share_us,Contact_us,edit,exit);
+        bottomNavigationView = findViewById(R.id.navigation);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(0);
+//        menuItem.setChecked(true);
+        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekan_font);
+        for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
+            MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
+            SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
+            spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
+            mMenuitem.setTitle(spannableTitle);
+        }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navigation_home :
+                    startActivity(new Intent(CoopRquest.this,MainActivity.class));
+                    break;
+                case R.id.navigation_nearest_off :
+                    startActivity(new Intent(CoopRquest.this,Map.class));
+                    break;
+                case R.id.navigation_my_codes :
+                    startActivity(new Intent(CoopRquest.this,MyCodes.class));
+                    break;
+                case R.id.classification:
+                    startActivity(new Intent(CoopRquest.this,Classification.class));
+                    break;
+            }
+            return false;
+        });
 
     }
     @Override

@@ -12,11 +12,17 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -38,6 +44,11 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
     private ImageButton drawerbtn,backbtn;
     private ImageView qrcode;
     private Button save_to_gallery, alriht;
+    Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
+    private Spinner mySpinner;
+    private Typeface myFont;
+    private static final String[] COUNTRIES = new String[] { "همدان",
+            "ملایر", "اراک", "تویسرکان", "اسدآباد" };
 
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
@@ -45,9 +56,19 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            setContentView(R.layout.qrcode);
+        }catch (Exception e){
+            Log.e("in QRCODE", "onCreate: why ?",e );
+        }
         Typeface yekanfont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
-        setContentView(R.layout.qrcode);
+        myFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
+
         drawerLayout = findViewById(R.id.drawer_layout);
+        if (drawerLayout == null ) {
+            Toast.makeText(context, "drawer is null deep shit", Toast.LENGTH_SHORT).show();
+            Log.d("mohsen", "onCreate: drawer is null ");
+        }
         drawerLayout.addDrawerListener(this);
         drawerLayout.setDrawerElevation(0);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -68,8 +89,8 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
             finish();
         });
 
-        SetTypefaces.SetTextviewTypefaces(yekanfont,tag_name,tag_count,tag_status,tag,tag_code,qrcode_tv);
-        drawerbtn.setOnClickListener(view->{
+        SetTypefaces.SetTextviewTypefaces(yekanfont, tag_name, tag_count, tag_status, tag, tag_code, qrcode_tv);
+        drawerbtn.setOnClickListener(view -> {
             drawerLayout.openDrawer(navigationView);
         });
 
@@ -82,10 +103,78 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
         });
         alriht = findViewById(R.id.alright);
 
-        SetTypefaces.setButtonTypefaces(yekanfont,save_to_gallery, alriht);
+        SetTypefaces.setButtonTypefaces(yekanfont, save_to_gallery, alriht);
 
         qrcode = findViewById(R.id.qrcode);
         generateqrcode();
+
+        // change spinner font :
+
+
+            // handle navigation item selection :
+
+            View headerLayout = navigationView.getHeaderView(0);
+
+        }
+
+
+
+
+    private class MyArrayAdapter extends BaseAdapter {
+
+        private LayoutInflater mInflater;
+
+        public MyArrayAdapter(QRCode con) {
+            // TODO Auto-generated constructor stub
+            mInflater = LayoutInflater.from(con);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return COUNTRIES.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            final ListContent holder;
+            View v = convertView;
+            if (v == null) {
+                v = mInflater.inflate(R.layout.spinner_text_view, null);
+                holder = new ListContent();
+
+                holder.name =  v.findViewById(R.id.textView1);
+
+                v.setTag(holder);
+            } else {
+
+                holder = (ListContent) v.getTag();
+            }
+
+            holder.name.setTypeface(myFont);
+            holder.name.setText("" + COUNTRIES[position]);
+
+            return v;
+        }
+
+    }
+
+    static class ListContent {
+
+        TextView name;
     }
 
     private void generateqrcode(){

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/my_codes_list"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="80dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:elevation="10dp"
+    android:background="@drawable/my_codes_shadow"
+    android:layout_width="380dp"
+    android:layout_height="264dp">
+    <TextView
+        android:layout_gravity="end"
+        android:layout_marginEnd="8dp"
+        android:textSize="18sp"
+        android:text="دور های لاغری تابستان"
+        android:id="@+id/my_codes_list_code_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@color/indicator_border_color"
+        android:layout_width="360dp"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <ImageView
+            android:id="@+id/my_codes_list_image_view"
+            android:src="@drawable/shop2"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="116dp"
+            android:layout_height="139dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            android:layout_width="235dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/my_codes_list_price_with_off"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:text="قیمت با تخفیف:"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/my_codes_list_price_without_off"
+                android:layout_gravity="end"
+                android:textSize="14sp"
+                android:text="قیمت بدون تخفیف :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="end"
+                android:id="@+id/my_codes_list_code_count"
+                android:text="تعداد :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="end"
+                android:id="@+id/my_codes_list_total"
+                android:text="جمع کل"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="end"
+                android:layout_marginTop="30dp"
+                android:text="تاریخ خرید:"
+                android:id="@+id/my_codes_list_code_buy_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="end"
+                android:text="تاریخ انقضاء :"
+                android:id="@+id/my_codes_list_code_expiration_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_gravity="center"
+        android:textSize="13dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/indicator_border_color"
+        android:text="باشگاه بدن سازی هیوانا"
+        android:id="@+id/recycler_shop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:id="@+id/my_codes_list_show_code_btn"
+        style="?attr/borderlessButtonStyle"
+        android:textColor="@color/grin_beam_color"
+        android:text="@string/show_me_code"
+        android:background="@drawable/show_code_btn_background"
+        android:layout_width="140dp"
+        android:layout_height="33dp" />
+</LinearLayout>

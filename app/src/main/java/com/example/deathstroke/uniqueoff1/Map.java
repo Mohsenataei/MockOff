@@ -2,23 +2,31 @@ package com.example.deathstroke.uniqueoff1;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -35,7 +43,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import Service.CustomTypefaceSpan;
+import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class Map extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DrawerLayout.DrawerListener {
 
@@ -47,15 +59,26 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
     private GoogleApiClient mGoogleApiClient;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
-    Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
+    private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
+    Typeface yekanFont;
+    private TextView appname;
+    @Bind(R.id.drawebtn)
+    ImageButton drawerbtn;
+    @Bind(R.id.back_button)
+    ImageButton backbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
-        Typeface yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
+        main = findViewById(R.id.map_page);
+        ButterKnife.bind(this);
+        yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerElevation(0);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(this);
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -64,6 +87,10 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                     .addApi(LocationServices.API)
                     .build();
         }
+        openDrawwer();
+        backbtn.setOnClickListener(view->{
+            finish();
+        });
         checkPermissionsState();
 //
         Context ctx = getApplicationContext();
@@ -82,19 +109,55 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         mapController.setCenter(startPoint);
         mapView.setBuiltInZoomControls(true);
 //        map.setMultiTouchControls(true);
-        TextView tv = findViewById(R.id.app_bar_text);
+        TextView tv = findViewById(R.id.just_appbar_tv);
+        tv.setTypeface(yekanFont);
         tv.setText("تخفیف های اطراف من");
-        View headerLayout = navigationView.getHeaderView(0);
-        sign_in = headerLayout.findViewById(R.id.header_sign_in);
-        sign_up = headerLayout.findViewById(R.id.header_sign_up);
-        bookmarks = headerLayout.findViewById(R.id.bookmark_centers);
-        terms_of_service = headerLayout.findViewById(R.id.terms);
-        share_us = headerLayout.findViewById(R.id.share_us);
-        Contact_us = headerLayout.findViewById(R.id.contact_us);
-        edit = headerLayout.findViewById(R.id.edit);
-        exit = headerLayout.findViewById(R.id.exit);
+        //View headerLayout = navigationView.getHeaderView(0);
 
-        SetTypefaces.setButtonTypefaces(yekanFont,sign_in,sign_up,bookmarks,terms_of_service,share_us,Contact_us,edit,exit);
+        View header_items = navigationView.getHeaderView(0);
+
+        initilizeheaderbuttons(header_items);
+        setHeaderitems();
+        handleNavDrawerItemClick();
+
+        SetTypefaces.setButtonTypefaces(yekanFont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
+
+        bottomNavigationView = findViewById(R.id.navigation);
+
+        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
+        for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
+            MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
+            SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
+            spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
+            mMenuitem.setTitle(spannableTitle);
+            if (i==1) {
+                mMenuitem.setChecked(true);
+            }
+        }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navigation_home :
+                    startActivity(new Intent(Map.this,MainActivity.class));
+                    break;
+                case R.id.navigation_nearest_off :
+                    break;
+                case R.id.navigation_my_codes :
+                    startActivity(new Intent(Map.this,MyCodes.class));
+                    break;
+                case R.id.classification:
+                    startActivity(new Intent(Map.this,Classification.class));
+                    break;
+            }
+            return false;
+        });
+
+    }
+
+    private void openDrawwer() {
+        drawerbtn.setOnClickListener(view->{
+            drawerLayout.openDrawer(navigationView);
+        });
     }
 
     private void checkPermissionsState() {
@@ -192,6 +255,76 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 return true;
             }
         }, 1000));
+    }
+
+    private void initilizeheaderbuttons(View header_items) {
+        ButterKnife.bind(header_items);
+        signup = header_items.findViewById(R.id.header_sign_up);
+        signin = header_items.findViewById(R.id.header_sign_in);
+        bookmarks = header_items.findViewById(R.id.bookmark_centers);
+        followed_centers = header_items.findViewById(R.id.followed_centers);
+        frequently_asked_questions = header_items.findViewById(R.id.header_faq);
+        terms_off_service = header_items.findViewById(R.id.terms);
+        contactus = header_items.findViewById(R.id.contact_us);
+        share_with_friends = header_items.findViewById(R.id.share_us);
+        exit = header_items.findViewById(R.id.exit);
+        edit = header_items.findViewById(R.id.edit);
+        appname = header_items.findViewById(R.id.header_app_name);
+    }
+    private void handleNavDrawerItemClick(){
+        signup.setOnClickListener(view->{
+            startActivity(new Intent(Map.this,SignUpActivity.class));
+        });
+        signin.setOnClickListener(view->{
+            startActivity(new Intent(Map.this,SingInActivity.class));
+        });
+
+        bookmarks.setOnClickListener(view -> {
+            startActivity(new Intent(Map.this,BookMarkedPosts.class));
+        });
+
+        followed_centers.setOnClickListener(view -> {
+            startActivity(new Intent(Map.this,FollowedShops.class));
+            //drawerLayout.closeDrawer(navigationView);
+        });
+
+        frequently_asked_questions.setOnClickListener(view -> {
+            startActivity(new Intent(Map.this,FAQ.class));
+            //drawerLayout.closeDrawer(navigationView);
+        });
+
+//        terms_off_service.setOnClickListener(view->{
+//            startActivity(new Intent(MyCodes.this,.class));
+//        });
+
+        contactus.setOnClickListener(view->{
+            startActivity(new Intent(Map.this,contact_us.class));
+        });
+
+        share_with_friends.setOnClickListener(view -> {
+            // startActivity(new Intent(MainActivity.this,BookMarkedPosts.class));
+            Toast.makeText(this, "yet to be published", Toast.LENGTH_SHORT).show();
+        });
+
+        exit.setOnClickListener(view ->{
+            //finish();
+            System.exit(0);
+        });
+
+        edit.setOnClickListener(view->{
+            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+        });
+
+
+    }
+    private void setHeaderitems() {
+        if(SaveSharedPreference.getAPITOKEN(Map.this).length() > 0  ){
+            signin.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
+            appname.setVisibility(View.VISIBLE);
+            appname.setText(R.string.title_activity_test_navigation_drawer);
+            appname.setTypeface(yekanFont);
+        }
     }
 
     protected void onStart() {

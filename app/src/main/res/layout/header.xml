@@ -221,6 +221,7 @@
         android:layout_marginTop="156dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/spinner_border"
+        android:popupBackground="@drawable/spinner_border_bottom"
         android:entries="@array/cities"
         android:popupElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"

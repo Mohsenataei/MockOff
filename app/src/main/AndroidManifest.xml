@@ -19,6 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_test_navigation_drawer"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,19 +27,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".SingInActivity" />
-        <activity android:name=".CooperationActivity" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SingInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CooperationActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Pop"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".contact_us" />
-        <activity android:name=".FAQ" />
-        <activity android:name=".CoopRquest" />
-        <activity android:name=".Shop" />
-        <activity android:name=".NearestOffs" />
-        <activity android:name=".Map" />
-        <activity android:name=".QRCode"></activity>
+        <activity
+            android:name=".contact_us"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FAQ"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CoopRquest"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Shop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NearestOffs"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Map"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QRCode"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyCodes"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Classification"
+            android:screenOrientation="portrait" />
+        <activity android:name=".BookMarkedPosts" />
+        <activity android:name=".FollowedShops"></activity>
     </application>
 
 </manifest>

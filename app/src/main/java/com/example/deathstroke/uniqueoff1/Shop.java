@@ -1,8 +1,10 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +13,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,9 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import Service.CustomTypefaceSpan;
+
 public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     RelativeLayout b1,b3,b2;
+    BottomNavigationView bottomNavigationView;
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -161,6 +168,34 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 map_flag = false;
             }
 
+        });
+        bottomNavigationView = findViewById(R.id.navigation);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(0);
+//        menuItem.setChecked(true);
+        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
+        for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
+            MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
+            SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
+            spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
+            mMenuitem.setTitle(spannableTitle);
+        }
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.navigation_home :
+                    startActivity(new Intent(Shop.this,MainActivity.class));
+                    break;
+                case R.id.navigation_nearest_off :
+                    startActivity(new Intent(Shop.this,Map.class));
+                    break;
+                case R.id.navigation_my_codes :
+                    startActivity(new Intent(Shop.this,MyCodes.class));
+                    break;
+                case R.id.classification:
+                    startActivity(new Intent(Shop.this,Classification.class));
+                    break;
+            }
+            return false;
         });
     }
 

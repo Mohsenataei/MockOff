@@ -32,6 +32,8 @@ public class BottomNavigation extends AppCompatActivity {
                     return true;
                 case R.id.navigation_nearest_off:
                     mTextMessage.setText(R.string.title_nearest_offs);
+                    Toast.makeText(BottomNavigation.this, "map selected", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(BottomNavigation.this,Map.class) );
                     return true;
                 case R.id.navigation_my_codes:
                     mTextMessage.setText(R.string.title_my_codes);

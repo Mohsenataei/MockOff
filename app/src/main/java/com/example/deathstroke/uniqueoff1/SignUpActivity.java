@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import Service.RetrofitClient;
+import Service.SaveSharedPreference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
     ImageButton sign_up_back_btn;
     Button button;
     Button google_sign_up;
+    SharedPreferences user_Token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d(TAG,"onResponse, Server Response :" + response);
                 String s = response.body();
+                SaveSharedPreference.setAPITOKEN(SignUpActivity.this,"THISISSAMPLEAPITOKENJUSTFORFUN");
+
                 try {
                         Log.d(TAG,"onResponse API TOKEN IS :" + s);
                 }catch (NullPointerException e){
