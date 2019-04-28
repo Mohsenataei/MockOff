@@ -50,24 +50,12 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
         back.setOnClickListener( v->{
             finish();
         });
-
-        main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
-        if(drawerLayout == null){
-            Toast.makeText(this, "drawerLayout is null", Toast.LENGTH_SHORT).show();
-        }
-        else {
             //drawerLayout.closeDrawers();
-            ImageButton drawebtn = findViewById(R.id.drawebtn);
-            if(drawebtn == null){
-                Toast.makeText(contact_us.this, "drawebtn is null!!!", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                drawebtn.setOnClickListener(view -> {
+        ImageButton drawebtn = findViewById(R.id.drawebtn);
+        drawebtn.setOnClickListener(view -> {
 
-                    drawerLayout.openDrawer(navigationView);
-                });
-            }
-        }
+            drawerLayout.openDrawer(navigationView);
+        });
         View header_items = navigationView.getHeaderView(0);
 
         initilizeheaderbuttons(header_items);
@@ -80,6 +68,7 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
 //        Menu menu = bottomNavigationView.getMenu();
 //        MenuItem menuItem = menu.getItem(0);
 //        menuItem.setChecked(true);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanfont);
         for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
             MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);

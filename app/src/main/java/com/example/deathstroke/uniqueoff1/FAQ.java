@@ -81,6 +81,8 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
 
 
         bottomNavigationView = findViewById(R.id.navigation);
+
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
 //        Menu menu = bottomNavigationView.getMenu();
 //        MenuItem menuItem = menu.getItem(0);
 //        menuItem.setChecked(true);
@@ -90,6 +92,7 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
             SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
             spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
             mMenuitem.setTitle(spannableTitle);
+            mMenuitem.setChecked(false);
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

@@ -43,6 +43,7 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerElevation(0);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
+        drawerLayout.addDrawerListener(this);
         navigationView = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawebtn);
 
@@ -70,6 +71,7 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
 //        Menu menu = bottomNavigationView.getMenu();
 //        MenuItem menuItem = menu.getItem(0);
 //        menuItem.setChecked(true);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanfont);
         for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
             MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);

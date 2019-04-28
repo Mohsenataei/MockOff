@@ -81,6 +81,7 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
             mMenuitem.setTitle(spannableTitle);
         }
 
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.navigation_home :

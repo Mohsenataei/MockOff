@@ -173,6 +173,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 //        Menu menu = bottomNavigationView.getMenu();
 //        MenuItem menuItem = menu.getItem(0);
 //        menuItem.setChecked(true);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
         for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
             MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);

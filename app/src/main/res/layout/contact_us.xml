@@ -177,6 +177,7 @@
         app:itemIconTint="@color/nav_color"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation" />
