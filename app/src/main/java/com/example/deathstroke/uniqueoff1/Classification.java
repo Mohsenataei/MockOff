@@ -1,10 +1,8 @@
 package com.example.deathstroke.uniqueoff1;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -12,17 +10,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class Classification extends AppCompatActivity  implements DrawerLayout.DrawerListener{
@@ -36,10 +33,16 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     Typeface yekanfont;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
 
+    @Bind(R.id.classification_more_options_button)
+    Button more_options;
+    @Bind(R.id.todays_off_button)
+    Button todays_offs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classification);
+        ButterKnife.bind(this);
         yekanfont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         bottomNavigationView = findViewById(R.id.navigation);
         main = findViewById(R.id.classification_page);
@@ -69,7 +72,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
 
         setHeaderitems();
         handleNavDrawerItemClick();
-        SetTypefaces.setButtonTypefaces(yekanfont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
+        SetTypefaces.setButtonTypefaces(
+                yekanfont,signup,signin,followed_centers,
+                bookmarks,terms_off_service, frequently_asked_questions,
+                contactus,share_with_friends,exit,edit,
+                more_options,todays_offs
+        );
 
 
 
