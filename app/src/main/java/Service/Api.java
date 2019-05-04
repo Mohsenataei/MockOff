@@ -56,7 +56,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("my_codes")
-    Call<ResponseBody> getmycodes (@Field("api_token") String api_token);
+    Call<List<Code>> getmycodes (@Field("api_token") String api_token);
 
     @FormUrlEncoded
     @POST("/subscribed_shop")

@@ -171,11 +171,11 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 
     private void loadCodes () {
 
-        Call<ResponseBody> call = RetrofitClient.getmInstance().getApi().getmycodes(API_TOKEN);
+        Call<List<Code>> call = RetrofitClient.getmInstance().getApi().getmycodes(API_TOKEN);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<List<Code>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<List<Code>> call, Response<List<Code>> response) {
                 if (response.isSuccessful() && response.body() != null){
                     Toast.makeText(MyCodes.this, "connection is successful", Toast.LENGTH_LONG).show();
                     //Log.d(TAG, "onResponse: "+response.body().get(0).getPrice());
@@ -195,7 +195,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<List<Code>> call, Throwable t) {
 
             }
         });
