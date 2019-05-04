@@ -67,7 +67,8 @@
             android:name=".Classification"
             android:screenOrientation="portrait" />
         <activity android:name=".BookMarkedPosts" />
-        <activity android:name=".FollowedShops"></activity>
+        <activity android:name=".FollowedShops" />
+        <activity android:name=".RetrofitTest"></activity>
     </application>
 
 </manifest>

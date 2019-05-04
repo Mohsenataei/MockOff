@@ -139,15 +139,20 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d(TAG,"onResponse, Server Response :" + response);
                 String s = response.body();
-                SaveSharedPreference.setAPITOKEN(SignUpActivity.this,"THISISSAMPLEAPITOKENJUSTFORFUN");
 
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(SignUpActivity.this, "response successful", Toast.LENGTH_LONG).show();
+                    SaveSharedPreference.setAPITOKEN(SignUpActivity.this, s);
+                }
+                else Toast.makeText(SignUpActivity.this, "connection was not successful", Toast.LENGTH_SHORT).show();
                 try {
                         Log.d(TAG,"onResponse API TOKEN IS :" + s);
                 }catch (NullPointerException e){
                     e.printStackTrace();
                 }
-                Toast.makeText(SignUpActivity.this, "User SUCCESSFULLY ADDED WITH TOKEN :"+response,Toast.LENGTH_SHORT).show();
-                gotoHome();
+                Toast.makeText(SignUpActivity.this, "User SUCCESSFULLY ADDED WITH TOKEN :"+response,Toast.LENGTH_LONG).show();
+                //gotoHome();
             }
 
             @Override

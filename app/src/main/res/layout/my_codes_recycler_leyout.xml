@@ -1,109 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_codes_list"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="264dp"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="80dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:elevation="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
     android:background="@drawable/my_codes_shadow"
-    android:layout_width="380dp"
-    android:layout_height="264dp">
+    android:elevation="10dp"
+    android:orientation="vertical"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.533"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
     <TextView
+        android:id="@+id/code_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginEnd="8dp"
-        android:textSize="18sp"
         android:text="دور های لاغری تابستان"
-        android:id="@+id/my_codes_list_code_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="18sp" />
 
     <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="1dp"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:background="@color/indicator_border_color"
-        android:layout_width="360dp"
-        android:layout_height="1dp"/>
-    <LinearLayout
-        android:orientation="horizontal"
+        android:background="@color/indicator_border_color" />
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/my_codes_list_image_view"
-            android:src="@drawable/shop2"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="116dp"
-            android:layout_height="139dp" />
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout18"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.428" />
+
         <LinearLayout
+
+            android:id="@+id/linearLayout18"
+            android:layout_width="186dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
             android:orientation="vertical"
-            android:layout_marginStart="15dp"
-            android:layout_width="235dp"
-            android:layout_height="match_parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/my_codes_list_price_with_off"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                android:text="قیمت با تخفیف:"
-                android:layout_gravity="end"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="@string/price_with_off"
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/my_codes_list_price_without_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:textSize="14sp"
                 android:text="قیمت بدون تخفیف :"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="14sp" />
+
             <TextView
-                android:layout_gravity="end"
                 android:id="@+id/my_codes_list_code_count"
-                android:text="تعداد :"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:text="تعداد :" />
+
+            <TextView
                 android:id="@+id/my_codes_list_total"
-                android:text="جمع کل"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="30dp"
-                android:text="تاریخ خرید:"
+                android:text="جمع کل" />
+
+            <TextView
                 android:id="@+id/my_codes_list_code_buy_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="تاریخ انقضاء :"
+                android:layout_marginTop="4dp"
+                android:text="تاریخ خرید:" />
+
+            <TextView
                 android:id="@+id/my_codes_list_code_expiration_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="تاریخ انقضاء :" />
         </LinearLayout>
-    </LinearLayout>
 
+    </android.support.constraint.ConstraintLayout>
 
 
     <TextView
-        android:layout_gravity="center"
-        android:textSize="13dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/indicator_border_color"
-        android:text="باشگاه بدن سازی هیوانا"
         android:id="@+id/recycler_shop_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="باشگاه بدن سازی هیوانا"
+        android:textColor="@color/indicator_border_color"
+        android:textSize="13dp" />
 
     <Button
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center"
         android:id="@+id/my_codes_list_show_code_btn"
         style="?attr/borderlessButtonStyle"
-        android:textColor="@color/grin_beam_color"
-        android:text="@string/show_me_code"
-        android:background="@drawable/show_code_btn_background"
         android:layout_width="140dp"
-        android:layout_height="33dp" />
+        android:layout_height="33dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/show_code_btn_background"
+        android:text="@string/show_me_code"
+        android:textColor="@color/grin_beam_color" />
 </LinearLayout>

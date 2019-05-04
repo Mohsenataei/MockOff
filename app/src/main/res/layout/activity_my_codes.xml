@@ -13,38 +13,49 @@
         android:id="@+id/include"
         layout="@layout/just_fucking_appbar" />
 
-    <!--<android.support.v7.widget.RecyclerView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp">
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/mycodes_list_view"
         android:scrollbars="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </android.support.v7.widget.RecyclerView>
--->
+    </LinearLayout>
+
+     <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="60dp">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/my_codes_list"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="264dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="76dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:background="@drawable/my_codes_shadow"
                 android:elevation="10dp"
                 android:orientation="vertical"
@@ -69,24 +80,35 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/indicator_border_color" />
 
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/my_codes_list_image_view"
-                        android:layout_width="116dp"
+                        android:layout_width="100dp"
                         android:layout_height="139dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/shop2" />
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/shop2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/linearLayout18"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
 
                     <LinearLayout
-                        android:layout_width="235dp"
+
+                        android:id="@+id/linearLayout18"
+                        android:layout_width="254dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="15dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/my_codes_list_price_with_off"
@@ -94,7 +116,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:layout_marginTop="8dp"
-                            android:text="قیمت با تخفیف:"
+                            android:text="@string/price_with_off"
                             android:textSize="14sp" />
 
                         <TextView
@@ -134,7 +156,8 @@
                             android:layout_gravity="end"
                             android:text="تاریخ انقضاء :" />
                     </LinearLayout>
-                </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
 
 
                 <TextView
@@ -161,13 +184,273 @@
 
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/my_codes_list1"
-                android:layout_width="380dp"
+                android:id="@+id/my_codes_list2"
+                android:layout_width="match_parent"
                 android:layout_height="264dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/my_codes_shadow"
+                android:elevation="10dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/my_codes_list_code_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:text="دور های لاغری تابستان"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="360dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/indicator_border_color" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/my_codes_list_image_view2"
+                        android:layout_width="116dp"
+                        android:layout_height="139dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/shop2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/linearLayout162"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout162"
+                        android:layout_width="254dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/my_codes_list_price_with_off2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/price_with_off"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_price_without_off2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="قیمت بدون تخفیف :"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_code_count2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="تعداد :" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_total2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="جمع کل" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_code_buy_date2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="30dp"
+                            android:text="تاریخ خرید:" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_code_expiration_date2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="تاریخ انقضاء :" />
+                    </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/recycler_shop_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="باشگاه بدن سازی هیوانا"
+                    android:textColor="@color/indicator_border_color"
+                    android:textSize="13dp" />
+
+                <Button
+                    android:id="@+id/my_codes_list_show_code_btn2"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="140dp"
+                    android:layout_height="33dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/show_code_btn_background"
+                    android:text="@string/show_me_code"
+                    android:textColor="@color/grin_beam_color" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/my_codes_list3"
+                android:layout_width="match_parent"
+                android:layout_height="264dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/my_codes_shadow"
+                android:elevation="10dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/my_codes_list_code_name3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:text="دور های لاغری تابستان"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="360dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/indicator_border_color" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/my_codes_list_image_view3"
+                        android:layout_width="116dp"
+                        android:layout_height="139dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/shop2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/linearLayout163"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout163"
+                        android:layout_width="254dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/my_codes_list_price_with_off3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/price_with_off"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_price_without_off3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="قیمت بدون تخفیف :"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_code_count3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="تعداد :" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_total3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="جمع کل" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_code_buy_date3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="30dp"
+                            android:text="تاریخ خرید:" />
+
+                        <TextView
+                            android:id="@+id/my_codes_list_code_expiration_date3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="تاریخ انقضاء :" />
+                    </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/recycler_shop_name3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="باشگاه بدن سازی هیوانا"
+                    android:textColor="@color/indicator_border_color"
+                    android:textSize="13dp" />
+
+                <Button
+                    android:id="@+id/my_codes_list_show_code_btn3"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="140dp"
+                    android:layout_height="33dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/show_code_btn_background"
+                    android:text="@string/show_me_code"
+                    android:textColor="@color/grin_beam_color" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/my_codes_list1"
+                android:layout_width="match_parent"
+                android:layout_height="264dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="15dp"
                 android:background="@drawable/my_codes_shadow"
                 android:elevation="10dp"
                 android:orientation="vertical"
@@ -189,24 +472,35 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/indicator_border_color" />
 
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/my_codes_list_image_view1"
                         android:layout_width="116dp"
                         android:layout_height="139dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/shop2" />
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/shop2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/linearLayout16"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
 
                     <LinearLayout
-                        android:layout_width="235dp"
+                        android:id="@+id/linearLayout16"
+                        android:layout_width="254dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="15dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/my_codes_list_price_with_off1"
@@ -214,7 +508,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:layout_marginTop="8dp"
-                            android:text="قیمت با تخفیف:"
+                            android:text="@string/price_with_off"
                             android:textSize="14sp" />
 
                         <TextView
@@ -255,7 +549,7 @@
                             android:text="تاریخ انقضاء :" />
                     </LinearLayout>
 
-                </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
 
 
                 <TextView
@@ -283,8 +577,9 @@
 
         </LinearLayout>
     </ScrollView>
+    </LinearLayout>
 
-
+-->
 
 
     <android.support.design.widget.BottomNavigationView

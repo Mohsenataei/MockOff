@@ -9,6 +9,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,10 +20,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Service.CustomTypefaceSpan;
+import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import adapters.SubShopsAdapter;
 import butterknife.ButterKnife;
+import entities.SubShop;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FollowedShops extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
@@ -31,6 +43,11 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
     ImageButton drawer,backbtn;
     NavigationView navigationView;
     Typeface yekanfont;
+    String API_TOKEN ;
+    RecyclerView recyclerView;
+    SubShopsAdapter adapter;
+    RecyclerView.LayoutManager layoutManager;
+    List<SubShop> subShopList = new ArrayList<>();
     TextView appbar_tv,appname;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     @Override
@@ -46,6 +63,7 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
         drawerLayout.addDrawerListener(this);
         navigationView = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawebtn);
+        API_TOKEN = "FXX2oj8OO0rnCb1uvFR14wVA59IQKXWiIpmdvH96OuQDbGcltZT48NHwvySB";
 
         drawer.setOnClickListener(view -> {
 
@@ -99,6 +117,33 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
             }
             return false;
         });
+        recyclerView = findViewById(R.id.followed_shops);
+        //LoadSubShops();
+
+        Call<ResponseBody> call = RetrofitClient.getmInstance().getApi().getSubscribe_shops(API_TOKEN);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    //subShopList = response.body();
+                    adapter = new SubShopsAdapter(subShopList,FollowedShops.this);
+                    layoutManager = new LinearLayoutManager(FollowedShops.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(FollowedShops.this, "response is successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FollowedShops.this, "response is not successful", Toast.LENGTH_SHORT).show();
+                };
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
     private void initilizeheaderbuttons(View header_items) {
         ButterKnife.bind(header_items);
@@ -191,4 +236,33 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
     public void onDrawerStateChanged(int arg0) {
         //write your code
     }
-}
+
+//    private void LoadSubShops(){
+//        //String API_TOKEN = "FXX2oj8OO0rnCb1uvFR14wVA59IQKXWiIpmdvH96OuQDbGcltZT48NHwvySB";
+//        Call<List<SubShop>> call;
+//        try {
+//             call = RetrofitClient.getmInstance().getApi().getSubscribe_shops(API_TOKEN);
+//            call.enqueue(new Callback<List<SubShop>>() {
+//                @Override
+//                public void onResponse(Call<List<SubShop>> call, Response<List<SubShop>> response) {
+//                    // subShopList = response.body();
+////                Toast.makeText(FollowedShops.this, ""+subShopList.get(0).getName(), Toast.LENGTH_SHORT).show();
+//                    if (!response.isSuccessful()){
+//                        Toast.makeText(FollowedShops.this, "connection is not successful", Toast.LENGTH_SHORT).show();
+//                    }else {
+//                        Toast.makeText(FollowedShops.this, "connection is successful", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<SubShop>> call, Throwable t) {
+//
+//                }
+//            });
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+
+    }

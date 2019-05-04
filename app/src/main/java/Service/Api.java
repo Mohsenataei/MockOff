@@ -1,23 +1,23 @@
 package Service;
 
 import java.util.List;
-import java.util.Map;
 
-import entities.ClientCodesList;
 import entities.Code;
+import entities.NearestShops;
 import entities.Post;
+import entities.SubShop;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface Api {
     @FormUrlEncoded
-    @POST("signup")
+    @POST("signup/client")
     Call<String> userSignUp(
             //@HeaderMap Map<String, String> headers,
             @Field("name") String name,
@@ -28,7 +28,7 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("login/client")
     Call<String> userLogin(
             //@HeaderMap Map<String, String> headers,
             @Field("email") String email,
@@ -49,12 +49,34 @@ public interface Api {
     @GET("search/{keyword}")
     Call<List<Post>> searchbar(@Query("keyword") String keyword);
 
+    @GET
+    Call<ResponseBody> getImage(@Url String url);
+
 
 
     @FormUrlEncoded
     @POST("my_codes")
-    Call<ClientCodesList> getmycodes (
-            @Field("api_token") String api_token
+    Call<ResponseBody> getmycodes (@Field("api_token") String api_token);
+
+    @FormUrlEncoded
+    @POST("/subscribed_shop")
+    Call<ResponseBody> getSubscribe_shops(@Field("api_token") String api_token);
+
+    @FormUrlEncoded
+    @POST("")
+    Call<ResponseBody> subscribeToShop(
+            @Field("api_token") String api_token,
+            @Field("shop_id") Integer shop_id
     );
+
+
+
+    @FormUrlEncoded
+    @POST("/discount_around_me")
+    Call<List<NearestShops>> getNearestDiscounts(
+            @Field("latitude") String latitude,
+            @Field("longitude") String longitude
+    );
+
 
 }

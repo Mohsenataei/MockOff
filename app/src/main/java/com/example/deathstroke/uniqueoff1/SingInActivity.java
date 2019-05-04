@@ -31,9 +31,6 @@ public class SingInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_in);
 
-        Toast.makeText(this, "what the hell is going on ?", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onCreate: is it even working ?");
-
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
 
         email_field = findViewById(R.id.sign_in_email);

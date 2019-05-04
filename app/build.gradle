@@ -48,6 +48,8 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     // Adds libraries defining annotations to only the compile classpath.
     // Adds the annotation processor dependency to the annotation processor classpath.
@@ -55,4 +57,6 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.22.1'
     //annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 }

@@ -1,98 +1,132 @@
 package entities;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+
+
 public class Code {
-    private String code_name;
-    private String price_with_off;
-    private String original_price;
-    private String count;
+
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("price")
+    @Expose
+    private String price;
+
+    @SerializedName("count")
+    @Expose
+    private Integer count;
+
+    @SerializedName("discount")
+    @Expose
+    private Integer discount;
+
+    @SerializedName("order_date")
+    @Expose
+    private String order_date;
+
+    @SerializedName("e_date_use")
+    @Expose
+    private String e_date_use;
+
+    @SerializedName("qr_code")
+    @Expose
+    private String qr_code;
+
+    @SerializedName("type_id")
+    @Expose
+    private Integer type_id;
+
+    @SerializedName("shop_id")
+    @Expose
+    private String shop_id;
+
+    @SerializedName("post_id")
+    @Expose
+    private Integer post_id;
+
     private String total_price;
-    private String buy_date;
-    private String expiration_date;
-    private String shop_name;
-    private String image_url;
 
-    public Code(String code_name, String price_with_off, String original_price, String count, String total_price, String buy_date, String expiration_date, String image_url,String shop_name) {
-        this.code_name = code_name;
-        this.price_with_off = price_with_off;
-        this.original_price = original_price;
+    @SerializedName("pic")
+    @Expose
+    private String pic;
+
+    private String discount_price;
+
+    public Code(String title, String price, Integer count, Integer discount, String order_date, String e_date_use, String qr_code, Integer type_id, String shop_id, int post_id, String pic) {
+
+        this.title = title;
+        this.price = price;
         this.count = count;
-        this.total_price = total_price;
-        this.buy_date = buy_date;
-        this.expiration_date = expiration_date;
-        this.image_url = image_url;
-        this.shop_name = shop_name;
-
+        this.discount = discount;
+        this.order_date = order_date;
+        this.e_date_use = e_date_use;
+        this.qr_code = qr_code;
+        this.type_id = type_id;
+        this.shop_id = shop_id;
+        this.post_id = post_id;
+        int temp = 0;
+        temp = Integer.parseInt(price) * count;
+        this.total_price = String.valueOf(temp);
+        this.pic = "https://www.mocatag.ir/"+ pic;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public String getPrice() {
+        return price;
     }
 
-    public String getCode_name() {
-        return code_name;
-    }
-
-    public void setCode_name(String code_name) {
-        this.code_name = code_name;
-    }
-
-    public String getPrice_with_off() {
-        return price_with_off;
-    }
-
-    public void setPrice_with_off(String price_with_off) {
-        this.price_with_off = price_with_off;
-    }
-
-    public String getOriginal_price() {
-        return original_price;
-    }
-
-    public void setOriginal_price(String original_price) {
-        this.original_price = original_price;
-    }
-
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
-        this.count = count;
+    public int getDiscount() {
+        return discount;
+    }
+
+    public String getOrder_date() {
+        return order_date;
+    }
+
+    public String getE_date_use() {
+        return e_date_use;
+    }
+
+    public String getQr_code() {
+        return qr_code;
+    }
+
+    public Integer getType_id() {
+        return type_id;
+    }
+
+    public String getShop_id() {
+        return shop_id;
+    }
+
+    public int getPost_id() {
+        return post_id;
     }
 
     public String getTotal_price() {
-        return total_price;
+
+        return String.valueOf(Integer.parseInt(getPrice()) * getCount());
+
     }
 
-    public void setTotal_price(String total_price) {
-        this.total_price = total_price;
+    public String getPic() {
+//        String s = pic.replace("\\","");
+//        return s;
+        return "https://www.mocatag.ir/"+ pic;//.replace("\\","/");
+
     }
 
-    public String getBuy_date() {
-        return buy_date;
-    }
-
-    public void setBuy_date(String buy_date) {
-        this.buy_date = buy_date;
-    }
-
-    public String getExpiration_date() {
-        return expiration_date;
-    }
-
-    public void setExpiration_date(String expiration_date) {
-        this.expiration_date = expiration_date;
-    }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public String getDiscount_price() {
+        return String.valueOf(Integer.parseInt(getPrice()) - (Integer.parseInt(getPrice())/getDiscount()));
     }
 }

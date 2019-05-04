@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,7 +20,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,14 +40,26 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Service.CustomTypefaceSpan;
+import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import entities.NearestShops;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Map extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DrawerLayout.DrawerListener {
 
@@ -68,6 +80,8 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
     ImageButton drawerbtn;
     @Bind(R.id.back_button)
     ImageButton backbtn;
+
+    List<NearestShops> nearestShopsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +102,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                     .build();
         }
         openDrawwer();
-        backbtn.setOnClickListener(view->{
+        backbtn.setOnClickListener(view -> {
             finish();
         });
         checkPermissionsState();
@@ -108,7 +122,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         GeoPoint startPoint = new GeoPoint(34.796830, 48.514820);
         mapController.setCenter(startPoint);
         mapView.setBuiltInZoomControls(true);
-//        map.setMultiTouchControls(true);
+        mapView.setMultiTouchControls(true);
         TextView tv = findViewById(R.id.just_appbar_tv);
         tv.setTypeface(yekanFont);
         tv.setText("تخفیف های اطراف من");
@@ -120,37 +134,76 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         setHeaderitems();
         handleNavDrawerItemClick();
 
-        SetTypefaces.setButtonTypefaces(yekanFont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
+        SetTypefaces.setButtonTypefaces(yekanFont, signup, signin, followed_centers, bookmarks, terms_off_service, frequently_asked_questions, contactus, share_with_friends, exit, edit);
 
         bottomNavigationView = findViewById(R.id.navigation);
 
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
-        for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
+        for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
             MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
             SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
             spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
             mMenuitem.setTitle(spannableTitle);
-            if (i==1) {
+            if (i == 1) {
                 mMenuitem.setChecked(true);
             }
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.navigation_home :
-                    startActivity(new Intent(Map.this,MainActivity.class));
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    startActivity(new Intent(Map.this, MainActivity.class));
                     break;
-                case R.id.navigation_nearest_off :
+                case R.id.navigation_nearest_off:
                     break;
-                case R.id.navigation_my_codes :
-                    startActivity(new Intent(Map.this,MyCodes.class));
+                case R.id.navigation_my_codes:
+                    startActivity(new Intent(Map.this, MyCodes.class));
                     break;
                 case R.id.classification:
-                    startActivity(new Intent(Map.this,Classification.class));
+                    startActivity(new Intent(Map.this, Classification.class));
                     break;
             }
             return false;
         });
+        getnearDiscount();
+
+
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        Drawable mMarker = this.getResources().getDrawable(R.drawable.marker_default);
+
+
+        GeoPoint point;
+        if (nearestShopsList.size() > 0) {
+            for (int i = 0; i < 5; i++) {
+                double lat, lan;
+                lat = 34.796830 + i;
+                        //Double.parseDouble(nearestShopsList.get(i).getLatitude());
+                lan = 48.514820 + i;
+                        //Double.parseDouble(nearestShopsList.get(i).getLongitude());
+                items.add(new OverlayItem("title", "some description", new GeoPoint(lat, lan)));
+            }
+        }
+
+        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        //do something
+                        Toast.makeText(Map.this, "click on map", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Map.this,Shop.class));
+                        return true;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return false;
+                    }
+                },Map.this);
+        mOverlay.setFocusItemsOnTap(true);
+        mapView.getOverlays().add(mOverlay);
+
+        Marker startmarker = new Marker(mapView);
+        startmarker.setIcon(getResources().getDrawable(R.drawable.shop_map_marker));
+        mapView.getOverlays().add(startmarker);
 
     }
 
@@ -255,6 +308,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 return true;
             }
         }, 1000));
+
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -375,5 +429,31 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
     public void onDrawerSlide(View drawerView, float slideOffset) {
         float slideX = drawerView.getWidth() * slideOffset;
         main.setTranslationX(-slideX);
+    }
+
+    private void getnearDiscount(){
+        Call<List<NearestShops>> call = RetrofitClient.getmInstance().getApi().getNearestDiscounts("34.797732","48.514845");
+        call.enqueue(new Callback<List<NearestShops>>() {
+            @Override
+            public void onResponse(Call<List<NearestShops>> call, Response<List<NearestShops>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Toast.makeText(Map.this, "response is not empty", Toast.LENGTH_SHORT).show();
+                    if(!nearestShopsList.isEmpty()){
+                        nearestShopsList.clear();
+                    }
+
+                    nearestShopsList = response.body();
+                }else {
+                    Toast.makeText(Map.this, "Response is empty", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<NearestShops>> call, Throwable t) {
+
+            }
+        });
+
     }
 }

@@ -22,4 +22,9 @@ public class SaveSharedPreference {
     {
         return getSharedPreferences(ctx).getString(APITOKEN, "");
     }
+    public static void removeAPITOKEN(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.clear();
+        editor.commit();
+    }
 }

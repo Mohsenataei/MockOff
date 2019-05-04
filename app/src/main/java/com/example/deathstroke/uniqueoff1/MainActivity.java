@@ -34,6 +34,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     Spinner cities;
     ViewPager viewPager;
     TabLayout tabLayout;
-    int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
+    int images[] = {R.drawable.slider3,R.drawable.slider1, R.drawable.slider2, R.drawable.slider3,R.drawable.slider1};
     SliderAdapter sliderAdapter;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     BottomNavigationView bottomNavigationView;
     android.support.v7.widget.SearchView searchView;
     Button qrcode,shop;
+    int mCurrentPosition;
+    int lastPageIndex = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         qrcode = findViewById(R.id.generateqrcode);
         qrcode.setOnClickListener(v->{
-            startActivity(new Intent(MainActivity.this,QRCode.class));
+            startActivity(new Intent(MainActivity.this,RetrofitTest.class));
         });
         shop = findViewById(R.id.shop_button);
         shop.setOnClickListener(v->{
@@ -109,7 +114,30 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         viewPager.setPageMargin(20);
         sliderAdapter = new SliderAdapter(this, images);
         viewPager.setAdapter(sliderAdapter);
+        viewPager.setCurrentItem(1);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mCurrentPosition = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+                if(mCurrentPosition==0) viewPager.setCurrentItem(lastPageIndex-1,false);
+                if(mCurrentPosition==lastPageIndex) viewPager.setCurrentItem(1,false);
+
+            }
+        });
+
         tabLayout.setupWithViewPager(viewPager, true);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
 
 
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", hintFont);
@@ -200,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         exit.setOnClickListener(view ->{
             //finish();
+            SaveSharedPreference.removeAPITOKEN(MainActivity.this);
             System.exit(0);
         });
 
@@ -263,5 +292,22 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private void handlebottomnavigation(){
 
+    }
+
+    private class SliderTimer extends TimerTask {
+
+        @Override
+        public void run() {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (viewPager.getCurrentItem() < images.length -1) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+                    }else {
+                        viewPager.setCurrentItem(0);
+                    }
+                }
+            });
+        }
     }
 }

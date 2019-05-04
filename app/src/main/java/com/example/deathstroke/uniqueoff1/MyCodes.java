@@ -39,6 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import entities.ClientCodesList;
 import entities.Code;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,8 +66,8 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
     @Bind(R.id.my_codes_main_page)
     ConstraintLayout main;
 
-//    @Bind(R.id.mycodes_list_view)
-//    RecyclerView mycodes_list;
+    @Bind(R.id.mycodes_list_view)
+    RecyclerView mycodes_list;
 
     BottomNavigationView bottomNavigationView;
 
@@ -95,7 +96,8 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 //        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
 //                1,StaggeredGridLayoutManager.VERTICAL
 //        );
-        API_TOKEN = SaveSharedPreference.getAPITOKEN(this);
+        API_TOKEN = "YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";
+                //SaveSharedPreference.getAPITOKEN(this);
       //  mycodes_list.setLayoutManager(staggeredGridLayoutManager);
 //
 //        mycodes_list.setLayoutManager(layoutManager);
@@ -108,7 +110,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
             drawerLayout.openDrawer(navigationView);
         });
 
-        loadCodes();
+
         View header_items = navigationView.getHeaderView(0);
 
         initilizeheaderbuttons(header_items);
@@ -154,7 +156,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
             }
             return false;
         });
-
+        loadCodes();
     }
 
     private void setHeaderitems() {
@@ -168,37 +170,35 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
     }
 
     private void loadCodes () {
-        Call<ClientCodesList> call = RetrofitClient.getmInstance().getApi().getmycodes(API_TOKEN);
 
-        call.enqueue(new Callback<ClientCodesList>() {
+        Call<ResponseBody> call = RetrofitClient.getmInstance().getApi().getmycodes(API_TOKEN);
+
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ClientCodesList> call, Response<ClientCodesList> response) {
-                if (response.isSuccessful() && response.body().getCodes() != null){
-
-                    if (!codes.isEmpty()){
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Toast.makeText(MyCodes.this, "connection is successful", Toast.LENGTH_LONG).show();
+                    //Log.d(TAG, "onResponse: "+response.body().get(0).getPrice());
+                    if (codes.isEmpty())
                         codes.clear();
-                    }
 
-                    codes = response.body().getCodes();
+                    //codes = response.body();
                     adapter = new MycodeslistAdapter(codes,MyCodes.this);
-                    //mycodes_list.setAdapter(adapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MyCodes.this);
+                    mycodes_list.setLayoutManager(layoutManager);
+                    mycodes_list.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
-                }else {
-                    Toast.makeText(MyCodes.this, "No Results", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MyCodes.this, "connection is not successful", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ClientCodesList> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
-
-
-
-
-       // handleNavDrawerItemClick();
 
     }
 

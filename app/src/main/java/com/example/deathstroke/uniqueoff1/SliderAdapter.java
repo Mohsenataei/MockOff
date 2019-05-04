@@ -26,6 +26,11 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
+
+        return imgs.length ;
+    }
+
+    public int getRealCount() {
         return imgs.length;
     }
 
@@ -38,7 +43,7 @@ public class SliderAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = layoutInflater.inflate(R.layout.item_slider, container, false);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        ImageView imageView = itemView.findViewById(R.id.imageView);
         imageView.setImageResource(imgs[position]);
 
         container.addView(itemView);
@@ -58,4 +63,18 @@ public class SliderAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout) object);
     }
+
+    private int mapPagerPositionToModelPosition(int pagerPosition) {
+        // Put last page model to the first position.
+        if (pagerPosition == 0) {
+            return getRealCount() - 1;
+        }
+        // Put first page model to the last position.
+        if (pagerPosition == getRealCount() + 1) {
+            return 0;
+        }
+        return pagerPosition - 1;
+    }
+
+
 }
