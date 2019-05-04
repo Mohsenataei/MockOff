@@ -89,7 +89,7 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
             spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
             mMenuitem.setTitle(spannableTitle);
-            if (i==3) {
+            if (i==0) {
                 mMenuitem.setChecked(true);
             }
         }

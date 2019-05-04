@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
             spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
             mMenuitem.setTitle(spannableTitle);
-            if (i==0) {
+            if (i==3) {
                 mMenuitem.setChecked(true);
             }
         }

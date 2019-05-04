@@ -44,7 +44,7 @@ public class SubShop {
     }
 
     public String getPic() {
-        return pic;
+        return "https://www.mocatag.ir/"+ this.pic;
     }
 
     public void setPic(String pic) {

@@ -144,7 +144,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
             SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
             spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
             mMenuitem.setTitle(spannableTitle);
-            if (i == 1) {
+            if (i == 2) {
                 mMenuitem.setChecked(true);
             }
         }

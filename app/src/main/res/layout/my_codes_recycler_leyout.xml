@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_codes_list"
     android:layout_width="match_parent"
-    android:layout_height="264dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginTop="10dp"
     android:layout_marginStart="15dp"
@@ -16,6 +16,7 @@
     app:layout_constraintHorizontal_bias="0.533"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
+
 
     <TextView
         android:id="@+id/code_title"
@@ -40,97 +41,114 @@
 
         <ImageView
             android:id="@+id/my_codes_list_image_view"
-            android:layout_width="180dp"
+            android:layout_width="144dp"
             android:layout_height="100dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout18"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.428" />
 
-        <LinearLayout
-
-            android:id="@+id/linearLayout18"
-            android:layout_width="186dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <TextView
+            android:id="@+id/my_codes_list_price_with_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:text="@string/price_with_off"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/my_codes_list_price_with_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:text="@string/price_with_off"
-                android:textSize="14sp" />
+        <TextView
+            android:id="@+id/my_codes_list_price_without_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:text="قیمت بدون تخفیف :"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_codes_list_price_with_off" />
 
-            <TextView
-                android:id="@+id/my_codes_list_price_without_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="قیمت بدون تخفیف :"
-                android:textSize="14sp" />
+        <TextView
+            android:id="@+id/my_codes_list_code_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:text="تعداد :"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_codes_list_price_without_off" />
 
-            <TextView
-                android:id="@+id/my_codes_list_code_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="تعداد :" />
+        <TextView
+            android:id="@+id/my_codes_list_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:textSize="12sp"
+            android:text="جمع کل"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_codes_list_code_buy_date" />
 
-            <TextView
-                android:id="@+id/my_codes_list_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="جمع کل" />
+        <TextView
+            android:id="@+id/my_codes_list_code_buy_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:text="تاریخ خرید:"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_codes_list_code_expiration_date" />
 
-            <TextView
-                android:id="@+id/my_codes_list_code_buy_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="4dp"
-                android:text="تاریخ خرید:" />
+        <TextView
+            android:id="@+id/my_codes_list_code_expiration_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:text="تاریخ انقضاء :"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_codes_list_code_count" />
 
-            <TextView
-                android:id="@+id/my_codes_list_code_expiration_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="تاریخ انقضاء :" />
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 
 
-    <TextView
-        android:id="@+id/recycler_shop_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="باشگاه بدن سازی هیوانا"
-        android:textColor="@color/indicator_border_color"
-        android:textSize="13dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/recycler_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="باشگاه بدن سازی هیوانا"
+            android:textColor="@color/indicator_border_color"
+            android:textSize="13dp" />
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/my_codes_list_show_code_btn"
         style="?attr/borderlessButtonStyle"
         android:layout_width="140dp"
         android:layout_height="33dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/show_code_btn_background"
         android:text="@string/show_me_code"
         android:textColor="@color/grin_beam_color" />

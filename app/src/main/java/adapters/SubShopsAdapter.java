@@ -38,8 +38,6 @@ public class SubShopsAdapter extends RecyclerView.Adapter<SubShopsAdapter.ShopVi
             shopImageView = itemView.findViewById(R.id.followed_shop_image);
             shopNameTextView = itemView.findViewById(R.id.followed_shop_name);
             typeface = Typeface.createFromAsset(itemView.getContext().getAssets(),"fonts/B Yekan+.ttf");
-
-
         }
     }
 
