@@ -120,13 +120,13 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
         recyclerView = findViewById(R.id.followed_shops);
         //LoadSubShops();
 
-        Call<ResponseBody> call = RetrofitClient.getmInstance().getApi().getSubscribe_shops(API_TOKEN);
+        Call<List<SubShop>> call = RetrofitClient.getmInstance().getApi().getSubscribe_shops(API_TOKEN);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<List<SubShop>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<List<SubShop>> call, Response<List<SubShop>> response) {
                 if (response.isSuccessful()){
-                    //subShopList = response.body();
+                    subShopList = response.body();
                     adapter = new SubShopsAdapter(subShopList,FollowedShops.this);
                     layoutManager = new LinearLayoutManager(FollowedShops.this);
                     recyclerView.setLayoutManager(layoutManager);
@@ -135,11 +135,11 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
                     Toast.makeText(FollowedShops.this, "response is successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(FollowedShops.this, "response is not successful", Toast.LENGTH_SHORT).show();
-                };
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<List<SubShop>> call, Throwable t) {
 
             }
         });

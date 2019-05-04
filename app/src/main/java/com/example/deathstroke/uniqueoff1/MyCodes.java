@@ -96,7 +96,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 //        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
 //                1,StaggeredGridLayoutManager.VERTICAL
 //        );
-        API_TOKEN = "YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";
+        API_TOKEN = "YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";//"YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";
                 //SaveSharedPreference.getAPITOKEN(this);
       //  mycodes_list.setLayoutManager(staggeredGridLayoutManager);
 //
@@ -177,12 +177,12 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
             @Override
             public void onResponse(Call<List<Code>> call, Response<List<Code>> response) {
                 if (response.isSuccessful() && response.body() != null){
-                    Toast.makeText(MyCodes.this, "connection is successful", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyCodes.this, "connection is successful"+response.body().get(0).getPrice(), Toast.LENGTH_LONG).show();
                     //Log.d(TAG, "onResponse: "+response.body().get(0).getPrice());
                     if (codes.isEmpty())
                         codes.clear();
 
-                    //codes = response.body();
+                    codes = response.body();
                     adapter = new MycodeslistAdapter(codes,MyCodes.this);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MyCodes.this);
                     mycodes_list.setLayoutManager(layoutManager);

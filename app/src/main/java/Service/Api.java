@@ -59,11 +59,11 @@ public interface Api {
     Call<List<Code>> getmycodes (@Field("api_token") String api_token);
 
     @FormUrlEncoded
-    @POST("/subscribed_shop")
-    Call<ResponseBody> getSubscribe_shops(@Field("api_token") String api_token);
+    @POST("subscribed_shop")
+    Call<List<SubShop>> getSubscribe_shops(@Field("api_token") String api_token);
 
     @FormUrlEncoded
-    @POST("")
+    @POST("subscribe_shop")
     Call<ResponseBody> subscribeToShop(
             @Field("api_token") String api_token,
             @Field("shop_id") Integer shop_id
@@ -72,7 +72,7 @@ public interface Api {
 
 
     @FormUrlEncoded
-    @POST("/discount_around_me")
+    @POST("discount_around_me")
     Call<List<NearestShops>> getNearestDiscounts(
             @Field("latitude") String latitude,
             @Field("longitude") String longitude
