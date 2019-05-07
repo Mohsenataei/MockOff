@@ -98,5 +98,8 @@
     <string name="show_me_code">مشاهده کد</string>
     <string name="todays_offs">تخفیف های امروز</string>
     <string name="price_with_off">قیمت با تخفیف:</string>
+    <string name="bought_count">تعداد خریداری شده</string>
+    <string name="remain_days">مهلت خرید</string>
+    <string name="use_date">مهلت استفاده</string>
 
 </resources>

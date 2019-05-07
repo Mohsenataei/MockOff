@@ -1,12 +1,13 @@
 package adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -23,14 +25,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.example.deathstroke.uniqueoff1.QRCode;
 import com.example.deathstroke.uniqueoff1.R;
 
 import java.util.List;
 
 import Service.Utils;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import entities.ClientCodesList;
 import entities.Code;
 
 public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.MycodesViewHolder>{
@@ -106,6 +106,22 @@ public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.
         mycodesViewHolder.shop_name_ext_view.setText(model.getShop_id());
         mycodesViewHolder.shop_name_ext_view.setTypeface(mycodesViewHolder.typeface);
 
+        mycodesViewHolder.showcodebtn.setOnClickListener(view->{
+            Toast.makeText(context, "it it working ?" + model.getType_id(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context,QRCode.class);
+            intent.putExtra("qr_code",model.getQr_code());
+            intent.putExtra("ticket_status", String.valueOf( model.getType_id()));
+            intent.putExtra("count",String.valueOf(model.getCount()));
+
+            mycodesViewHolder.context.startActivity(intent);
+
+        });
+//        if (getItemCount()>0) {
+//            for (int j =0;j<getItemCount();i++){
+//                if (j/ 2 == 1)
+//                    mycodesViewHolder.viewmycodes.setBackground(context.getDrawable(R.drawable.my_codes_shadow_1));
+//            }
+//        }
 
 
     }
@@ -121,8 +137,6 @@ public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.
 
 
         LinearLayout viewmycodes;
-
-
         ImageView code_image;
         Typeface typeface;
         TextView code_title_text_view;
@@ -134,6 +148,8 @@ public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.
         TextView expiration_date_text_view;
         TextView shop_name_ext_view;
         Button showcodebtn;
+        Context context;
+        OnItemClickListener onItemClickListener;
 
 
         MycodesViewHolder(View viewitem){
@@ -149,14 +165,19 @@ public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.
             showcodebtn = viewitem.findViewById(R.id.my_codes_list_show_code_btn);
             code_image = viewitem.findViewById(R.id.my_codes_list_image_view);
             code_title_text_view = viewitem.findViewById(R.id.code_title);
+            viewmycodes = itemView.findViewById(R.id.my_codes_list);
             typeface = Typeface.createFromAsset(viewitem.getContext().getAssets(),"fonts/B Yekan+.ttf");
-
+            context = itemView.getContext();
         }
 
         @Override
         public void onClick(View view) {
+            context.startActivity(new Intent(context,QRCode.class));
 
         }
+    }
+    public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public interface OnItemClickListener {

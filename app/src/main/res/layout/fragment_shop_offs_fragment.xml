@@ -11,12 +11,12 @@
         android:layout_height="match_parent"
         android:text="Shop offs goes here" />
     
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shop_offs_recycler_view"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

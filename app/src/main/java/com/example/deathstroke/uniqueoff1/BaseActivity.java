@@ -1,8 +1,8 @@
 package com.example.deathstroke.uniqueoff1;
 
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 
 public class BaseActivity extends MainActivity {
 

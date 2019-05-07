@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.deathstroke.uniqueoff1">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,10 +12,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:allowBackup="true"
+        android:name=".Calligraphy"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:allowBackup"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -66,9 +70,10 @@
         <activity
             android:name=".Classification"
             android:screenOrientation="portrait" />
-        <activity android:name=".BookMarkedPosts" />
-        <activity android:name=".FollowedShops" />
-        <activity android:name=".RetrofitTest"></activity>
+        <activity android:name=".BookMarkedPosts" android:screenOrientation="portrait" />
+        <activity android:name=".FollowedShops"   android:screenOrientation="portrait"/>
+        <activity android:name=".RetrofitTest"    android:screenOrientation="portrait"/>
+        <activity android:name=".PostPage"        android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -2,9 +2,8 @@ package com.example.deathstroke.uniqueoff1;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class Pop extends AppCompatActivity {
