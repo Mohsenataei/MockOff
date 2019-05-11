@@ -3,6 +3,8 @@ package com.example.deathstroke.uniqueoff1;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+
+import adapters.SliderAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -39,7 +41,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     private ImageView shop_location,shop_info,shop_offs;
     private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view,appbar_tv;
     private Button notify_me_button;
-    private int images[] = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
+    private String[] images ;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
     @Override

@@ -101,5 +101,9 @@
     <string name="bought_count">تعداد خریداری شده</string>
     <string name="remain_days">مهلت خرید</string>
     <string name="use_date">مهلت استفاده</string>
+    <string name="bookmark">نشان کردن</string>
+    <string name="postpic">عکس صفحه پست</string>
+    <string name="percentage">%</string>
+    <string name="toman">تومان</string>
 
 </resources>

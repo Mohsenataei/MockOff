@@ -3,6 +3,7 @@ package Service;
 import java.util.List;
 
 import entities.Code;
+import entities.HeaderPics;
 import entities.NearestShops;
 import entities.Post;
 import entities.SubShop;
@@ -78,5 +79,40 @@ public interface Api {
             @Field("longitude") String longitude
     );
 
+    @FormUrlEncoded
+    @POST("mark_post")
+    Call<ResponseBody> markPost(
+            @Field("api_token") String api_token,
+            @Field("shop_id") int shop_id
+    );
+
+    @FormUrlEncoded
+    @POST("delete_marked_post")
+    Call<ResponseBody> deleteMarkedPost(
+            @Field("api_token") String api_token,
+            @Field("shop_id") int shop_id
+    );
+
+    @FormUrlEncoded
+    @POST("marked_post")
+    Call<List<Post>> getMarkedPosts(@Field("api_token") String api_token);
+
+
+    @FormUrlEncoded
+    @POST("home_page_post")
+    Call<List<Post>> getHomeRegPosts(
+            @Field("city") String city,
+            @Field("skip") int skip
+    );
+
+    @FormUrlEncoded
+    @POST("home_page_hot_tag")
+    Call<List<Post>> getHomeHotPosts(
+            @Field("city") String city
+    );
+
+    @FormUrlEncoded
+    @POST("home_page_ad")
+    Call<List<HeaderPics>> getHomeHeaderPics(@Field("city") String city);
 
 }

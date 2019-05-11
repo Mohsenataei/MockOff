@@ -1,35 +1,110 @@
 package entities;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class Post implements Serializable {
+public class Post {
 
     @SerializedName("id")
+    @Expose
     private int id;
 
-    @SerializedName("image_url")
-    private String image_url;
+    @SerializedName("shop_id")
+    @Expose
+    private int shop_id;
+
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("status")
+    @Expose
+    private int status;
+
+    @SerializedName("price")
+    @Expose
+    private int price;
+
+    @SerializedName("discount")
+    @Expose
+    private int discount;
+
+    @SerializedName("quantity")
+    @Expose
+    private int quantity;
+
+    @SerializedName("s_date_use")
+    @Expose
+    private String s_date_use;
+
+    @SerializedName("e_date_use")
+    @Expose
+    private String e_date_use;
+
+    @SerializedName("city_id")
+    @Expose
+    private int city_id;
+
+    @SerializedName("address")
+    @Expose
+    private String address;
 
     @SerializedName("shop_name")
+    @Expose
     private String shop_name;
 
-    @SerializedName("post_name")
-    private String post_name;
+    @SerializedName("pics")
+    @Expose
+    private List<Pics> pics;
 
-    @SerializedName("original_price")
-    private int original_price;
+    @SerializedName("img")
+    @Expose
+    private String img;
 
-    @SerializedName("off_price")
-    private int off_price;
 
-    @SerializedName("off_percentage")
-    private int off_percentage;
 
-    @SerializedName("shop_location")
-    private String shop_location;
 
+    public Post(int id, int shop_id, String title, int status, int price, int discount, int quantity, int city_id, String address, String shop_name, List<Pics> pics,String img) {
+        this.id = id;
+        this.shop_id = shop_id;
+        this.title = title;
+        this.status = status;
+        this.price = price;
+        this.discount = discount;
+        this.quantity = quantity;
+        this.city_id = city_id;
+        this.address = address;
+        this.shop_name = shop_name;
+        this.pics = pics;
+        this.img = img;
+    }
+
+    public String getS_date_use() {
+        return s_date_use;
+    }
+
+    public void setS_date_use(String s_date_use) {
+        this.s_date_use = s_date_use;
+    }
+
+    public String getE_date_use() {
+        return e_date_use;
+    }
+
+    public void setE_date_use(String e_date_use) {
+        this.e_date_use = e_date_use;
+    }
+
+    public String getShop_name(){
+        return shop_name;
+    }
+
+    public void setShop_name(String shop_name){
+        this.shop_name = shop_name;
+    }
 
     public int getId() {
         return id;
@@ -39,59 +114,84 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public int getShop_id() {
+        return shop_id;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setShop_id(int shop_id) {
+        this.shop_id = shop_id;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getPost_name() {
-        return post_name;
+    public int getStatus() {
+        return status;
     }
 
-    public void setPost_name(String post_name) {
-        this.post_name = post_name;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public int getOriginal_price() {
-        return original_price;
+    public int getPrice() {
+        return price;
     }
 
-    public void setOriginal_price(int original_price) {
-        this.original_price = original_price;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public int getOff_price() {
-        return off_price;
+    public int getDiscount() {
+        return discount;
     }
 
-    public void setOff_price(int off_price) {
-        this.off_price = off_price;
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
-    public int getOff_percentage() {
-        return off_percentage;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setOff_percentage(int off_percentage) {
-        this.off_percentage = off_percentage;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public String getShop_location() {
-        return shop_location;
+    public int getCity_id() {
+        return city_id;
     }
 
-    public void setShop_location(String shop_location) {
-        this.shop_location = shop_location;
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<Pics> getPics() {
+        return pics;
+    }
+
+    public void setPics(List<Pics> pics) {
+        this.pics = pics;
+    }
+
+
+    public String getImg() {
+        return "https://www.mocatag.ir/" + img;
+    }
+
+    public void setImg(String img) {
+        this.img =  "https://www.mocatag.ir/" + img;
     }
 }

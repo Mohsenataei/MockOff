@@ -1,8 +1,12 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+
+import Service.RetrofitClient;
+import adapters.MarkedPostsAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -10,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,13 +22,25 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
+import entities.Post;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
+    private static final String API_TOKEN = "u3A8qjssuJMG1jdqiNJDyzYN2Aco3B22oDBNdtPjZ1KQRjAxNe7Y9qvhcaxA" ;
+    private static final String TAG = "BookMarkedPosts";
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
     BottomNavigationView bottomNavigationView;
@@ -32,6 +49,10 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
     Typeface yekanfont;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     ImageButton drawer,backbtn;
+    private RecyclerView recyclerView;
+    private MarkedPostsAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private List<Post> postList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +119,16 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
             }
             return false;
         });
+
+        recyclerView = findViewById(R.id.bookmarked_posts_recyclerView);
+        loadBooksMarkPosts();
+
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
     private void initilizeheaderbuttons(View header_items) {
         ButterKnife.bind(header_items);
         signup = header_items.findViewById(R.id.header_sign_up);
@@ -190,5 +220,42 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
     @Override
     public void onDrawerStateChanged(int arg0) {
         //write your code
+    }
+
+    private void loadBooksMarkPosts(){
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getMarkedPosts(SaveSharedPreference.getAPITOKEN(BookMarkedPosts.this));
+        
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: response is successful");
+                    Toast.makeText(BookMarkedPosts.this, "onResponse: response is successful", Toast.LENGTH_SHORT).show();
+
+
+                    if (postList.isEmpty()){
+                        postList.clear();
+                    }
+                    postList = response.body();
+                    Toast.makeText(BookMarkedPosts.this, "is it working ?", Toast.LENGTH_SHORT).show();
+                    adapter = new MarkedPostsAdapter(postList,BookMarkedPosts.this);
+                    layoutManager = new LinearLayoutManager(BookMarkedPosts.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(BookMarkedPosts.this, "onResponse: response is not successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+                Log.d(TAG, "onFailure: why falied ?",t);
+                Toast.makeText(BookMarkedPosts.this, "onResponse: connection failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+
     }
 }

@@ -60,7 +60,7 @@ public class SubShopsAdapter extends RecyclerView.Adapter<SubShopsAdapter.ShopVi
         shopViewHolder.shopNameTextView.setText(model.getName());
         shopViewHolder.shopNameTextView.setTypeface(shopViewHolder.typeface);
 
-            Picasso.with(context).load(model.getPic()).into(shopViewHolder.shopImageView);
+            Picasso.get().load(model.getPic()).into(shopViewHolder.shopImageView);
 
         }
 

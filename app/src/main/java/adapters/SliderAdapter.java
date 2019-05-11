@@ -1,8 +1,9 @@
-package com.example.deathstroke.uniqueoff1;
+package adapters;
 
 import android.content.Context;
 import androidx.viewpager.widget.PagerAdapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +11,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.deathstroke.uniqueoff1.R;
+import com.squareup.picasso.Picasso;
+
 public class SliderAdapter extends PagerAdapter {
     private Context context;
+    private String[] imgurls;
     int[] imgs;
     LayoutInflater layoutInflater;
 
-    public SliderAdapter(Context context, int[] imgs) {
+    public SliderAdapter(Context context, String[] imgs) {
         this.context = context;
-        this.imgs = imgs;
+        this.imgurls = imgs;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
 
-        return imgs.length ;
+        return imgurls.length ;
     }
 
     public int getRealCount() {
@@ -33,17 +38,22 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view ==(LinearLayout) object;
+        return view == object;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = layoutInflater.inflate(R.layout.item_slider, container, false);
 
-        ImageView imageView = itemView.findViewById(R.id.imageView);
-        imageView.setImageResource(imgs[position]);
+        ImageView imageView = new ImageView(context);
+        Picasso.get()
+                .load(imgurls[position])
+                .fit()
+                .centerCrop()
+                .into(imageView);
 
-        container.addView(itemView);
+        Log.d("aghamohsen", "instantiateItem: " + imgurls[position]);
+        container.addView(imageView);
 
         //listening to image click
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +63,7 @@ public class SliderAdapter extends PagerAdapter {
             }
         });
 
-        return itemView;
+        return imageView;
     }
 
     @Override

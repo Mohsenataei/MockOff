@@ -5,20 +5,26 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
+import Service.RetrofitClient;
+import adapters.HotPostsAdapter;
+import adapters.RegPostAdapter;
+import adapters.SliderAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -29,6 +35,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,12 +44,16 @@ import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
 import butterknife.ButterKnife;
+import entities.HeaderPics;
+import entities.Post;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
-    final static String TAG = "jelal";
-
+    private static final String TAG = "aghamohsen";
     TextView appname;
     Typeface yekanfont;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
@@ -54,13 +66,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     protected ConstraintLayout main;
     ImageButton drawebtn;
     NavigationView navigationView;
-    ImageView bookmark1, bookmark2;
+    List<String> imagesurl = new ArrayList<>();
     Boolean book1_flag ,book2_flag;
     BottomNavigationView bottomNavigationView;
     androidx.appcompat.widget.SearchView searchView;
     Button qrcode,shop;
     int mCurrentPosition;
     int lastPageIndex = 4;
+
+    RecyclerView regpostrecycler,hotPostsRecyclerView;
+    List<Post> regularPostList = new ArrayList<>();
+    List<Post> hotPost = new ArrayList<>();
+    List<HeaderPics> headerPics = new ArrayList<>();
+    RegPostAdapter regPostAdapter;
+    HotPostsAdapter mhotPostsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,15 +101,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         });
 
 
-        qrcode = findViewById(R.id.generateqrcode);
-        qrcode.setOnClickListener(v->{
-            startActivity(new Intent(MainActivity.this,PostPage.class));
-        });
-        shop = findViewById(R.id.shop_button);
-        shop.setOnClickListener(v->{
-            startActivity(new Intent(MainActivity.this,Shop.class));
-        });
-
         View header_items = navigationView.getHeaderView(0);
 
         initilizeheaderbuttons(header_items);
@@ -103,37 +114,39 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         adapter.setDropDownViewResource(R.layout.spinner_text_view);
         cities.setAdapter(adapter);
         cities.setAdapter(adapter);
-        tabLayout = findViewById(R.id.indicator);
+       // tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
         viewPager.setPadding(40, 0, 40, 0);
         viewPager.setPageMargin(20);
-        sliderAdapter = new SliderAdapter(this, images);
+        getHeaderAdPics();
+        //Log.d(TAG, "onCreate: " + imagesurl[0]);
+
         viewPager.setAdapter(sliderAdapter);
         viewPager.setCurrentItem(1);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int i, float v, int i1) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                mCurrentPosition = position;
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int i) {
+//                if(mCurrentPosition==0) viewPager.setCurrentItem(lastPageIndex-1,false);
+//                if(mCurrentPosition==lastPageIndex) viewPager.setCurrentItem(1,false);
+//
+//            }
+//        });
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                mCurrentPosition = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-                if(mCurrentPosition==0) viewPager.setCurrentItem(lastPageIndex-1,false);
-                if(mCurrentPosition==lastPageIndex) viewPager.setCurrentItem(1,false);
-
-            }
-        });
-
-        tabLayout.setupWithViewPager(viewPager, true);
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
+//        tabLayout.setupWithViewPager(viewPager, true);
+//        Timer timer = new Timer();
+//        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
 
 
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", hintFont);
@@ -171,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
 
 
+        regpostrecycler = findViewById(R.id.req_home_post_recycler);
+        hotPostsRecyclerView = findViewById(R.id.hot_posts_recyclerView);
+        getHotPosts();
+
+        getRegularPosts();
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -290,24 +308,145 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     }
 
-    private class SliderTimer extends TimerTask {
+//    @Override
+//    public void onItemClick(View view, int position) {
+//        Post post = regularPostList.get(position);
+//        Intent intent = new Intent(this,PostPage.class);
+//        intent.putExtra("sale_count",String.valueOf(post.getQuantity()));
+//        intent.putExtra("discount",String.valueOf(post.getDiscount()));
+//        intent.putExtra("price",String.valueOf(post.getPrice()));
+//        intent.putExtra("remain_date",post.getE_date_use());
+//        intent.putExtra("more_days",post.getS_date_use());
+//        String img_url = "img_url";
+//        for (int i = 1 ; i<post.getPics().size();i++){
+//            img_url = img_url+i;
+//            intent.putExtra(img_url,post.getPics().size());
+//        }
+//        startActivity(intent);
+//    }
 
-        @Override
-        public void run() {
-            MainActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (viewPager.getCurrentItem() < images.length -1) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
-                    }else {
-                        viewPager.setCurrentItem(0);
-                    }
-                }
-            });
-        }
-    }
+//    private class SliderTimer extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//            MainActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (viewPager.getCurrentItem() < images.length -1) {
+//                        viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+//                    }else {
+//                        viewPager.setCurrentItem(0);
+//                    }
+//                }
+//            });
+//        }
+//    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
+    private void getRegularPosts(){
+
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts("همدان",0);
+
+       // Toast.makeText(MainActivity.this, "is it even working ? line 346", Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                //Toast.makeText(MainActivity.this, "is it even working ? line 350", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null){
+                    Toast.makeText(MainActivity.this, "regular posts response is successful line 352"+response.body().get(0).getTitle(), Toast.LENGTH_SHORT).show();
+                    if (regularPostList.isEmpty()) {
+                        regularPostList.clear();
+                    }
+
+
+                    //Toast.makeText(MainActivity.this, "even here ?", Toast.LENGTH_SHORT).show();
+                    regularPostList = response.body();
+                    regPostAdapter = new RegPostAdapter(regularPostList,MainActivity.this);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                    regpostrecycler.setLayoutManager(layoutManager);
+                    regpostrecycler.setAdapter(regPostAdapter);
+                }else {
+                    Toast.makeText(MainActivity.this, "response is unsuccessful", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "is it even working ? line 369" + t, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onFailure: failed " , t);
+            }
+        });
+    }
+
+    private void getHotPosts(){
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeHotPosts("همدان");
+
+         call.enqueue(new Callback<List<Post>>() {
+             @Override
+             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                 if (response.isSuccessful() && response.body() != null){
+                     Log.d(TAG, "onResponse: response is successful");
+                     Toast.makeText(MainActivity.this, "Response is successful", Toast.LENGTH_SHORT).show();
+
+                     if (hotPost.isEmpty())
+                         hotPost.clear();
+
+
+                     hotPost = response.body();
+
+                     mhotPostsAdapter = new HotPostsAdapter(hotPost,MainActivity.this);
+                     RecyclerView.LayoutManager layoutManager = new  LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false);
+                     hotPostsRecyclerView.setLayoutManager(layoutManager);
+                     hotPostsRecyclerView.setAdapter(mhotPostsAdapter);
+                     mhotPostsAdapter.notifyDataSetChanged();
+
+                 }
+
+             }
+
+             @Override
+             public void onFailure(Call<List<Post>> call, Throwable t) {
+
+             }
+         });
+
+    }
+
+    private void getHeaderAdPics(){
+        Call<List<HeaderPics>> call = RetrofitClient.getmInstance().getApi().getHomeHeaderPics("همدان");
+        String[] urls = new String[10];
+
+        call.enqueue(new Callback<List<HeaderPics>>() {
+            @Override
+            public void onResponse(Call<List<HeaderPics>> call, Response<List<HeaderPics>> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "onResponse: so for so good");
+                    if(headerPics.isEmpty())
+                        headerPics.clear();
+
+                    headerPics = response.body();
+                    for (int i=0;i<headerPics.size();i++){
+                        imagesurl.add(i,headerPics.get(i).getThumblink());
+                        Log.d(TAG, "onResponse: image urls are : " + imagesurl.get(i));
+                    }
+                    String[] url = new String[imagesurl.size()];
+                    for (int i=0;i<imagesurl.size();i++){
+                        url[i] = imagesurl.get(i);
+                        Log.d(TAG, "onResponse: second for statement :"+url[i]);
+                    }
+                    sliderAdapter = new SliderAdapter(MainActivity.this, url);
+                    viewPager.setAdapter(sliderAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<HeaderPics>> call, Throwable t) {
+                Log.d(TAG, "onFailure: why failed? ",t);
+            }
+        });
+    }
+
 }

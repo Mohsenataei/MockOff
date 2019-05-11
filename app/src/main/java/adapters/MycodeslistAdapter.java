@@ -33,6 +33,8 @@ import java.util.List;
 import Service.Utils;
 import entities.Code;
 
+
+
 public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.MycodesViewHolder>{
 
     private List<Code> mycodes;
@@ -83,28 +85,21 @@ public class MycodeslistAdapter extends RecyclerView.Adapter<MycodeslistAdapter.
                 .into(holder.code_image);
 
         mycodesViewHolder.code_title_text_view.setText(model.getTitle());
-        mycodesViewHolder.code_title_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.off_price_text_view.setText("قیمت با تخفیف :"+ model.getDiscount_price());
-        mycodesViewHolder.off_price_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.originsl_price_text_view.setText("قیمت بدون تخفیف : "+model.getPrice());
-        mycodesViewHolder.originsl_price_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.count_text_view.setText(String.valueOf("تعداد : "+model.getCount()));
-        mycodesViewHolder.count_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.total_price_text_view.setText("جمع کل : "+model.getTotal_price());
-        mycodesViewHolder.total_price_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.buy_date_text_view.setText("تاریخ خرید"+model.getOrder_date());
-        mycodesViewHolder.buy_date_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.expiration_date_text_view.setText("تاریخ انقضاء"+model.getE_date_use());
-        mycodesViewHolder.expiration_date_text_view.setTypeface(mycodesViewHolder.typeface);
 
         mycodesViewHolder.shop_name_ext_view.setText(model.getShop_id());
-        mycodesViewHolder.shop_name_ext_view.setTypeface(mycodesViewHolder.typeface);
+        Toast.makeText(context, "in adapter", Toast.LENGTH_SHORT).show();
 
         mycodesViewHolder.showcodebtn.setOnClickListener(view->{
             Toast.makeText(context, "it it working ?" + model.getType_id(), Toast.LENGTH_SHORT).show();
