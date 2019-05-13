@@ -1,10 +1,25 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.os.Bundle;
+
+import Service.RetrofitClient;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import entities.Detail;
+import entities.ShopShits;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 
 ///**
@@ -58,11 +73,112 @@ public class shop_info_fragment extends Fragment {
 //        }
 //    }
 
+    private TextView shop_address, shop_phone_number, shop_work_time, shop_work_days;
+
+    private Detail model;
+
+    public Detail getModel() {
+        return model;
+    }
+
+    public void setModel(Detail model) {
+        this.model = model;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop_info_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_shop_info_fragment, container, false);
+        shop_address = view.findViewById(R.id.shop_address);
+        shop_phone_number = view.findViewById(R.id.shop_phone_number);
+        shop_work_days = view.findViewById(R.id.shop_work_days);
+        shop_work_time = view.findViewById(R.id.shop_work_time);
+        Log.d("fragment", "onCreateView: is it working ? ");
+        getShopDetails();
+////        setTextViews();
+//        justfottest();
+//        shop_address.setText(model.getAddress());
+//        shop_work_time.setText(model.getWork_time());
+//        shop_work_days.setText(model.getWork_date());
+//        shop_phone_number.setText(model.getHome_phone());
+        return view;
+    }
+
+    private void setTextViews(){
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d("fragment", "onAttach: testing on attath");
+        justfottest();
+        getShopDetails();
+//        setTextViews();
+      //  justfottest();
+//        shop_address.setText(model.getAddress());
+//        shop_work_time.setText(model.getWork_time());
+//        shop_work_days.setText(model.getWork_date());
+//        shop_phone_number.setText(model.getHome_phone());
+
+    }
+
+    private void getShopDetails(){
+        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
+        call.enqueue(new Callback<ShopShits>() {
+            @Override
+            public void onResponse(Call<ShopShits> call, Response<ShopShits> response) {
+                Log.d("fragment", "onResponse: get shop Details really ?");
+                if (response.isSuccessful() && response.body() != null){
+                    Log.d("fragment", "onResponse: get shop Details response not null");
+
+                    model = response.body().getDetail();
+                }else{
+                    Log.d("fragment", "onResponse: get shop Details response failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShopShits> call, Throwable t) {
+                Log.d("fragment", "onFailure: get shop Details failed");
+
+            }
+        });
+    }
+    private void justfottest(){
+        retrofit2.Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
+        call.enqueue(new Callback<ShopShits>() {
+            @Override
+            public void onResponse(retrofit2.Call<ShopShits> call, Response<ShopShits> response) {
+                Log.d("infragment", "onResponse: connected");
+                if (response.isSuccessful() && response.body() != null){
+                    Log.d("infragment", "onResponse: so far so good ");
+
+                    Detail detail = response.body().getDetail();
+                    setmTextviews(detail);
+                    if (detail == null){
+                        Log.d("infragment", "onResponse: detail is empty ");
+                    }else {
+                        Log.d("infragment", "onResponse: sample info : " + detail.getAddress());
+                    }
+                }else {
+                    Log.d("infragment", "onResponse: this is not working at all ");
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<ShopShits> call, Throwable t) {
+                Log.d("infragment", "onFailure: really ? what is the fucking problem ?");
+            }
+        });
+
+    }
+
+    private void setmTextviews(Detail mdetail){
+        shop_address.setText(mdetail.getAddress());
+        shop_work_time.setText(mdetail.getWork_time());
+        shop_work_days.setText(mdetail.getWork_date());
+        shop_phone_number.setText(mdetail.getHome_phone());
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event

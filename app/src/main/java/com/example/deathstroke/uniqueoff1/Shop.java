@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
+import Service.RetrofitClient;
 import adapters.SliderAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,10 +12,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,6 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import Service.CustomTypefaceSpan;
+import entities.Detail;
+import entities.ShopShits;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
@@ -115,7 +122,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         }
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.shopViewPager);
-        setViewPager();
+//        setViewPager();
         b1= findViewById(R.id.shop_info_button);
         b2= findViewById(R.id.shop_offs_button);
         b3= findViewById(R.id.shop_map_button);
@@ -200,6 +207,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
             return false;
         });
+
+        //justfottest();
     }
 
     private void doNotifyMeOnclick() {
@@ -275,5 +284,30 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         float slideX = drawerView.getWidth() * slideOffset;
         main.setTranslationX(-slideX);
     }
+    private void justfottest(){
+        retrofit2.Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
+        call.enqueue(new Callback<ShopShits>() {
+            @Override
+            public void onResponse(retrofit2.Call<ShopShits> call, Response<ShopShits> response) {
+                Log.d("fragment", "onResponse: connected");
+                if (response.isSuccessful() && response.body() != null){
+                    Log.d("fragment", "onResponse: so far so good ");
 
+                    Detail detail = response.body().getDetail();
+                    if (detail == null){
+                        Log.d("fragment", "onResponse: detail is empty ");
+                    }else {
+                        Log.d("fragment", "onResponse: sample info : " + detail.getAddress());
+                    }
+                }else {
+                    Log.d("fragment", "onResponse: this is not working at all ");
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<ShopShits> call, Throwable t) {
+                Log.d("fragment", "onFailure: really ? what is the fucking problem ?");
+            }
+        });
+    }
 }

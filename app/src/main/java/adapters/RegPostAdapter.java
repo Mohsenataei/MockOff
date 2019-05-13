@@ -22,6 +22,7 @@ import Service.SaveSharedPreference;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import entities.Pics;
 import entities.Post;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -83,7 +84,14 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
         holder.main.setOnClickListener(view->{
             Intent intent = new Intent(context,PostPage.class);
             intent.putExtra("post_title",model.getTitle());
-            intent.putExtra("quantity",model.getQuantity());
+            intent.putExtra("quantity",String.valueOf(model.getQuantity()));
+            List<Pics> pics = model.getPics();
+            String[] headerimgs = new String[pics.size()-1];
+            for (int i=1;i<pics.size()-1;i++){
+                headerimgs[i] = pics.get(i).getThumblink();
+            }
+            intent.putExtra("img_urls",headerimgs);
+            Log.d(TAG, "onBindViewHolder: quantity" + model.getQuantity());
             context.startActivity(intent);
         });
 

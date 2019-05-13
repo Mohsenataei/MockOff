@@ -54,7 +54,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
     private static final String TAG = "aghamohsen";
-    TextView appname;
+    TextView appname , hottest_offs_txtvw;
     Typeface yekanfont;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     Spinner cities;
@@ -95,6 +95,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.setDrawerElevation(0);
 
+        hottest_offs_txtvw = findViewById(R.id.hottest_offs_txtvw);
+        hottest_offs_txtvw.setOnClickListener(v->{
+            startActivity(new Intent(MainActivity.this,Shop.class));
+        });
         drawebtn = findViewById(R.id.drawebtn);
         drawebtn.setOnClickListener(view -> {
             drawerLayout.openDrawer(navigationView);

@@ -3,6 +3,7 @@ package com.example.deathstroke.uniqueoff1;
 import android.content.Context;
 
 import Service.SaveSharedPreference;
+import adapters.SliderAdapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.ButterKnife;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -36,6 +38,8 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     private ConstraintLayout main;
     BottomNavigationView bottomNavigationView;
     NavigationView navigationView;
+    ViewPager mviewPager;
+    SliderAdapter sliderAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,8 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         navigationView = findViewById(R.id.nav_view);
         main = findViewById(R.id.postPage);
         drawer = findViewById(R.id.drawebtn);
+
+        mviewPager = findViewById(R.id.postViewPager);
 
         drawer.setOnClickListener(view->{
             drawerLayout.openDrawer(navigationView);
@@ -156,11 +162,14 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
 
 
         private void getExtrainfo(){
-        if(getIntent().hasExtra("post_title") && getIntent().hasExtra("quantity")){
-            Log.d(TAG, "getExtrainfo: intent extras found ");
+        if(getIntent().hasExtra("post_title") && getIntent().hasExtra("quantity") && getIntent().hasExtra("img_urls")){
+            //Log.d(TAG, "getExtrainfo: intent extras found ");
             String postname = getIntent().getStringExtra("post_title");
             String count = getIntent().getStringExtra("quantity");
-
+            String[] img_urls = getIntent().getStringArrayExtra("img_urls");
+            sliderAdapter = new SliderAdapter(PostPage.this,img_urls);
+            mviewPager.setAdapter(sliderAdapter);
+            Log.d(TAG, "getExtrainfo: post title is : "+postname + " and count is : " +count );
             setTextviews(postname,count);
         }
     }

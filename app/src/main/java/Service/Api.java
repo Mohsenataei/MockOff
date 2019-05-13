@@ -3,9 +3,11 @@ package Service;
 import java.util.List;
 
 import entities.Code;
+import entities.Detail;
 import entities.HeaderPics;
 import entities.NearestShops;
 import entities.Post;
+import entities.ShopShits;
 import entities.SubShop;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -114,5 +116,13 @@ public interface Api {
     @FormUrlEncoded
     @POST("home_page_ad")
     Call<List<HeaderPics>> getHomeHeaderPics(@Field("city") String city);
+
+    @FormUrlEncoded
+    @POST("shop_details")
+    Call<ShopShits> getShopDetails(@Field("shop_id") String shop_id);
+
+    @FormUrlEncoded
+    @POST("shop_posts")
+    Call<List<Post>> getShopPosts(@Field("shop_id") String shop_id);
 
 }

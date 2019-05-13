@@ -8,342 +8,384 @@
     android:layoutDirection="ltr"
     tools:context=".PostPage">
     <include layout="@layout/shop_app_bar"/>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="60dp"
-    android:layout_marginBottom="50dp"
-    android:weightSum="100">
 
-    <androidx.viewpager.widget.ViewPager
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="40">
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/indicator"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/postViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:layout_weight="35">
+        </androidx.viewpager.widget.ViewPager>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="136dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabBackground="@drawable/tab_selector"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp" />
-    </androidx.viewpager.widget.ViewPager>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/shadow"
+            android:elevation="10dp"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/shadow"
-        android:elevation="10dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="30"
-        android:weightSum="10">
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:layout_weight="2"
-                android:id="@+id/post_name_post_page"
-                android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:text="تخفیف دوره لاغری"
-                android:textSize="14sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:layout_marginTop="30dp"
-                android:background="@color/indicator_border_color"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <TextView
-                android:layout_weight="2"
-                android:layout_gravity="end"
-                android:layout_marginTop="35dp"
-                android:textSize="14sp"
-                android:text="ایروبیک، کراس فیت، تی آر ایکس"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_weight="6"
-                android:layout_marginTop="55dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_gravity="start"
-                    android:background="@drawable/post_page_price"
-                    android:layout_marginStart="8dp"
-                    android:layout_width="180dp"
-                    android:layout_height="80dp">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp">
 
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
+                <TextView
+                    android:id="@+id/post_name_post_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:background="@drawable/post_page_price"
-                    android:layout_marginStart="8dp"
-                    android:layout_width="180dp"
-                    android:layout_height="80dp">
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="2"
+                    android:text="تخفیف دوره لاغری"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/indicator_border_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="35dp"
+                    android:layout_weight="2"
+                    android:text="ایروبیک، کراس فیت، تی آر ایکس"
+                    android:textSize="14sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="55dp"
+                    android:layout_weight="6"
+                    android:orientation="horizontal">
+
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:layout_width="180dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/post_page_price"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </LinearLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="196dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/post_page_price"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
                         <TextView
                             android:id="@+id/bought_ticket_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="8dp"
                             android:text="257"
-                            android:layout_marginEnd="8dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="روز مانده"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="روز مانده"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            app:layout_constraintEnd_toStartOf="@+id/textView2"
+                            app:layout_constraintHorizontal_bias="0.361"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="12dp"
+                            android:text="روز مانده"
+                            app:layout_constraintEnd_toStartOf="@+id/remaining_date"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="روز مانده"
+                            app:layout_constraintEnd_toStartOf="@+id/remaining_days"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/bought_ticket_count" />
+
+                        <TextView
+                            android:id="@+id/remaining_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="88dp"
+                            android:text="10"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/remaining_days" />
+
+                        <TextView
+                            android:id="@+id/remaining_days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="32dp"
+                            android:text="10"
+                            app:layout_constraintEnd_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:text="@string/bought_count"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="@string/remain_days"
+                            android:textColor="@color/grin_beam_color"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                        <TextView
+                            android:id="@+id/testt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:text="@string/use_date"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="12"
+            android:background="@drawable/shadow"
+            android:elevation="10dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|top"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="2245500"
+
+                    android:textColor="@color/grin_beam_color"
+                    android:textSize="24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|bottom"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="تومان"
+                    android:textColor="@color/grin_beam_color"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/grin_beam_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="120dp"
+                    android:text="جمع کل"
+                    android:textColor="@color/grin_beam_color"
+                    android:textSize="14dp" />
+
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="40dp"
+                    android:background="@drawable/shop_botton_style">
+
+                    <com.shawnlin.numberpicker.NumberPicker
+                        android:id="@+id/post_number_picker"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="55dp"
+                        android:layout_marginEnd="8dp"
+                        app:np_dividerColor="@color/instagram_color"
+                        app:np_max="59"
+                        app:np_min="1"
+                        app:np_selectedTextColor="@color/grin_beam_color"
+                        app:np_selectedTextSize="18sp"
+                        app:np_textColor="@color/colorPrimary"
+                        app:np_textSize="14sp"
+                        app:np_value="1" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:text="عدد"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+
+
+                <Button
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/buybutton"
+                    android:text="خرید"
+                    android:textColor="@color/white"
+                    android:textSize="28sp" />
+
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="15"
+            android:background="@drawable/shadow"
+            android:elevation="10dp"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/post_details"
+                        android:layout_width="150dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="end"
-                        android:orientation="vertical">
+                        android:background="@drawable/shop_botton_style"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="2dp"
-                            android:text="@string/bought_count" />
+                            android:layout_width="86dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="start|center"
+                            android:layout_marginStart="10dp"
+                            android:text="ویژگی ها"
+                            android:textAlignment="center"
+                            android:textSize="22sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="2dp"
-                            android:text="@string/remain_days"
-                            android:textColor="@color/grin_beam_color" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="2dp"
-                            android:text="@string/use_date" />
-
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="41dp"
+                            android:layout_gravity="center|end"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_clipboard_list" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/post_info"
+                        android:layout_width="150dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:background="@drawable/shop_botton_style"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="86dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="start|center"
+                            android:layout_marginStart="10dp"
+                            android:text="اطلاعات"
+                            android:textAlignment="center"
+                            android:textSize="22sp" />
+
+                        <ImageView
+                            android:layout_width="41dp"
+                            android:layout_height="41dp"
+                            android:layout_gravity="center|end"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/ic_info_circle" />
+                    </LinearLayout>
                 </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/shadow"
-        android:elevation="10dp"
-        android:layout_weight="15"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|top"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="2245500"
-
-                android:textColor="@color/grin_beam_color"
-                android:textSize="24dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|bottom"
-                android:layout_marginStart="24dp"
-                android:layout_marginBottom="8dp"
-                android:text="تومان"
-                android:textColor="@color/grin_beam_color"
-                android:textSize="24dp" />
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="110dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/grin_beam_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="120dp"
-                android:text="جمع کل"
-                android:textColor="@color/grin_beam_color"
-                android:textSize="14dp" />
-
-
-            <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="40dp"
-                android:background="@drawable/shop_botton_style"
-                >
-                <com.shawnlin.numberpicker.NumberPicker
-                    android:id="@+id/post_number_picker"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    app:np_dividerColor="@color/instagram_color"
-                    app:np_selectedTextColor="@color/grin_beam_color"
-                    app:np_textColor="@color/colorPrimary"
-                    android:layout_gravity="center"
-                    app:np_selectedTextSize="18sp"
-                    app:np_textSize="16sp"
-                    android:layout_marginStart="55dp"
-                    app:np_max="59"
-                    app:np_min="1"
-                    app:np_value="1"/>
-            </LinearLayout>
-            <TextView
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:text="عدد"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <Button
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/buybutton"
-                android:text="خرید"
-                android:textColor="@color/white" />
-
-
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/shadow"
-        android:elevation="10dp"
-        android:layout_weight="15"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/post_details"
-                    android:layout_marginStart="10dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/shop_botton_style"
-                    android:layout_width="150dp"
-                    android:layout_height="55dp">
-                    <TextView
-                        android:text="ویژگی ها"
-                        android:textAlignment="center"
-                        android:textSize="22sp"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="10dp"
-                        android:layout_width="86dp"
-                        android:layout_height="30dp" />
-                    <ImageView
-                        android:src="@drawable/ic_clipboard_list"
-                        android:layout_gravity="center|end"
-                        android:layout_marginStart="8dp"
-                        android:layout_width="30dp"
-                        android:layout_height="41dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/post_info"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="50dp"
-                    android:background="@drawable/shop_botton_style"
-                    android:layout_width="150dp"
-                    android:layout_height="55dp">
-                    <TextView
-                        android:text="اطلاعات"
-                        android:textAlignment="center"
-                        android:textSize="22sp"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="10dp"
-                        android:layout_width="86dp"
-                        android:layout_height="30dp" />
-                    <ImageView
-                        android:src="@drawable/ic_info_circle"
-                        android:layout_gravity="center|end"
-                        android:layout_marginStart="8dp"
-                        android:layout_width="41dp"
-                        android:layout_height="41dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-</LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"

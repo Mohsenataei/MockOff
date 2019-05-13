@@ -1,12 +1,23 @@
 package com.example.deathstroke.uniqueoff1;
 
 import android.os.Bundle;
+
+import Service.RetrofitClient;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import entities.Post;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 ///**
@@ -22,9 +33,10 @@ public class shop_offs_fragment extends Fragment {
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
 //    private static final String ARG_PARAM2 = "param2";
-private RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private List<Post> shopPosts = new ArrayList<>();
 //
 //    // TODO: Rename and change types of parameters
 //    private String mParam1;
@@ -69,15 +81,38 @@ private RecyclerView recyclerView;
         // Inflate the layout for this fragment
         View layoutInflater = inflater.inflate(R.layout.fragment_shop_map_fragment, container, false);
         recyclerView = layoutInflater.findViewById(R.id.shop_offs_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
 
 
        // mAdapter = new RecyclerViewAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
 
         return layoutInflater;
+    }
+
+    private void getshopPosts(){
+
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts("18");
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Log.d("fragment", "in shop post onResponse: working");
+
+                    if (shopPosts.isEmpty()) shopPosts.clear();
+
+                    shopPosts = response.body();
+                    RecyclerView.LayoutManager layoutManager = LinearLayoutManager(Shop.class);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
