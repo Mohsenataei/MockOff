@@ -1,5 +1,6 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import Service.CustomTypefaceSpan;
 import entities.Detail;
 import entities.ShopShits;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -327,5 +329,9 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 Log.d("fragment", "onFailure: really ? what is the fucking problem ?");
             }
         });
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }

@@ -125,4 +125,10 @@ public interface Api {
     @POST("shop_posts")
     Call<List<Post>> getShopPosts(@Field("shop_id") String shop_id);
 
+    @FormUrlEncoded
+    @POST("categories")
+    Call<List<Post>> getcategoryPosts(
+            @Field("city") String city,
+            @Field("category") String categry
+            );
 }

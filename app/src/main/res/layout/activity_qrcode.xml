@@ -49,14 +49,14 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
             android:layout_gravity="center"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_width="260dp"
-            android:layout_height="260dp" />
+            android:layout_marginEnd="40dp"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_marginTop="4dp"
