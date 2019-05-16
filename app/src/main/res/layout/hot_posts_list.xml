@@ -7,6 +7,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
     app:layout_gravity="end"
     android:orientation="horizontal"
     android:layout_gravity="center_horizontal">
@@ -15,6 +16,7 @@
         android:layout_width="190dp"
         android:layout_height="140dp"
         android:layout_gravity="end">
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginStart="4dp"
                     android:text="30000 تومان"
                     android:textColor="@color/price_color"
                     android:textSize="14sp" />
@@ -133,6 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:layout_marginStart="4dp"
                     android:layout_marginBottom="4dp"
                     android:text="22500 تومان"
                     android:textSize="12sp" />

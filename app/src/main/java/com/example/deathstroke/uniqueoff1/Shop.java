@@ -129,6 +129,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 
         b1.setOnClickListener(view->{
             if (!info_flag) {
+                b1.clearFocus();
                 doInfoOnClick();
                 undoMapOnclick();
                 undoOffsOOnclick();
@@ -137,10 +138,15 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, info_fragment);
+                ft.addToBackStack(null);
                 ft.commit();
             }
             else {
+                b1.clearFocus();
                 undoInfoOnClick();
+                FragmentManager fm = getSupportFragmentManager();
+                for (int i=0;i < fm.getBackStackEntryCount();i++)
+                    fm.popBackStack();
                 info_flag = false;
             }
         });
@@ -149,14 +155,20 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 doOffsOnClick();
                 undoMapOnclick();
                 undoInfoOnClick();
+                b2.clearFocus();
                 off_flag = true;
-                shop_attr_fragment attr_fragment = new shop_attr_fragment();
+                shop_offs_fragment offs_fragment = new shop_offs_fragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.frg_holder,attr_fragment);
+                ft.replace(R.id.frg_holder,offs_fragment);
+                ft.addToBackStack(null);
                 ft.commit();
             }else {
                 undoOffsOOnclick();
+                b2.clearFocus();
+                FragmentManager fm = getSupportFragmentManager();
+                for (int i=0;i < fm.getBackStackEntryCount();i++)
+                    fm.popBackStack();
                 off_flag = false;
             }
         });
@@ -171,10 +183,16 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, map_fragment);
+                ft.addToBackStack(null);
                 ft.commit();
+                b3.clearFocus();
             } else {
                 undoMapOnclick();
+                FragmentManager fm = getSupportFragmentManager();
+                for (int i=0;i < fm.getBackStackEntryCount();i++)
+                    fm.popBackStack();
                 map_flag = false;
+                b3.clearFocus();
             }
 
         });

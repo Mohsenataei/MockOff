@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -27,6 +28,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -246,8 +249,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         exit.setOnClickListener(view ->{
             //finish();
-            SaveSharedPreference.removeAPITOKEN(MainActivity.this);
-            System.exit(0);
+//            Animation anim_slide_up = AnimationUtils.loadAnimation(this,R.anim.slide_up);
+//            LayoutInflater inflater = getLayoutInflater();
+//            View v = inflater.inflate(R.layout.confirm_exit_layout,null,false);
+//            v.startAnimation(anim_slide_up);
+////            SaveSharedPreference.removeAPITOKEN(MainActivity.this);
+////            System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{

@@ -62,6 +62,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:elevation="5dp"
                     app:cardCornerRadius="5dp">
 
@@ -71,7 +73,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="150dp"
                         android:layout_marginTop="5dp"
-                        android:gravity="left"
+                        android:layout_marginEnd="4dp"
+                        android:layout_gravity="end"
+
                         android:text="باشگاه تناسب اندام فلورا"
                         android:textSize="22sp" />
 
@@ -89,37 +93,24 @@
                         android:layout_alignParentEnd="true"
                         android:layout_gravity="end"
                         android:layout_marginTop="45dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="4dp"
                         android:background="@drawable/notify_me_border"
                         android:text="@string/notify_me_on_new_offs"
                         android:textAlignment="center"
                         android:textColor="@color/grin_beam_color"
                         android:textSize="17sp" />
 
-                    <LinearLayout
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:paddingTop="5dp"
-                            android:src="@drawable/ic_grin_beam" />
-
-                        <TextView
-                            android:id="@+id/shop_rate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="4.5"
-                            android:textColor="@color/grin_beam_color" />
-
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/shop_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:drawableTop="@drawable/ic_grin_beam"
+                        android:layout_marginStart="20dp"
+                        android:text="4.5"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textColor="@color/grin_beam_color" />
 
                     <TextView
                         android:id="@+id/shop_state"
@@ -135,7 +126,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
-                android:layout_height="118dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
@@ -159,8 +150,8 @@
                         android:id="@+id/shop_map_button"
                         android:layout_width="75dp"
                         android:layout_height="100dp"
-                        android:layout_gravity="start"
-                        android:layout_marginStart="18dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
                         android:background="@drawable/shop_botton_style">
 
                         <ImageView
@@ -189,7 +180,7 @@
                         android:id="@+id/shop_info_button"
                         android:layout_width="75dp"
                         android:layout_height="100dp"
-                        android:layout_marginStart="155dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/shop_botton_style">
 
                         <ImageView
@@ -219,7 +210,8 @@
                         android:id="@+id/shop_offs_button"
                         android:layout_width="75dp"
                         android:layout_height="100dp"
-                        android:layout_marginStart="298dp"
+                        android:layout_gravity="end|center"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/shop_botton_style">
 
                         <ImageView

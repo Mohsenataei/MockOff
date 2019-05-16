@@ -52,7 +52,7 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
 
         holder.post_title.setText(model.getTitle());
         holder.shop_name.setText(model.getShop_name());
-        holder.original_price.setText(String.valueOf(model.getPrice()));
+        holder.original_price.setText(String.valueOf(model.getPrice()) + context.getString(R.string.toman));
         holder.original_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         String tmp = String.valueOf(model.getPrice() - ((model.getPrice() * model.getDiscount())/100)) + context.getString(R.string.toman);
         holder.price_with_discount.setText(tmp);
@@ -139,6 +139,7 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
             price_with_discount = itemView.findViewById(R.id.hot_post_original_price);
             post_imageview = itemView.findViewById(R.id.hot_post_image_view);
             bookmark = itemView.findViewById(R.id.hot_bookmark);
+
         }
     }
 }

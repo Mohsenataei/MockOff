@@ -116,6 +116,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 //        myLocationoverlay.disableFollowLocation();
 //        myLocationoverlay.setDrawAccuracyEnabled(true);
 //        map = findViewById(R.id.main_map);
+        mapView = findViewById(R.id.main_map);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         IMapController mapController = mapView.getController();
         mapController.setZoom(9.5);

@@ -3,17 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layoutDirection="ltr"
-    android:id="@+id/classification_page"
-    tools:context=".Classification">
-
-    <include
-        android:id="@+id/include2"
-        layout="@layout/just_fucking_appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:layout_height="match_parent">
 
 
     <GridLayout
@@ -21,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
         android:alignmentMode="alignMargins"
         android:columnCount="3"
@@ -36,7 +28,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/amusment_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -47,20 +38,17 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/amusment_textView"
                 android:drawableTop="@drawable/ic_swimming_pool_solid"
                 android:text="@string/amusement"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textSize="18sp"
-                android:textColor="@color/coop_item_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/services_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -71,7 +59,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/services_textView"
                 android:drawableTop="@drawable/ic_wrench_solid"
                 android:text="@string/services"
                 android:layout_gravity="center"
@@ -82,7 +69,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/restaurant_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -93,7 +79,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/restaurant_textView"
                 android:drawableTop="@drawable/ic_concierge_bell_solid"
                 android:text="@string/restaurant"
                 android:layout_gravity="center"
@@ -106,7 +91,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/clothes_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -117,7 +101,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/clothes_textView"
                 android:drawableTop="@drawable/ic_tshirt_solid"
                 android:text="@string/cloth"
                 android:layout_gravity="center"
@@ -129,7 +112,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/health_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -141,7 +123,6 @@
             android:background="@drawable/grid_items_border">
 
             <TextView
-                android:id="@+id/health_textView"
                 android:drawableTop="@drawable/ic_heartbeat"
                 android:text="@string/health"
                 android:layout_gravity="center"
@@ -153,7 +134,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cafe_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -164,7 +144,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/cafe_textView"
                 android:drawableTop="@drawable/ic_coffee_solid"
                 android:text="@string/cafe"
                 android:layout_gravity="center"
@@ -176,7 +155,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/education_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -187,7 +165,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/education_textView"
                 android:drawableTop="@drawable/ic_education"
                 android:text="@string/educational"
                 android:layout_gravity="center"
@@ -199,7 +176,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/makeUps_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -210,7 +186,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/makeUps_textView"
                 android:drawableTop="@drawable/ic_paint_brush"
                 android:text="@string/makeups"
                 android:layout_gravity="center"
@@ -221,7 +196,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cultural_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -232,7 +206,6 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/cultural_textView"
                 android:drawableTop="@drawable/ic_theater_masks"
                 android:text="@string/culture"
                 android:layout_gravity="center"
@@ -245,15 +218,42 @@
 
     </GridLayout>
 
+    <Button
+        android:id="@+id/todays_off_button"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/coop_confirm_and_cancel_btn"
+        android:text="@string/todays_offs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_grid_layout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout15"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/coop_item_color"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/todays_off_button" />
 
     <Button
         android:id="@+id/classification_more_options_button"
         style="?attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="45dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/coop_confirm_and_cancel_btn"
         android:text="@string/more_options"
         app:layout_constraintEnd_toEndOf="parent"
@@ -261,50 +261,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout15" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout15"
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/coop_item_color"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/today_off_button" />
-
-    <Button
-        android:id="@+id/today_off_button"
-        style="?attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/coop_confirm_and_cancel_btn"
-        android:text="@string/todays_offs"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_grid_layout" />
 
 
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation"
-        app:labelVisibilityMode="labeled"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        app:itemTextColor="@color/nav_color"
-        app:itemIconTint="@color/nav_color"
-        app:itemBackground="@color/white"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

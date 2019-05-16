@@ -1,8 +1,11 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import Service.RetrofitClient;
+import adapters.RegPostAdapter;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,14 +82,20 @@ public class shop_offs_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layoutInflater = inflater.inflate(R.layout.fragment_shop_map_fragment, container, false);
+        View layoutInflater = inflater.inflate(R.layout.fragment_shop_offs_fragment, container, false);
         recyclerView = layoutInflater.findViewById(R.id.shop_offs_recycler_view);
 
 
        // mAdapter = new RecyclerViewAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
-
+        getshopPosts();
         return layoutInflater;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        getshopPosts();
     }
 
     private void getshopPosts(){
@@ -102,7 +111,11 @@ public class shop_offs_fragment extends Fragment {
                     if (shopPosts.isEmpty()) shopPosts.clear();
 
                     shopPosts = response.body();
-                    RecyclerView.LayoutManager layoutManager = LinearLayoutManager(Shop.class);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    RegPostAdapter regPostAdapter = new RegPostAdapter(shopPosts,getActivity());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(regPostAdapter);
+                    //regPostAdapter.
                 }
             }
 

@@ -105,5 +105,9 @@
     <string name="postpic">عکس صفحه پست</string>
     <string name="percentage">%</string>
     <string name="toman">تومان</string>
+    <string name="AreYouWantToLogOut">آیا قصد خروج از حساب کاریری خود را دارید ؟</string>
+    <string name="Yes">بله</string>
+    <string name="No">خیر</string>
+    <string name="classifications">دسته بندی ها</string>
 
 </resources>

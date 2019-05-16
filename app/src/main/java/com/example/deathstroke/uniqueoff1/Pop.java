@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 public class Pop extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class Pop extends AppCompatActivity {
         int height = dm.heightPixels;
 
         getWindow().setLayout(width, (int) (height * .7));
+
     }
 
     private void setFonts(Typeface tf, TextView... textViews) {
