@@ -25,12 +25,12 @@
     <string name="cancel">لغو</string>
     <string name="educational">آموزشی</string>
     <string name="cloth">پوشاک</string>
-    <string name="health">سلامت</string>
+    <string name="health">سلامتی و پزشکی</string>
     <string name="cafe">کافی شاپ</string>
     <string name="restaurant">رستوران</string>
     <string name="culture">فرهنگی</string>
     <string name="services">خدمات</string>
-    <string name="amusement">تفریحی</string>
+    <string name="amusement">تفریحی و ورزشی</string>
     <string name="makeups">آرایشی</string>
     <string name="more_options">موارد دیگر</string>
     <string name="title_activity_main">MainActivity</string>
@@ -110,5 +110,6 @@
     <string name="No">خیر</string>
     <string name="classifications">دسته بندی ها</string>
     <string name="seeShopPAge">مشاهده صفحه فروشگاه</string>
+    <string name="apply_changes">ثبت تغییرات</string>
 
 </resources>

@@ -82,7 +82,8 @@
         <activity
             android:name=".PostPage"
             android:screenOrientation="portrait" />
-        <activity android:name=".ShowClassification"></activity>
+        <activity android:name=".ShowClassification" />
+        <activity android:name=".EditProfie"></activity>
     </application>
 
 </manifest>

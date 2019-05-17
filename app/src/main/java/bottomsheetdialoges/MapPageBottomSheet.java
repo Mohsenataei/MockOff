@@ -44,15 +44,7 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
 
         shopButton = v.findViewById(R.id.map_goto_shop);
         allrightButton = v.findViewById(R.id.bottom_sheet_alright);
-        return v;
-    }
-
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        shopButton.setOnClickListener(v->{
+        shopButton.setOnClickListener(view->{
             startActivity(new Intent(getContext(),Shop.class));
         });
 
@@ -61,6 +53,13 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
         });
 
         getshopPosts();
+        return v;
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
 
     }
 
