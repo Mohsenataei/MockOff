@@ -8,46 +8,51 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
         <TextView
-            android:textSize="20sp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_vertical"
-            android:text="@string/AreYouWantToLogOut"
+            android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/AreYouWantToLogOut"
+            android:textSize="20sp" />
 
         <LinearLayout
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/bottom_sheet_yes_button"
-                android:textSize="20sp"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/coop_confirm_and_cancel_btn"
                 android:text="@string/Yes"
                 android:textColor="@color/grin_beam_color"
-                android:background="@drawable/coop_confirm_and_cancel_btn"
-                style="?attr/borderlessButtonStyle"
-                android:layout_marginStart="20dp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content" />
+                android:textSize="20sp" />
+
             <Button
                 android:id="@+id/bottom_sheet_no_button"
-                android:textSize="20sp"
-                android:background="@drawable/sendbtnstyle"
-                android:textColor="@color/white"
-                android:text="@string/No"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="10dp"
                 android:layout_width="190dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/sendbtnstyle"
+                android:text="@string/No"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 

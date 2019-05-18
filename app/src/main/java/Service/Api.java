@@ -49,8 +49,12 @@ public interface Api {
             @Field("field6") String F6
     );
 
-    @GET("search/{keyword}")
-    Call<List<Post>> searchbar(@Query("keyword") String keyword);
+    @POST("search")
+    Call<List<Post>> getsearchedposts(
+            @Field("search_id") String search_id,
+            @Field("city") String city,
+            @Field("word") String word
+    );
 
     @GET
     Call<ResponseBody> getImage(@Url String url);

@@ -27,11 +27,11 @@
     <string name="cloth">پوشاک</string>
     <string name="health">سلامتی و پزشکی</string>
     <string name="cafe">کافی شاپ</string>
-    <string name="restaurant">رستوران</string>
+    <string name="restaurant">رستوران و کافی شاپ</string>
     <string name="culture">فرهنگی</string>
     <string name="services">خدمات</string>
     <string name="amusement">تفریحی و ورزشی</string>
-    <string name="makeups">آرایشی</string>
+    <string name="makeups">زیبایی و آرایشی</string>
     <string name="more_options">موارد دیگر</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -111,5 +111,8 @@
     <string name="classifications">دسته بندی ها</string>
     <string name="seeShopPAge">مشاهده صفحه فروشگاه</string>
     <string name="apply_changes">ثبت تغییرات</string>
+    <string name="today_tags">تگ های روز</string>
+    <string name="tours">تور و سفر</string>
+    <string name="arts">هنر</string>
 
 </resources>

@@ -94,11 +94,12 @@
             android:background="@drawable/grid_items_border">
             <TextView
                 android:id="@+id/restaurant_textView"
-                android:drawableTop="@drawable/ic_concierge_bell_solid"
+                android:drawableTop="@drawable/ic_utensils"
                 android:text="@string/restaurant"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -106,7 +107,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/clothes_layout"
+            android:id="@+id/tours_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -117,9 +118,10 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/clothes_textView"
-                android:drawableTop="@drawable/ic_tshirt_solid"
-                android:text="@string/cloth"
+                android:id="@+id/tours_textView"
+                android:drawableTop="@drawable/ic_plane_departure"
+                android:drawablePadding="4dp"
+                android:text="@string/tours"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textSize="18sp"
@@ -153,7 +155,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cafe_layout"
+            android:id="@+id/arts_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -164,9 +166,10 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/cafe_textView"
-                android:drawableTop="@drawable/ic_coffee_solid"
-                android:text="@string/cafe"
+                android:id="@+id/arts_textView"
+                android:drawableTop="@drawable/ic_palette"
+                android:text="@string/arts"
+                android:textAlignment="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textSize="18sp"
@@ -188,7 +191,7 @@
             android:background="@drawable/grid_items_border">
             <TextView
                 android:id="@+id/education_textView"
-                android:drawableTop="@drawable/ic_education"
+                android:drawableTop="@drawable/ic_graduation_cap"
                 android:text="@string/educational"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
@@ -211,7 +214,7 @@
             android:background="@drawable/grid_items_border">
             <TextView
                 android:id="@+id/makeUps_textView"
-                android:drawableTop="@drawable/ic_paint_brush"
+                android:drawableTop="@drawable/ic_grin_beam_category"
                 android:text="@string/makeups"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
@@ -221,7 +224,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cultural_layout"
+            android:id="@+id/tags_layout"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -232,12 +235,13 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/grid_items_border">
             <TextView
-                android:id="@+id/cultural_textView"
-                android:drawableTop="@drawable/ic_theater_masks"
-                android:text="@string/culture"
+                android:id="@+id/tags_textView"
+                android:drawableTop="@drawable/ic_tags"
+                android:text="@string/today_tags"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:textSize="18sp"
+                android:drawablePadding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

@@ -10,6 +10,7 @@ import Service.RetrofitClient;
 import adapters.HotPostsAdapter;
 import adapters.RegPostAdapter;
 import adapters.SliderAdapter;
+import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -192,6 +193,20 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         getHotPosts();
 
         getRegularPosts();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //getSearchedPosts(query);
+                Toast.makeText(MainActivity.this, "you have entered: "+query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -456,6 +471,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 Log.d(TAG, "onFailure: why failed? ",t);
             }
         });
+    }
+
+    private void getSearchedPosts(String query){
+        String mquery = searchView.getQuery().toString();
+        Call<List<Post>> searchedPots = RetrofitClient.getmInstance().getApi().getsearchedposts("","همدان",mquery);
+
+
+        Toast.makeText(this, "you have entered : "+query, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "getSearchedPosts: you have enterd :" + query);
     }
 
 }

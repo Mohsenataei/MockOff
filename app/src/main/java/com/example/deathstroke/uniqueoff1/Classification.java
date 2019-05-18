@@ -211,24 +211,24 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
         amusmentLayout = findViewById(R.id.amusment_layout);
         servicesLayout = findViewById(R.id.services_layout);
         restaurantLayout = findViewById(R.id.restaurant_layout);
-        clothesLayout = findViewById(R.id.clothes_layout);
+        clothesLayout = findViewById(R.id.tours_layout);
         healthLayout = findViewById(R.id.health_layout);
-        cafeLayout = findViewById(R.id.cafe_layout);
+        cafeLayout = findViewById(R.id.arts_layout);
         educationLayout = findViewById(R.id.education_layout);
         makeupsLayout = findViewById(R.id.makeUps_layout);
-        culturalLayout = findViewById(R.id.cultural_layout);
+        culturalLayout = findViewById(R.id.tags_layout);
     }
 
     private void InitialaizeTextViews(){
         amusmenttextView = findViewById(R.id.amusment_textView);
         servicestextView = findViewById(R.id.services_textView);
         restauranttextView = findViewById(R.id.restaurant_textView);
-        clothestextView = findViewById(R.id.clothes_textView);
+        clothestextView = findViewById(R.id.tours_textView);
         healthtextView = findViewById(R.id.health_textView);
-        cafetextView = findViewById(R.id.cafe_textView);
+        cafetextView = findViewById(R.id.arts_textView);
         educationtextView = findViewById(R.id.education_textView);
         makeupstextView = findViewById(R.id.makeUps_textView);
-        culturaltextView = findViewById(R.id.cultural_textView);
+        culturaltextView = findViewById(R.id.tags_textView);
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -356,12 +356,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
 
         if(!layoutflags[RESTAURANT]){
             ChangeLayoutBackgroundToBlue(restaurantLayout);
-            ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_concierge_bell_solid_onclick),textViewflags[RESTAURANT]);
+            ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_utensils_onclick),textViewflags[RESTAURANT]);
             layoutflags[RESTAURANT]=true;
             textViewflags[RESTAURANT]=true;
         }else{
             ChangeLayoutBackgroundToDefault(restaurantLayout);
-            ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_concierge_bell_solid),textViewflags[RESTAURANT]);
+            ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_utensils),textViewflags[RESTAURANT]);
             layoutflags[RESTAURANT]=false;
             textViewflags[RESTAURANT]=false;
         }
@@ -370,12 +370,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void OnClickClothesLayout(){
         if(!layoutflags[CLOTHES]){
             ChangeLayoutBackgroundToBlue(clothesLayout);
-            ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_tshirt_solid_onclick),textViewflags[CLOTHES]);
+            ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure_onclick),textViewflags[CLOTHES]);
             layoutflags[CLOTHES]=true;
             textViewflags[CLOTHES]=true;
         }else{
             ChangeLayoutBackgroundToDefault(clothesLayout);
-            ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_tshirt_solid),textViewflags[CLOTHES]);
+            ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
             layoutflags[CLOTHES]=false;
             textViewflags[CLOTHES]=false;
         }
@@ -383,12 +383,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void OnClickCafeLayout(){
         if(!layoutflags[CAFE]){
             ChangeLayoutBackgroundToBlue(cafeLayout);
-            ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_coffee_solid_onclick),textViewflags[CAFE]);
+            ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette_onclick),textViewflags[CAFE]);
             layoutflags[CAFE]=true;
             textViewflags[CAFE]=true;
         }else{
             ChangeLayoutBackgroundToDefault(cafeLayout);
-            ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_coffee_solid),textViewflags[CAFE]);
+            ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
             layoutflags[CAFE]=false;
             textViewflags[CAFE]=false;
         }
@@ -409,12 +409,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void OnClickMakeUpsLayout(){
         if(!layoutflags[MAKEUP]){
             ChangeLayoutBackgroundToBlue(makeupsLayout);
-            ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_paint_brush_onclick),textViewflags[MAKEUP]);
+            ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category_onclick),textViewflags[MAKEUP]);
             layoutflags[MAKEUP]=true;
             textViewflags[MAKEUP]=true;
         }else{
             ChangeLayoutBackgroundToDefault(makeupsLayout);
-            ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_paint_brush),textViewflags[MAKEUP]);
+            ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
             layoutflags[MAKEUP]=false;
             textViewflags[MAKEUP]=false;
         }
@@ -422,12 +422,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void OnClickCulturalLayout(){
         if(!layoutflags[CULTURAL]){
             ChangeLayoutBackgroundToBlue(culturalLayout);
-            ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_theater_masks_onclick),textViewflags[CULTURAL]);
+            ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags_onclick),textViewflags[CULTURAL]);
             layoutflags[CULTURAL]=true;
             textViewflags[CULTURAL]=true;
         }else{
             ChangeLayoutBackgroundToDefault(culturalLayout);
-            ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_theater_masks),textViewflags[CULTURAL]);
+            ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
             layoutflags[CULTURAL]=false;
             textViewflags[CULTURAL]=false;
         }
@@ -435,12 +435,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void OnClickEducationLayout(){
         if(!layoutflags[EDUCATION]){
             ChangeLayoutBackgroundToBlue(educationLayout);
-            ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_education_onclick),textViewflags[EDUCATION]);
+            ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap_onclick),textViewflags[EDUCATION]);
             layoutflags[EDUCATION]=true;
             textViewflags[EDUCATION]=true;
         }else{
             ChangeLayoutBackgroundToDefault(educationLayout);
-            ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_education),textViewflags[EDUCATION]);
+            ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
             layoutflags[EDUCATION]=false;
             textViewflags[EDUCATION]=false;
         }
