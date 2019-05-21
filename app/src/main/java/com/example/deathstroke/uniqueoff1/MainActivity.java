@@ -28,10 +28,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     Spinner cities;
     ViewPager viewPager;
     TabLayout tabLayout;
-    int images[] = {R.drawable.slider3,R.drawable.slider1, R.drawable.slider2, R.drawable.slider3,R.drawable.slider1};
+    //int images[] = {R.drawable.slider3,R.drawable.slider1, R.drawable.slider2, R.drawable.slider3,R.drawable.slider1};
     SliderAdapter sliderAdapter;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
@@ -80,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     List<HeaderPics> headerPics = new ArrayList<>();
     RegPostAdapter regPostAdapter;
     HotPostsAdapter mhotPostsAdapter;
+    private ImageButton search_filter;
+    private LinearLayout filter_line;
+    private boolean filter_flag = false;
+    private boolean line_flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +110,31 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             drawerLayout.openDrawer(navigationView);
         });
 
+        search_filter = findViewById(R.id.search_filter_imgbtn);
+        filter_line = findViewById(R.id.search_filter_line);
+
+        search_filter.setOnClickListener(v->{
+            if(!filter_flag){
+                filter_flag = true;
+                search_filter.setBackground(getDrawable(R.drawable.));
+                search_filter.setImageResource(R.drawable.ic_filter_onclick_icon);
+            }else{
+                filter_flag = false;
+                search_filter.setBackground(getDrawable(R.drawable.search_filter_background));
+                search_filter.setImageResource(R.drawable.ic_filter_icon);
+            }
+        });
+
+        filter_line.setOnClickListener(v->{
+            if (!line_flag){
+                line_flag = true;
+                filter_line.setBackgroundColor(getResources().getColor(R.color.backarrowcolor));
+            }else{
+                line_flag = false;
+                filter_line.setBackgroundColor(getResources().getColor(R.color.white));
+            }
+        });
+
 
         View header_items = navigationView.getHeaderView(0);
 
@@ -118,6 +149,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         adapter.setDropDownViewResource(R.layout.spinner_text_view);
         cities.setAdapter(adapter);
         cities.setAdapter(adapter);
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                // An item was selected. You can retrieve the selected item using
+                // parent.getItemAtPosition(pos)
+                String city = parent.getItemAtPosition(pos).toString();
+                SaveSharedPreference.setCity(MainActivity.this,city);
+                Toast.makeText(MainActivity.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
        // tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);

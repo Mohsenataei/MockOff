@@ -17,9 +17,11 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import Service.CustomTypefaceSpan;
@@ -27,6 +29,7 @@ import Service.SaveSharedPreference;
 import Service.SetTypefaces;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import entities.ClientCodesList;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class Classification extends AppCompatActivity  implements DrawerLayout.DrawerListener{
@@ -56,6 +59,8 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private static final int EDUCATION = 6;
     private static final int MAKEUP = 7;
     private static final int CULTURAL = 8;
+
+    private Spinner cities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +163,24 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
                 contactus,share_with_friends,exit,edit
         );
 
+
+        cities = header_items.findViewById(R.id.cities_spinner);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                // An item was selected. You can retrieve the selected item using
+                // parent.getItemAtPosition(pos)
+                String city = parent.getItemAtPosition(pos).toString();
+                SaveSharedPreference.setCity(Classification.this,city);
+                Toast.makeText(Classification.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
 
         bottomNavigationView = findViewById(R.id.navigation);
