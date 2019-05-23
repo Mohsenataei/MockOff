@@ -38,6 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
 import entities.HeaderPics;
 import entities.Post;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import io.github.inflationx.viewpump.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,15 +115,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         filter_line = findViewById(R.id.search_filter_line);
 
         search_filter.setOnClickListener(v->{
-            if(!filter_flag){
-                filter_flag = true;
-                search_filter.setBackground(getDrawable(R.drawable.));
-                search_filter.setImageResource(R.drawable.ic_filter_onclick_icon);
-            }else{
-                filter_flag = false;
-                search_filter.setBackground(getDrawable(R.drawable.search_filter_background));
-                search_filter.setImageResource(R.drawable.ic_filter_icon);
-            }
+//            if(!filter_flag){
+//                filter_flag = true;
+//                search_filter.setBackground(getDrawable(R.drawable.ic_filter_icon));
+//                search_filter.setImageResource(R.drawable.ic_filter_onclick_icon);
+//            }else{
+//                filter_flag = false;
+//                search_filter.setBackground(getDrawable(R.drawable.search_filter_background));
+//                search_filter.setImageResource(R.drawable.ic_filter_icon);
+//            }
+            startActivity(new Intent(this,ShowSearch.class));
         });
 
         filter_line.setOnClickListener(v->{
@@ -244,12 +246,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //getSearchedPosts(query);
+                Intent intent = new Intent(MainActivity.this,ShowSearch.class);
+                intent.putExtra("query",query);
+                startActivity(intent);
                 Toast.makeText(MainActivity.this, "you have entered: "+query, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                regPostAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -526,6 +532,17 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         Toast.makeText(this, "you have entered : "+query, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "getSearchedPosts: you have enterd :" + query);
+    }
+
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            //You can replace it with your name
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

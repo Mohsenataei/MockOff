@@ -130,9 +130,9 @@ public interface Api {
     Call<List<Post>> getShopPosts(@Field("shop_id") String shop_id);
 
     @FormUrlEncoded
-    @POST("categories")
+    @POST("category")
     Call<List<Post>> getcategoryPosts(
-            @Field("city") String city,
-            @Field("category") String categry
+            @Field("cat_id") String cat_id,
+            @Field("city") String city
             );
 }

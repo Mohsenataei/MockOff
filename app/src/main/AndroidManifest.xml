@@ -84,7 +84,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ShowClassification" />
         <activity android:name=".EditProfie" />
-        <activity android:name=".SearchResult"></activity>
+        <activity android:name=".SearchResult" />
+        <activity android:name=".ShowSearch"></activity>
     </application>
 
 </manifest>
