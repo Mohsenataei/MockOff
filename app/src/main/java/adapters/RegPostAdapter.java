@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import com.example.deathstroke.uniqueoff1.PostPage;
 import com.example.deathstroke.uniqueoff1.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Service.RetrofitClient;
@@ -31,14 +34,16 @@ import retrofit2.Response;
 
 import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
 
-public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostViewHolder> {
+public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostViewHolder> implements Filterable {
     private List<Post> posts;
+    private List<Post> postfull;
     private Context context;
     private OnPostClickListener onPostClickListener;
     private static final String TAG = "aghamohsen";
 
     public RegPostAdapter(List<Post> posts, Context context) {
         this.posts = posts;
+        this.postfull = new ArrayList<>(posts);
         this.context = context;
     }
 
@@ -149,6 +154,7 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
         this.onPostClickListener = onItemClickListener;
     }
 
+
     public interface OnPostClickListener {
         void onPostClick(View view, int position);
     }
@@ -188,6 +194,41 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             onPostClickListener.onPostClick(view, getAdapterPosition());
         }
     }
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Post> filteredlist = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0){
+                filteredlist.addAll(postfull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Post post : postfull){
+                    if (post.getTitle().toLowerCase().contains(filterPattern)){
+                        filteredlist.add(post);
+                    }
+                }
+
+
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredlist;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            posts.clear();
+            posts.addAll((List)filterResults.values);
+            notifyDataSetChanged();
+
+        }
+    };
 
 
 }

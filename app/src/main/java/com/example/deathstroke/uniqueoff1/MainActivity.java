@@ -28,14 +28,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +49,7 @@ import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
 import entities.HeaderPics;
 import entities.Post;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import io.github.inflationx.viewpump.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     Spinner cities;
     ViewPager viewPager;
     TabLayout tabLayout;
-    int images[] = {R.drawable.slider3,R.drawable.slider1, R.drawable.slider2, R.drawable.slider3,R.drawable.slider1};
+    //int images[] = {R.drawable.slider3,R.drawable.slider1, R.drawable.slider2, R.drawable.slider3,R.drawable.slider1};
     SliderAdapter sliderAdapter;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
@@ -80,6 +83,20 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     List<HeaderPics> headerPics = new ArrayList<>();
     RegPostAdapter regPostAdapter;
     HotPostsAdapter mhotPostsAdapter;
+    private ImageButton search_filter;
+    private LinearLayout filter_line;
+    private boolean filter_flag = false;
+    private boolean line_flag = false;
+
+    // lazy loading variables
+
+    private int step = 0;
+    private int limit = 0;
+    private int currentPosition = 0;
+    List<Post> currentPosts = new ArrayList<>();
+    List<Post> newPosts = new ArrayList<>();
+
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +121,32 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             drawerLayout.openDrawer(navigationView);
         });
 
+        search_filter = findViewById(R.id.search_filter_imgbtn);
+        filter_line = findViewById(R.id.search_filter_line);
+
+        search_filter.setOnClickListener(v->{
+//            if(!filter_flag){
+//                filter_flag = true;
+//                search_filter.setBackground(getDrawable(R.drawable.ic_filter_icon));
+//                search_filter.setImageResource(R.drawable.ic_filter_onclick_icon);
+//            }else{
+//                filter_flag = false;
+//                search_filter.setBackground(getDrawable(R.drawable.search_filter_background));
+//                search_filter.setImageResource(R.drawable.ic_filter_icon);
+//            }
+            startActivity(new Intent(this,ShowSearch.class));
+        });
+
+        filter_line.setOnClickListener(v->{
+            if (!line_flag){
+                line_flag = true;
+                filter_line.setBackgroundColor(getResources().getColor(R.color.backarrowcolor));
+            }else{
+                line_flag = false;
+                filter_line.setBackgroundColor(getResources().getColor(R.color.white));
+            }
+        });
+
 
         View header_items = navigationView.getHeaderView(0);
 
@@ -118,6 +161,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         adapter.setDropDownViewResource(R.layout.spinner_text_view);
         cities.setAdapter(adapter);
         cities.setAdapter(adapter);
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                // An item was selected. You can retrieve the selected item using
+                // parent.getItemAtPosition(pos)
+                String city = parent.getItemAtPosition(pos).toString();
+                SaveSharedPreference.setCity(MainActivity.this,city);
+                Toast.makeText(MainActivity.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
        // tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setClipToPadding(false);
@@ -198,12 +256,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //getSearchedPosts(query);
+                Intent intent = new Intent(MainActivity.this,ShowSearch.class);
+                intent.putExtra("query",query);
+                startActivity(intent);
                 Toast.makeText(MainActivity.this, "you have entered: "+query, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                regPostAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -479,7 +541,52 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
 
         Toast.makeText(this, "you have entered : "+query, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "getSearchedPosts: you have enterd :" + query);
+        Log.d(TAG, "getSearchedPosts: you have entered :" + query);
+    }
+
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            //You can replace it with your name
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void getNewPosts(){
+        isLoading = true;
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),limit*step);
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: in get new posts: so far so good");
+
+                    if (!newPosts.isEmpty()){
+                        newPosts.clear();
+                    }
+                    step+=1;
+                    newPosts = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void recyclerviewInitializer(){
+        Log.d(TAG, "recycler view Initializer: ");
+        currentPosts.addAll(newPosts);
+        regPostAdapter = new RegPostAdapter(currentPosts,this);
+        if (currentPosition < currentPosts.size() && currentPosts.size() >0){
+            regpostrecycler.scrollToPosition(currentPosition);
+        }
     }
 
 }

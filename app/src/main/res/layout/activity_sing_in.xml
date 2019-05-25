@@ -121,6 +121,7 @@
         app:layout_constraintHorizontal_bias="0.623"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_in_btn" />
+
     <Button
         android:id="@+id/google_sign_up"
         android:layout_width="280sp"
