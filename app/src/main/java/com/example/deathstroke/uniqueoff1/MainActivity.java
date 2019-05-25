@@ -88,6 +88,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private boolean filter_flag = false;
     private boolean line_flag = false;
 
+    // lazy loading variables
+
+    private int step = 0;
+    private int limit = 0;
+    private int currentPosition = 0;
+    List<Post> currentPosts = new ArrayList<>();
+    List<Post> newPosts = new ArrayList<>();
+
+    private boolean isLoading = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -531,7 +541,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
 
         Toast.makeText(this, "you have entered : "+query, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "getSearchedPosts: you have enterd :" + query);
+        Log.d(TAG, "getSearchedPosts: you have entered :" + query);
     }
 
     public boolean isInternetAvailable() {
@@ -542,6 +552,40 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    private void getNewPosts(){
+        isLoading = true;
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),limit*step);
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: in get new posts: so far so good");
+
+                    if (!newPosts.isEmpty()){
+                        newPosts.clear();
+                    }
+                    step+=1;
+                    newPosts = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void recyclerviewInitializer(){
+        Log.d(TAG, "recycler view Initializer: ");
+        currentPosts.addAll(newPosts);
+        regPostAdapter = new RegPostAdapter(currentPosts,this);
+        if (currentPosition < currentPosts.size() && currentPosts.size() >0){
+            regpostrecycler.scrollToPosition(currentPosition);
         }
     }
 

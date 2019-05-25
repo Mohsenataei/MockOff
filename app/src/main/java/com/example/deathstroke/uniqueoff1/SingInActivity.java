@@ -10,13 +10,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SingInActivity extends AppCompatActivity {
+public class SingInActivity extends AppCompatActivity{
 
     private static final String TAG = "mohsen" ;
     EditText email_field;
@@ -50,6 +54,8 @@ public class SingInActivity extends AppCompatActivity {
 
             userlogin();
         });
+
+
 
     }
     private void gotoHomePage(){
