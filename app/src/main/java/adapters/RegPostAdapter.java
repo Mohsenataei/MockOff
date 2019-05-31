@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
+
+
+class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+    private ProgressBar loadmoreprogressbar;
+    public LoadingViewHolder(@NonNull View itemView) {
+        super(itemView);
+        loadmoreprogressbar = itemView.findViewById(R.id.progressBar);
+    }
+}
 
 public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostViewHolder> implements Filterable {
     private List<Post> posts;

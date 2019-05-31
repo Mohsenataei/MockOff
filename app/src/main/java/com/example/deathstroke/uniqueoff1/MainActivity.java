@@ -10,6 +10,7 @@ import Service.RetrofitClient;
 import adapters.HotPostsAdapter;
 import adapters.RegPostAdapter;
 import adapters.SliderAdapter;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -587,6 +588,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         if (currentPosition < currentPosts.size() && currentPosts.size() >0){
             regpostrecycler.scrollToPosition(currentPosition);
         }
+
+    }
+
+    private void setOnscrollListeners() {
+        regpostrecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
 }
