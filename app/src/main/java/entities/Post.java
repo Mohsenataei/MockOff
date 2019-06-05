@@ -26,7 +26,7 @@ public class Post {
 
     @SerializedName("price")
     @Expose
-    private int price;
+    private String price;
 
     @SerializedName("discount")
     @Expose
@@ -36,13 +36,13 @@ public class Post {
     @Expose
     private int quantity;
 
-    @SerializedName("s_date_use")
-    @Expose
-    private String s_date_use;
-
     @SerializedName("e_date_use")
     @Expose
     private String e_date_use;
+
+    @SerializedName("e_date_show")
+    @Expose
+    private String e_date_show;
 
     @SerializedName("city_id")
     @Expose
@@ -67,7 +67,7 @@ public class Post {
 
 
 
-    public Post(int id, int shop_id, String title, int status, int price, int discount, int quantity, int city_id, String address, String shop_name, List<Pics> pics,String img) {
+    public Post(String e_date_show, String s_date_use, int id, int shop_id, String title, int status, String price, int discount, int quantity, int city_id, String address, String shop_name, List<Pics> pics,String img) {
         this.id = id;
         this.shop_id = shop_id;
         this.title = title;
@@ -80,22 +80,25 @@ public class Post {
         this.shop_name = shop_name;
         this.pics = pics;
         this.img = img;
-    }
+        this.e_date_show = e_date_show;
+        this.e_date_use = s_date_use;
 
-    public String getS_date_use() {
-        return s_date_use;
-    }
-
-    public void setS_date_use(String s_date_use) {
-        this.s_date_use = s_date_use;
     }
 
     public String getE_date_use() {
         return e_date_use;
     }
 
-    public void setE_date_use(String e_date_use) {
-        this.e_date_use = e_date_use;
+    public void setE_date_use(String s_date_use) {
+        this.e_date_use = s_date_use;
+    }
+
+    public String getE_date_show() {
+        return e_date_show;
+    }
+
+    public void setE_date_show(String e_date_use) {
+        this.e_date_show = e_date_use;
     }
 
     public String getShop_name(){
@@ -138,11 +141,11 @@ public class Post {
         this.status = status;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

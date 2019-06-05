@@ -35,22 +35,12 @@ import retrofit2.Response;
 
 import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
 
-
-class LoadingViewHolder extends RecyclerView.ViewHolder {
-
-    private ProgressBar loadmoreprogressbar;
-    public LoadingViewHolder(@NonNull View itemView) {
-        super(itemView);
-        loadmoreprogressbar = itemView.findViewById(R.id.progressBar);
-    }
-}
-
 public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostViewHolder> implements Filterable {
     private List<Post> posts;
     private List<Post> postfull;
     private Context context;
     private OnPostClickListener onPostClickListener;
-    private static final String TAG = "aghamohsen";
+    private static final String TAG = "aghamohsenheader";
 
     public RegPostAdapter(List<Post> posts, Context context) {
         this.posts = posts;
@@ -79,8 +69,8 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
         holder.original_price.setText(String.valueOf(model.getPrice())+context.getString(R.string.toman));
         holder.original_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-        String tmp = String.valueOf(model.getPrice() - ((model.getPrice() * model.getDiscount())/100)) + context.getString(R.string.toman);
-        holder.price_with_discount.setText(tmp);
+        String tmp = String.valueOf(Integer.parseInt(model.getPrice()) - ((Integer.parseInt(model.getPrice()) * model.getDiscount())/100));
+        holder.price_with_discount.setText(tmp + context.getString(R.string.toman));
         Picasso.get().load(model.getPics().get(0).getThumblink()).into(holder.post_imageview);
 
         holder.location.setText(model.getAddress());
@@ -101,10 +91,20 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             Intent intent = new Intent(context,PostPage.class);
             intent.putExtra("post_title",model.getTitle());
             intent.putExtra("quantity",String.valueOf(model.getQuantity()));
+            intent.putExtra("price",tmp);
+            intent.putExtra("discount",String.valueOf(model.getDiscount()));
+            Log.d("PostPage", "Reg post adapter -> onBindViewHolder: " + model.getPrice());
+            intent.putExtra("post_id",model.getId());
+            intent.putExtra("e_date_use",model.getE_date_show());
+            intent.putExtra("e_date_show",model.getE_date_use());
+            intent.putExtra("shop_name",model.getShop_name());
             List<Pics> pics = model.getPics();
             String[] headerimgs = new String[pics.size()-1];
-            for (int i=1;i<pics.size()-1;i++){
-                headerimgs[i] = pics.get(i).getThumblink();
+
+            Log.d("headerimgs", "onBindViewHolder: pic size is : "+pics.size());
+            for (int i=1;i<=pics.size()-1;i++){
+                headerimgs[i-1] = pics.get(i).getThumblink();
+                Log.d("headerimgs", "onBindViewHolder: "+headerimgs[i-1]);
             }
             intent.putExtra("img_urls",headerimgs);
             Log.d(TAG, "onBindViewHolder: quantity" + model.getQuantity());

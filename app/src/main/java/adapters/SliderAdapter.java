@@ -68,7 +68,7 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((ImageView)object);
     }
 
     private int mapPagerPositionToModelPosition(int pagerPosition) {

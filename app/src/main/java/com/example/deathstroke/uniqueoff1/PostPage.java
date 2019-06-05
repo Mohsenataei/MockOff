@@ -21,6 +21,9 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.j256.ormlite.stmt.query.In;
+import com.shawnlin.numberpicker.NumberPicker;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -31,7 +34,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     private static final String TAG = "PostPage";
-    private TextView postName,soldCount;
+    private TextView postName,soldCount,post_title,price_textView,show_date,use_date;
     private ImageButton backbtn,drawer;
     protected DrawerLayout drawerLayout;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
@@ -39,7 +42,10 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     BottomNavigationView bottomNavigationView;
     NavigationView navigationView;
     ViewPager mviewPager;
+    TabLayout tabLayout;
     SliderAdapter sliderAdapter;
+    private NumberPicker mNumberPicker;
+    private static String[] persianNumbers = new String[]{ "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +72,12 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
 
         postName = findViewById(R.id.post_name_post_page);
         soldCount = findViewById(R.id.bought_ticket_count);
+        post_title = findViewById(R.id.post_title_tv);
+        price_textView = findViewById(R.id.post_price_tv);
+        price_textView.setText(getPrice());
+        use_date = findViewById(R.id.use_date);
+        show_date = findViewById(R.id.show_date);
+        tabLayout = findViewById(R.id.indicator);
         getExtrainfo();
         bottomNavigationView = findViewById(R.id.navigation);
 
@@ -78,6 +90,8 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
 //                mMenuitem.setChecked(true);
 //            }
 //        }
+
+
 
 
 
@@ -98,6 +112,36 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             }
             return false;
         });
+
+        final int[] post_count = new int[1];
+        mNumberPicker = findViewById(R.id.post_number_picker);
+        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                //Toast.makeText(PostPage.this, "selected "+newVal, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onValueChange: " + newVal);
+                post_count[0] = newVal;
+                setPriceTextView(toPersianNumber(getPrice()),newVal);
+            }
+        });
+
+        String price = getPrice();
+        setPriceTextView(price,post_count[0]);
+    }
+
+    void setPriceTextView(String price, int count){
+        Log.d(TAG, "setPriceTextView: "+price +"// " + count);
+        String discount = getIntent().getStringExtra("discount");
+        String tmp = String.valueOf(Integer.parseInt(price)-(Integer.parseInt(price) * Integer.parseInt(discount) /100)) + getString(R.string.toman);
+        String totalval = String.valueOf(Integer.parseInt(price)*count);
+        price_textView.setText(totalval);
+
+    }
+    private String getPrice(){
+        if (getIntent().hasExtra("price")){
+            return getIntent().getStringExtra("price");
+        }
+        return null;
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -163,19 +207,34 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
 
         private void getExtrainfo(){
         if(getIntent().hasExtra("post_title") && getIntent().hasExtra("quantity") && getIntent().hasExtra("img_urls")){
-            //Log.d(TAG, "getExtrainfo: intent extras found ");
+
+            Log.d(TAG, "getExtrainfo: intent extras found ");
+            Toast.makeText(this, "intent extras found", Toast.LENGTH_SHORT).show();
             String postname = getIntent().getStringExtra("post_title");
             String count = getIntent().getStringExtra("quantity");
+            String shop_name = getIntent().getStringExtra("shop_name");
+            String price = getIntent().getStringExtra("price");
+            String show_date = getIntent().getStringExtra("e_date_show");
+            String use_date = getIntent().getStringExtra("e_date_use");
+            String post_id = getIntent().getStringExtra("post_id");
             String[] img_urls = getIntent().getStringArrayExtra("img_urls");
+            if (img_urls.length == 1){
+                tabLayout.setVisibility(View.GONE);
+            }
             sliderAdapter = new SliderAdapter(PostPage.this,img_urls);
             mviewPager.setAdapter(sliderAdapter);
+            tabLayout.setupWithViewPager(mviewPager,true);
+
             Log.d(TAG, "getExtrainfo: post title is : "+postname + " and count is : " +count );
-            setTextviews(postname,count);
+            setTextviews(postname,count,shop_name,show_date,use_date);
         }
     }
-    private void setTextviews(String s1,String s2){
-        postName.setText(s1);
-        soldCount.setText(s2);
+    private void setTextviews(String post_name,String count, String shop_name, String showdate, String usedate){
+        postName.setText(post_name);
+        soldCount.setText(count);
+        post_title.setText(shop_name);
+        show_date.setText(showdate);
+        use_date.setText(usedate);
     }
 
     @Override
@@ -203,4 +262,35 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     public void onDrawerStateChanged(int newState) {
 
     }
+//    private String formatPrice(String price){
+//        String tmp;
+//        int colon_index=0;
+//        for (int i=price.length()-1;i>=0;i--){
+//            colon_index++;
+//            tmp.
+//        }
+//    }
+
+
+
+    public static String toPersianNumber(String text) {
+        if (text.length() == 0) {
+            return "";
+        }
+        String out = "";
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            char c = text.charAt(i);
+            if ('0' <= c && c <= '9') {
+                int number = Integer.parseInt(String.valueOf(c));
+                out += persianNumbers[number];
+            } else if (c == '٫') {
+                out += '،';
+            } else {
+                out += c;
+            }
+        }
+        return out;
+    }
+
 }

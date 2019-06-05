@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import Service.RetrofitClient;
 import adapters.HotPostsAdapter;
+import adapters.LazyLoadPost;
 import adapters.RegPostAdapter;
 import adapters.SliderAdapter;
 import androidx.annotation.NonNull;
@@ -50,6 +51,7 @@ import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
 import entities.HeaderPics;
 import entities.Post;
+import interfaces.LoadMore;
 import io.github.inflationx.viewpump.*;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private int currentPosition = 0;
     List<Post> currentPosts = new ArrayList<>();
     List<Post> newPosts = new ArrayList<>();
+    private LazyLoadPost adapter;
 
     private boolean isLoading = false;
 
@@ -266,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                regPostAdapter.getFilter().filter(newText);
+//                regPostAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -592,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     private void setOnscrollListeners() {
-        regpostrecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        regpostrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -603,6 +606,45 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+
+    private void lazyLoading(){
+        getPosts(0);
+        adapter.setLoadMore(new LoadMore() {
+            @Override
+            public void onLoadMore() {
+
+                newPosts.add(null);
+            }
+        });
+
+
+
+    }
+
+    private List<Post> getPosts(int skip){
+
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),skip);
+
+        List<Post> mynewposts;
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: in getpost so far so good");
+                    newPosts = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+        return newPosts;
+
     }
 
 }
