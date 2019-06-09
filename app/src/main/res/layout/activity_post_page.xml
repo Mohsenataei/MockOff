@@ -103,6 +103,7 @@
                         android:layout_width="180dp"
                         android:layout_height="80dp"
                         android:layout_gravity="start"
+                        android:layout_marginStart="76dp"
                         android:background="@drawable/post_page_price"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -317,6 +318,7 @@
 
 
                 <Button
+                    android:id="@+id/buy_button"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"

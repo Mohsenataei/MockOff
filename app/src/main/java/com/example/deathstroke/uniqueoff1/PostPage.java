@@ -2,6 +2,7 @@ package com.example.deathstroke.uniqueoff1;
 
 import android.content.Context;
 
+import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import adapters.SliderAdapter;
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -25,11 +27,18 @@ import com.google.android.material.tabs.TabLayout;
 import com.j256.ormlite.stmt.query.In;
 import com.shawnlin.numberpicker.NumberPicker;
 
+import java.util.List;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.ButterKnife;
+import entities.BankResponse;
+import entities.Order;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
@@ -46,6 +55,7 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     SliderAdapter sliderAdapter;
     private NumberPicker mNumberPicker;
     private static String[] persianNumbers = new String[]{ "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
+    private Button buy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,8 +135,44 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             }
         });
 
+        Log.d(TAG, "onCreate: selected post count :"+post_count[0]);
+        Toast.makeText(this, "count is :"+post_count[0], Toast.LENGTH_SHORT).show();
+
         String price = getPrice();
         setPriceTextView(price,post_count[0]);
+
+        buy = findViewById(R.id.buy_button);
+
+        buy.setOnClickListener(v->{
+            orderPost();
+            Toast.makeText(this, "you bought it, count :"+post_count[0], Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void orderPost(List<Order> orders) {
+        Call<BankResponse> call = RetrofitClient.getmInstance().getApi().create_order(orders);
+
+        call.enqueue(new Callback<BankResponse>() {
+            @Override
+            public void onResponse(Call<BankResponse> call, Response<BankResponse> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "onResponse: response is not empty");
+                    String redirect_url="https://www.mocatag.ir/api/start_next_pay/";
+                    BankResponse bankResponse = response.body();
+                    redirect_url = redirect_url.concat(bankResponse.getBank_token());
+                    redirect_url = redirect_url.concat("/");
+                    redirect_url = redirect_url.concat(String.valueOf(bankResponse.getPrice()));
+                    Intent browse = new Intent(Intent.ACTION_VIEW,Uri.parse(redirect_url));
+                    startActivity(browse);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BankResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     void setPriceTextView(String price, int count){

@@ -2,10 +2,12 @@ package Service;
 
 import java.util.List;
 
+import entities.BankResponse;
 import entities.Code;
 import entities.Detail;
 import entities.HeaderPics;
 import entities.NearestShops;
+import entities.Order;
 import entities.Post;
 import entities.ShopShits;
 import entities.SubShop;
@@ -135,4 +137,11 @@ public interface Api {
             @Field("cat_id") String cat_id,
             @Field("city") String city
             );
+
+    @FormUrlEncoded
+    @POST("create_order")
+    Call<BankResponse> create_order (
+            @Field("orders") List<Order> orders
+    );
+
 }
