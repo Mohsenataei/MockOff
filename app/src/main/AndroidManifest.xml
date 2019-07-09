@@ -85,7 +85,8 @@
         <activity android:name=".ShowClassification" />
         <activity android:name=".EditProfie" />
         <activity android:name=".SearchResult" />
-        <activity android:name=".ShowSearch"></activity>
+        <activity android:name=".ShowSearch" />
+        <activity android:name=".CheckNetworkConnection"></activity>
     </application>
 
 </manifest>

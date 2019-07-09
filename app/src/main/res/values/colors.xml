@@ -25,4 +25,5 @@
     <color name="price_color">#30E3CA</color>
     <color name="pink">#F85F73</color>
     <color name="bottom_sheet_border_color">#454D56</color>
+    <color name="pirchart_round_color">#30E3CA</color>
 </resources>

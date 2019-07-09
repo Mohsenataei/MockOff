@@ -65,8 +65,10 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
         Post model = posts.get(position);
         holder.post_title.setText(model.getTitle());
         holder.shop_name.setText(model.getShop_name());
+
         holder.discount.setText(String.valueOf(model.getDiscount())+context.getString(R.string.percentage));
         holder.original_price.setText(String.valueOf(model.getPrice())+context.getString(R.string.toman));
+
         holder.original_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         String tmp = String.valueOf(Integer.parseInt(model.getPrice()) - ((Integer.parseInt(model.getPrice()) * model.getDiscount())/100));

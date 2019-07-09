@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -21,15 +22,21 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.j256.ormlite.stmt.query.In;
 import com.shawnlin.numberpicker.NumberPicker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.ButterKnife;
@@ -43,7 +50,7 @@ import retrofit2.Response;
 public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     private static final String TAG = "PostPage";
-    private TextView postName,soldCount,post_title,price_textView,show_date,use_date;
+    private TextView postName,soldCount,post_title,price_textView,show_date,use_date,discount,original_price_tv,discount_tv;
     private ImageButton backbtn,drawer;
     protected DrawerLayout drawerLayout;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
@@ -67,6 +74,23 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         navigationView = findViewById(R.id.nav_view);
         main = findViewById(R.id.postPage);
         drawer = findViewById(R.id.drawebtn);
+        discount = (TextView) findViewById(R.id.post_discount_percentage);
+        original_price_tv = findViewById(R.id.post_page_original_price);
+        discount_tv = findViewById(R.id.post_page_discount_price);
+
+
+        // setting pie chart
+
+        //PieChart mpieChart = findViewById(R.id.pieChart);
+        //ArrayList percentage = new ArrayList();
+        //percentage.add(new Entry(50f,0));
+        //PieDataSet dataSet = new PieDataSet(percentage,"discount percentage");
+        //dataSet.setColor(ContextCompat.getColor(getApplicationContext(),R.color.pirchart_round_color));
+        //dataSet.setColor(getResources().getColor(R.color.pirchart_round_color));
+        //PieData data = new PieData();
+
+
+        // =====================================
 
         mviewPager = findViewById(R.id.postViewPager);
 
@@ -144,7 +168,7 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         buy = findViewById(R.id.buy_button);
 
         buy.setOnClickListener(v->{
-            orderPost();
+           // orderPost();
             Toast.makeText(this, "you bought it, count :"+post_count[0], Toast.LENGTH_SHORT).show();
         });
     }
@@ -263,6 +287,7 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             String show_date = getIntent().getStringExtra("e_date_show");
             String use_date = getIntent().getStringExtra("e_date_use");
             String post_id = getIntent().getStringExtra("post_id");
+            String discount_percentage = getIntent().getStringExtra("discount");
             String[] img_urls = getIntent().getStringArrayExtra("img_urls");
             if (img_urls.length == 1){
                 tabLayout.setVisibility(View.GONE);
@@ -270,6 +295,17 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             sliderAdapter = new SliderAdapter(PostPage.this,img_urls);
             mviewPager.setAdapter(sliderAdapter);
             tabLayout.setupWithViewPager(mviewPager,true);
+            discount_percentage = toPersianNumber(discount_percentage);
+            discount_percentage.concat(getResources().getString(R.string.percentage));
+            discount.setText(discount_percentage);
+            String tmp = String.valueOf(Integer.parseInt(price) - ((Integer.parseInt(price) * Integer.parseInt(discount_percentage)/100)));
+            price = toPersianNumber(price);
+            original_price_tv.setText(price);
+            original_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            tmp = toPersianNumber(tmp);
+            discount_tv.setText(tmp);
+
+            //-------------------------- calculate price with discount and set it in text view -----------------------
 
             Log.d(TAG, "getExtrainfo: post title is : "+postname + " and count is : " +count );
             setTextviews(postname,count,shop_name,show_date,use_date);

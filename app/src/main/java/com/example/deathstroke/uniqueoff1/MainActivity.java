@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import Service.RetrofitClient;
@@ -151,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             }
         });
 
-
         View header_items = navigationView.getHeaderView(0);
 
         initilizeheaderbuttons(header_items);
@@ -213,6 +214,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 //        tabLayout.setupWithViewPager(viewPager, true);
 //        Timer timer = new Timer();
 //        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
+
+
+
+        if (!isNetworkConnected()){
+            startActivity(new Intent(MainActivity.this,CheckNetworkConnection.class));
+        }
 
 
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", hintFont);
@@ -645,6 +652,13 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         });
         return newPosts;
 
+    }
+    private boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+        return true;
+        else return false;
     }
 
 }
