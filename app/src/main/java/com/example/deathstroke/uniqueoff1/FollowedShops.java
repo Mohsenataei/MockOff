@@ -119,7 +119,7 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
         recyclerView = findViewById(R.id.followed_shops);
         //LoadSubShops();
 
-        Call<List<SubShop>> call = RetrofitClient.getmInstance().getApi().getSubscribe_shops(API_TOKEN);
+        Call<List<SubShop>> call = RetrofitClient.getmInstance().getApi().getSubscribe_shops(SaveSharedPreference.getAPITOKEN(this));
 
         call.enqueue(new Callback<List<SubShop>>() {
             @Override

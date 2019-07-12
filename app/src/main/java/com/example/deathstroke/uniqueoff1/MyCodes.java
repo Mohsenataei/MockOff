@@ -1,5 +1,6 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,12 +12,16 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -81,6 +86,12 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_codes);
         ButterKnife.bind(this);
+
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(MyCodes.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","MyCodes");
+            startActivity(intent);
+        }
         typeface = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         drawerLayout.addDrawerListener(this);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -167,34 +178,40 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 
     private void loadCodes () {
 
-        Call<List<Code>> call = RetrofitClient.getmInstance().getApi().getmycodes(API_TOKEN);
+        if(SaveSharedPreference.getAPITOKEN(MyCodes.this).isEmpty()){
+            Toast.makeText(this, "ابتدا وارد حساب کاربری خود شوید!", Toast.LENGTH_SHORT).show();
+        }else {
 
-        call.enqueue(new Callback<List<Code>>() {
-            @Override
-            public void onResponse(Call<List<Code>> call, Response<List<Code>> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    Toast.makeText(MyCodes.this, "connection is successful"+response.body().get(0).getPrice(), Toast.LENGTH_LONG).show();
-                    //Log.d(TAG, "onResponse: "+response.body().get(0).getPrice());
-                    if (codes.isEmpty())
-                        codes.clear();
+            Call<List<Code>> call = RetrofitClient.getmInstance().getApi().getmycodes(SaveSharedPreference.getAPITOKEN(this));
 
-                    codes = response.body();
-                    adapter = new MycodeslistAdapter(codes,MyCodes.this);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MyCodes.this);
-                    mycodes_list.setLayoutManager(layoutManager);
-                    mycodes_list.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+            call.enqueue(new Callback<List<Code>>() {
+                @Override
+                public void onResponse(Call<List<Code>> call, Response<List<Code>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(MyCodes.this, "connection is successful" + response.body().get(0).getPrice(), Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "loadCodes: onResponse: successful");
+                        if (codes.isEmpty())
+                            codes.clear();
 
-                } else {
-                    Toast.makeText(MyCodes.this, "connection is not successful", Toast.LENGTH_SHORT).show();
+                        codes = response.body();
+                        adapter = new MycodeslistAdapter(codes, MyCodes.this);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MyCodes.this);
+                        mycodes_list.setLayoutManager(layoutManager);
+                        mycodes_list.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+                    } else {
+                        Log.d(TAG, "loadCodes: onResponse: is not successful");
+                        //Toast.makeText(MyCodes.this, "connection is not successful", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Code>> call, Throwable t) {
-
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Code>> call, Throwable t) {
+                    Log.e(TAG, "onFailure: ",t );
+                }
+            });
+        }
 
     }
 
@@ -279,5 +296,20 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 
 
     }
-
+    private boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+        else return false;
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(MyCodes.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","MyCodes");
+            startActivity(intent);
+        }
+    }
 }

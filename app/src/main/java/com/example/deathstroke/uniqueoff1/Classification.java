@@ -13,6 +13,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
@@ -67,6 +69,15 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classification);
 //        ButterKnife.bind(this);
+
+        //check network connection
+
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(Classification.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","Classification");
+            startActivity(intent);
+        }
+
         yekanfont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         bottomNavigationView = findViewById(R.id.navigation);
         main = findViewById(R.id.classification_page);
@@ -509,5 +520,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void ChangeTextViewDrawableTopToDefault(TextView tv, Drawable defaultdrawable){
         tv.setCompoundDrawables(null,defaultdrawable,null,null);
 
+    }
+    private boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+        else return false;
     }
 }

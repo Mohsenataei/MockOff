@@ -40,7 +40,16 @@ public class shop_offs_fragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Post> shopPosts = new ArrayList<>();
-//
+    private String shopid;
+
+    public String getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
+    }
+    //
 //    // TODO: Rename and change types of parameters
 //    private String mParam1;
 //    private String mParam2;
@@ -100,7 +109,7 @@ public class shop_offs_fragment extends Fragment {
 
     private void getshopPosts(){
 
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts("18");
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts(getShopid());
 
         call.enqueue(new Callback<List<Post>>() {
             @Override

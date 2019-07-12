@@ -108,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(MainActivity.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","MainActivity");
+            startActivity(intent);
+        }
         searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -217,9 +222,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
 
 
-        if (!isNetworkConnected()){
-            startActivity(new Intent(MainActivity.this,CheckNetworkConnection.class));
-        }
+
 
 
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", hintFont);
@@ -661,4 +664,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         else return false;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "MainActivity Resumed.", Toast.LENGTH_SHORT).show();
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(MainActivity.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","MainActivity");
+            startActivity(intent);
+        }
+
+
+    }
 }

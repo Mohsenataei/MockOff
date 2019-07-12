@@ -84,6 +84,28 @@ public class shop_info_fragment extends Fragment {
     public void setModel(Detail model) {
         this.model = model;
     }
+
+
+
+    private int shopid;
+    private String shopname;
+
+    public int getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(int shopid) {
+        this.shopid = shopid;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,7 +146,7 @@ public class shop_info_fragment extends Fragment {
     }
 
     private void getShopDetails(){
-        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
+        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails(String.valueOf(getShopid()));
         call.enqueue(new Callback<ShopShits>() {
             @Override
             public void onResponse(Call<ShopShits> call, Response<ShopShits> response) {

@@ -7,6 +7,10 @@ import android.preference.PreferenceManager;
 public class SaveSharedPreference {
     private static final String APITOKEN= "ApiToken";
     private static final String CITY ="city";
+    private static final String SHOP_ID = "shop_id";
+    private static final String SHOP_NAME = "shop_name";
+    private static final String LATITUDE = "latitude";
+    private static final String LONGITUDE = "longitude";
 
     private static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -38,6 +42,42 @@ public class SaveSharedPreference {
         editor.clear();
         editor.apply();
     }
+    public static void setShopId(Context context, String id){
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(SHOP_ID,id);
+        editor.apply();
+    }
+
+    public static void setShopName(Context context, String name){
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(SHOP_NAME,name);
+        editor.apply();
+    }
+    public static void setLatitude(Context context, String lat){
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(LATITUDE,lat);
+        editor.apply();
+    }
+    public static void setLongitude(Context context, String lon) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(LONGITUDE, lon);
+        editor.apply();
+    }
+
+
+    public static String getShopId(Context context){
+        return getSharedPreferences(context).getString(SHOP_ID,"");
+    }
+    public static String getShopName(Context context){
+        return getSharedPreferences(context).getString(SHOP_NAME,"");
+    }
+    public static String getLatitude(Context context){
+        return getSharedPreferences(context).getString(LATITUDE,"");
+    }
+    public static String getLongitude(Context context){
+        return getSharedPreferences(context).getString(LONGITUDE,"");
+    }
+
 }
 
 // 09187047846

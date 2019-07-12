@@ -53,6 +53,28 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     private String[] images ;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
+    private static final String TAG = "Shop";
+    private String shopname;
+    private int shopid;
+    private double lat;
+    private double lon;
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +159,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 undoOffsOOnclick();
                 info_flag = true;
                 shop_info_fragment info_fragment = new shop_info_fragment();
+                info_fragment.setShopid(shopid);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, info_fragment);
@@ -160,6 +183,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 b2.clearFocus();
                 off_flag = true;
                 shop_offs_fragment offs_fragment = new shop_offs_fragment();
+                offs_fragment.setShopid(String.valueOf(shopid));
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder,offs_fragment);
@@ -182,6 +206,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 undoOffsOOnclick();
                 map_flag = true;
                 shop_map_fragment map_fragment = new shop_map_fragment();
+                map_fragment.setLat(lat);
+                map_fragment.setLon(lon);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, map_fragment);
@@ -229,6 +255,19 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         });
 
         //justfottest();
+    }
+
+    //get intent extras :
+    private void getIntentExtras(){
+        if (getIntent().hasExtra("shopname") && getIntent().hasExtra("shopid") &&
+            getIntent().hasExtra("latitude") && getIntent().hasExtra("longitude")){
+            Log.d(TAG, "getIntentExtras: found extras ");
+            shopname = getIntent().getStringExtra("shopname");
+            shopid =Integer.parseInt(getIntent().getStringExtra("shopid"));
+            lat = Double.parseDouble(getIntent().getStringExtra("latitude"));
+            lon = Double.parseDouble(getIntent().getStringExtra("longitude"));
+
+        }
     }
 
     private void doNotifyMeOnclick() {

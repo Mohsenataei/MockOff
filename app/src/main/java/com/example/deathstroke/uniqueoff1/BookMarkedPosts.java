@@ -237,7 +237,8 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
                         postList.clear();
                     }
                     postList = response.body();
-                    Toast.makeText(BookMarkedPosts.this, "is it working ?", Toast.LENGTH_SHORT).show();
+                    if (postList)
+                    //Toast.makeText(BookMarkedPosts.this, "is it working ?", Toast.LENGTH_SHORT).show();
                     adapter = new MarkedPostsAdapter(postList,BookMarkedPosts.this);
                     layoutManager = new LinearLayoutManager(BookMarkedPosts.this);
                     recyclerView.setLayoutManager(layoutManager);

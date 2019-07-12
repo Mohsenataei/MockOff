@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.deathstroke.uniqueoff1.R;
 import com.example.deathstroke.uniqueoff1.Shop;
@@ -32,9 +33,49 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
     private RecyclerView mrecyclerView;
     private RegPostAdapter regPostAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private TextView shopnametextview;
     private Button shopButton, allrightButton;
     private List<Post> posts = new ArrayList<>();
+    private String shopname;
+    private int shopid;
+    private double lat;
+    private double lon;
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public int getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(int shopid) {
+        this.shopid = shopid;
+    }
+
     private static final String TAG = "MapPageBottomSheet";
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,8 +85,15 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
 
         shopButton = v.findViewById(R.id.map_goto_shop);
         allrightButton = v.findViewById(R.id.bottom_sheet_alright);
+        shopnametextview = v.findViewById(R.id.map_shop_name);
+        shopnametextview.setText(shopname);
         shopButton.setOnClickListener(view->{
-            startActivity(new Intent(getContext(),Shop.class));
+            Intent intent = new Intent(getContext(),Shop.class);
+            intent.putExtra("shopname",shopname);
+            intent.putExtra("shopid",String.valueOf(shopid));
+            intent.putExtra("latitiude",getLat());
+            intent.putExtra("longitude",getLon());
+            startActivity(intent);
         });
 
         allrightButton.setOnClickListener(view ->{
@@ -65,7 +113,7 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
 
 
     private void getshopPosts(){
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts("23");
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts(String.valueOf(getShopid()));
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
@@ -93,4 +141,5 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
         });
 
     }
+
 }
