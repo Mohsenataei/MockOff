@@ -10,6 +10,8 @@ import adapters.MarkedPostsAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -237,13 +239,19 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
                         postList.clear();
                     }
                     postList = response.body();
-                    if (postList)
+                    if (!postList.isEmpty()){
+                        adapter = new MarkedPostsAdapter(postList,BookMarkedPosts.this);
+                        layoutManager = new LinearLayoutManager(BookMarkedPosts.this);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+                    }else{
+                        //Snackbar snackbar = Snackbar.make(coordinator)
+                        Toast.makeText(BookMarkedPosts.this, "شما هیچ پستی را نشان نکرده اید", Toast.LENGTH_SHORT).show();
+                    }
                     //Toast.makeText(BookMarkedPosts.this, "is it working ?", Toast.LENGTH_SHORT).show();
-                    adapter = new MarkedPostsAdapter(postList,BookMarkedPosts.this);
-                    layoutManager = new LinearLayoutManager(BookMarkedPosts.this);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+
                 } else {
                     Toast.makeText(BookMarkedPosts.this, "onResponse: response is not successful", Toast.LENGTH_SHORT).show();
                 }

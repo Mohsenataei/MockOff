@@ -11,6 +11,7 @@ import android.os.Bundle;
 import Service.RetrofitClient;
 import adapters.HotPostsAdapter;
 import adapters.LazyLoadPost;
+import adapters.LoadMoreRecyclerViewAdapter;
 import adapters.RegPostAdapter;
 import adapters.SliderAdapter;
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
@@ -101,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     List<Post> currentPosts = new ArrayList<>();
     List<Post> newPosts = new ArrayList<>();
     private LazyLoadPost adapter;
+
+    // lazy loading 2
+    private List<Post> lazyposts = new ArrayList<>();
+    private int skip = 0;
+    private LoadMoreRecyclerViewAdapter loadMoreRecyclerViewAdapter;
+
 
     private boolean isLoading = false;
 
@@ -264,7 +272,42 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         hotPostsRecyclerView = findViewById(R.id.hot_posts_recyclerView);
         getHotPosts();
 
-        getRegularPosts();
+        //getRegularPosts();
+
+
+        lazyposts = LazyLoadPosts(skip);
+
+        regpostrecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
+        loadMoreRecyclerViewAdapter = new LoadMoreRecyclerViewAdapter(MainActivity.this,lazyposts,regpostrecycler);
+
+        loadMoreRecyclerViewAdapter.setOnLoadMoreListener(new LoadMoreRecyclerViewAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                if(lazyposts.size() <= 40){
+                    lazyposts.add(null);
+                    loadMoreRecyclerViewAdapter.notifyItemInserted(lazyposts.size()-1);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            lazyposts.remove(lazyposts.size()-1);
+                            loadMoreRecyclerViewAdapter.notifyItemRemoved(lazyposts.size());
+                            // get more posts :
+                            skip++;
+                            lazyposts = LazyLoadPosts(skip);
+                            loadMoreRecyclerViewAdapter.notifyDataSetChanged();
+                            loadMoreRecyclerViewAdapter.setLoaded();
+                        }
+                    },5000);
+                }else {
+                    Toast.makeText(MainActivity.this, "Loading data completed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -633,7 +676,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     }
 
-    private List<Post> getPosts(int skip){
+    private void getPosts(int skip){
 
         Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),skip);
 
@@ -653,7 +696,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
             }
         });
-        return newPosts;
 
     }
     private boolean isNetworkConnected(){
@@ -673,7 +715,33 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             intent.putExtra("flag","MainActivity");
             startActivity(intent);
         }
+    }
 
+    private List<Post> LazyLoadPosts(int skip){
+
+        List<Post> postList;
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),skip);
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: lazy load was successful");
+                    lazyposts = response.body();
+                }else {
+                    Log.d(TAG, "onResponse: lazy post, something went wrong");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+
+        postList = lazyposts;
+        return postList;
 
     }
 }

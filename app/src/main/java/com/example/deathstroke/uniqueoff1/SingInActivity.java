@@ -2,6 +2,9 @@ package com.example.deathstroke.uniqueoff1;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +13,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
@@ -20,9 +29,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SingInActivity extends AppCompatActivity{
+public class SingInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "mohsen" ;
+    private static final int REQ_SIGN_IN = 8;
     EditText email_field;
     EditText password_field;
     ImageButton sign_in_back_btn;
@@ -30,11 +40,16 @@ public class SingInActivity extends AppCompatActivity{
     Button google_btn;
     Button button;
 
+    // google sign in ui components
+    GoogleApiClient gApiClient;
+    SignInButton signInButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sing_in);
-
+        signInButton = findViewById(R.id.google_sign_in);
+        //signInButton.setSize(SignInButton.SIZE_WIDE);
         Typeface hintFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
 
         email_field = findViewById(R.id.sign_in_email);
@@ -57,7 +72,30 @@ public class SingInActivity extends AppCompatActivity{
 
 
 
+
+        GoogleSignInOptions gso = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        gApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+
+        signInButton.setOnClickListener(view->{
+            SignIn();
+        });
+
+
     }
+
+    private void SignIn(){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(gApiClient);
+        startActivityForResult(signInIntent,REQ_SIGN_IN);
+    }
+
     private void gotoHomePage(){
         Intent gotohome = new Intent(this,MainActivity.class);
         startActivity(gotohome);
@@ -98,6 +136,30 @@ public class SingInActivity extends AppCompatActivity{
             }
         });
         
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQ_SIGN_IN){
+            GoogleSignInResult gsResut = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            HandleSignInResult(gsResut);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private void HandleSignInResult(GoogleSignInResult gsResut) {
+        Log.d(TAG, "HandleSignInResult: " + gsResut);
+        if(gsResut.isSuccess()){
+            GoogleSignInAccount googleAccount = gsResut.getSignInAccount();
+        }else{
+
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }
