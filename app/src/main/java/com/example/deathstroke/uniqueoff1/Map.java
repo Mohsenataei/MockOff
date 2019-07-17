@@ -545,7 +545,7 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
                     nearestShopsList = response.body();
                     setNearestShops(response.body());
                 }else {
-                    Toast.makeText(Map.this, "Response is empty", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onResponse: response is empty");
                 }
 
             }
@@ -562,7 +562,7 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "MapActivity Resumed.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "MapActivity Resumed.", Toast.LENGTH_SHORT).show();
         if (!isNetworkConnected()){
             Intent intent = new Intent(Map.this,CheckNetworkConnection.class);
             intent.putExtra("flag","Map");

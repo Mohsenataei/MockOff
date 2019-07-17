@@ -170,7 +170,7 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         });
 
         Log.d(TAG, "onCreate: selected post count :"+post_count[0]);
-        Toast.makeText(this, "count is :"+post_count[0], Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "count is :"+post_count[0], Toast.LENGTH_SHORT).show();
 
         String price = getPrice();
         // uncomment this later

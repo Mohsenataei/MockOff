@@ -186,7 +186,7 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
                 // parent.getItemAtPosition(pos)
                 String city = parent.getItemAtPosition(pos).toString();
                 SaveSharedPreference.setCity(Classification.this,city);
-                Toast.makeText(Classification.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Classification.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -38,7 +38,7 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
     private static final int REQ_SIGN_IN = 8;
     EditText email_field;
     EditText password_field;
-    ImageButton sign_in_back_btn,pass_toggle;
+    ImageButton sign_in_back_btn;
 
     //Button google_btn;
     Button button;
@@ -76,23 +76,6 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
         });
 
 
-        pass_toggle = findViewById(R.id.password_toggle3);
-
-        pass_toggle.setOnClickListener(view->{
-            if(!p1){
-                p1 = true;
-                password_field.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                pass_toggle.setImageResource(R.drawable.ic_eye_clicked);
-            }else{
-                p1 = false;
-                password_field.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                pass_toggle.setImageResource(R.drawable.ic_eye);
-            }
-        });
-
-
-
-
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -125,29 +108,19 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
     private void userlogin (){
       String email = email_field.getText().toString();
       String passWord = password_field.getText().toString();
-      //password_field.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-      //form validation goes here :
 
-//        HashMap<String, String> header = new HashMap<>();
-//        header.put("content-type","application/json");
         Call<String> call = RetrofitClient.getmInstance().getApi().userLogin(email,passWord);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d(TAG,"onResponse, Server Response :" + response);
-                String s = response.body();
-                SaveSharedPreference.setAPITOKEN(SingInActivity.this,s);
-                try {
-                    Log.d(TAG,"onResponse API TOKEN IS :" + s);
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                }
 
-                if (s != null){
-                Toast.makeText(SingInActivity.this,"welcome" + s,Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "onResponse, Server Response :" + response);
+                    String s = response.body();
+                    SaveSharedPreference.setAPITOKEN(SingInActivity.this, s);
                     gotoHomePage();
-                }else{
-                    Toast.makeText(SingInActivity.this,"pls enter correct email or password ",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SingInActivity.this, "pls enter correct email or password ", Toast.LENGTH_SHORT).show();
                 }
             }
 

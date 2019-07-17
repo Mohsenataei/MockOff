@@ -45,9 +45,17 @@ public class ShowClassification extends AppCompatActivity {
         //    finish();
             mapPageBottomSheet.show(getSupportFragmentManager(),"mapbottomsheet");
         });
-
+        String cat = "";
+        switch (getIntentExtra()){
+            case "خدمات" :
+                cat = "1";
+                break;
+            case "تفریحی" :
+                cat = "2";
+                break;
+        }
         String category = getIntentExtra();
-        getCategoryPost(category);
+        getCategoryPost(cat);
     }
 
     private String getIntentExtra(){
