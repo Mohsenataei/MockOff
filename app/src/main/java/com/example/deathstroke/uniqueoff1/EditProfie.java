@@ -26,7 +26,7 @@ public class EditProfie extends AppCompatActivity implements DrawerLayout.Drawer
     //ui components :
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     NavigationView navigationView;
-    TextView appname;
+    TextView appname,title;
     private DrawerLayout drawerLayout;
     private ConstraintLayout main;
     ImageButton drawebtn;
@@ -48,6 +48,9 @@ public class EditProfie extends AppCompatActivity implements DrawerLayout.Drawer
             drawerLayout.openDrawer(navigationView);
         });
         main = findViewById(R.id.mainall45);
+
+        title = findViewById(R.id.just_appbar_tv);
+        title.setText("ویرایش اطلاعات کاربری");
 
 
         View header_items = navigationView.getHeaderView(0);

@@ -24,6 +24,7 @@
             android:background="@drawable/shadow" />
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/followed_shop_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,11 +32,11 @@
             android:src="@drawable/shop2" />
 
         <TextView
+            android:layout_gravity="start|center_vertical"
             android:id="@+id/followed_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
             android:text="باشگاه بدن سازی هیوانا"
             android:textSize="22sp" />
 

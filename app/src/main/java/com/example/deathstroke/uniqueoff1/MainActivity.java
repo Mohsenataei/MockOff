@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         });
 
         b12 = findViewById(R.id.go_to_post);
+        b12.setVisibility(View.GONE);
         b12.setOnClickListener(view->{
             startActivity(new Intent(this,PostPage.class));
         });
