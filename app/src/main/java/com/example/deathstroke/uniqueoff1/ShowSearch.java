@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -46,11 +47,14 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
     RegPostAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     List<Post> postList = new ArrayList<>();
+
+    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_search);
 
+        searchView = findViewById(R.id.showsearchView);
         search_filter = findViewById(R.id.search_filter_imgbtn);
         search_filter.setOnClickListener(view -> {
             SearchFilterBottomSheet searchFilterBottomSheet = new SearchFilterBottomSheet();
@@ -60,6 +64,21 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
         mRecyclerView = findViewById(R.id.show_search_recyclerview);
 
         String query = getntentExtra();
+        getSerarchResult(query);
+        
+        searchView.setQueryHint("جستجو");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getSerarchResult(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
 
     }
@@ -105,6 +124,43 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
     @Override
     public void onLayoutClicked(String cat_id) {
         //Toast.makeText(this, cat_id, Toast.LENGTH_SHORT).show();
+        String city = SaveSharedPreference.getCity(this);
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getcategoryPosts("2","همدان");
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: response is not successful ");
+
+                }
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: ");
+
+                    if(postList.isEmpty())
+                        postList.clear();
+
+                    postList = response.body();
+
+                    layoutManager = new LinearLayoutManager(ShowSearch.this);
+                    adapter = new RegPostAdapter(postList,ShowSearch.this);
+                    mRecyclerView.setLayoutManager(layoutManager);
+                    mRecyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    Log.d(TAG, "onResponse: something went wrong");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getSerarchResult(String query){
         String city = SaveSharedPreference.getCity(this);
         Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getcategoryPosts("2","همدان");
 

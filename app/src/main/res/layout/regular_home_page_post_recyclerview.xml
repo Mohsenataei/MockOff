@@ -24,7 +24,7 @@
             android:id="@+id/post_image"
             android:layout_width="130dp"
             android:layout_height="110dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:contentDescription="@string/postpic"
             android:src="@drawable/shop2"
             app:layout_constraintEnd_toEndOf="parent"
