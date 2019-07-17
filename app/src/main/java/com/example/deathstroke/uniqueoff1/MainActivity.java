@@ -32,6 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 import android.view.MenuItem;
 import android.widget.AdapterView;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private boolean filter_flag = false;
     private boolean line_flag = false;
 
+    Button b12;
     // lazy loading variables
 
     private int step = 0;
@@ -156,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             startActivity(new Intent(this,ShowSearch.class));
         });
 
+        b12 = findViewById(R.id.go_to_post);
+        b12.setOnClickListener(view->{
+            startActivity(new Intent(this,PostPage.class));
+        });
+
         filter_line.setOnClickListener(v->{
             if (!line_flag){
                 line_flag = true;
@@ -186,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 // parent.getItemAtPosition(pos)
                 String city = parent.getItemAtPosition(pos).toString();
                 SaveSharedPreference.setCity(MainActivity.this,city);
-                Toast.makeText(MainActivity.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -316,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 Intent intent = new Intent(MainActivity.this,ShowSearch.class);
                 intent.putExtra("query",query);
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, "you have entered: "+query, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "you have entered: "+query, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -378,19 +385,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         });
 
         exit.setOnClickListener(view ->{
-            //finish();
-//            Animation anim_slide_up = AnimationUtils.loadAnimation(this,R.anim.slide_up);
-//            LayoutInflater inflater = getLayoutInflater();
-//            View v = inflater.inflate(R.layout.confirm_exit_layout,null,false);
-//            v.startAnimation(anim_slide_up);
-////            SaveSharedPreference.removeAPITOKEN(MainActivity.this);
-////            System.exit(0);
             ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
             confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -405,13 +407,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         }
     }
 
-    private void doBookMark(ImageView imageView) {
-        imageView.setImageResource(R.drawable.ic_bookmark_onclick);
-    }
-
-    private void undoBookMark(ImageView imageView){
-        imageView.setImageResource(R.drawable.ic_bookmark);
-    }
 
     @Override
     public void onBackPressed() {
@@ -580,7 +575,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                         url[i] = imagesurl.get(i);
                         Log.d(TAG, "onResponse: second for statement :"+url[i]);
                     }
-                    sliderAdapter = new SliderAdapter(MainActivity.this, url);
+                    sliderAdapter = new SliderAdapter(MainActivity.this, url,headerPics);
                     viewPager.setAdapter(sliderAdapter);
                 }
             }
@@ -709,7 +704,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "MainActivity Resumed.", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "MainActivity Resumed.", Toast.LENGTH_SHORT).show();
         if (!isNetworkConnected()){
             Intent intent = new Intent(MainActivity.this,CheckNetworkConnection.class);
             intent.putExtra("flag","MainActivity");
@@ -744,4 +739,5 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         return postList;
 
     }
+
 }

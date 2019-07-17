@@ -6,5 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".NearestOffs">
 
+    <include
+        android:id="@+id/include2"
+        layout="@layout/just_fucking_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

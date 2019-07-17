@@ -63,6 +63,7 @@ import Service.CustomTypefaceSpan;
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import bottomsheetdialoges.MapPageBottomSheet;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -71,7 +72,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Map extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DrawerLayout.DrawerListener {
+public class Map extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     private static final int MULTIPLE_PERMISSION_REQUEST_CODE = 4;
     private static final String TAG = "Map" ;
@@ -124,13 +125,13 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         drawerLayout.setDrawerElevation(0);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(this);
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
+//        if (mGoogleApiClient == null) {
+//            mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                    .addConnectionCallbacks(this)
+//                    .addOnConnectionFailedListener(this)
+//                    .addApi(LocationServices.API)
+//                    .build();
+//        }
         openDrawwer();
         backbtn.setOnClickListener(view -> {
             finish();
@@ -145,6 +146,22 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         IMapController mapController = mapView.getController();
         mapController.setZoom(15.5);
         GeoPoint startPoint = new GeoPoint(34.796830, 48.514820);
+
+
+        // set a custom marker on map
+        Marker marker = new Marker(mapView);
+        marker.setPosition(new GeoPoint(34.796840,48.514855));
+        marker.setTitle("custom marker");
+        marker.setInfoWindow(null);
+        marker.showInfoWindow();
+        mapView.getOverlays().add(marker);
+        mapView.invalidate();
+        marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
+
+
+
+
+
         mapController.setCenter(startPoint);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
@@ -321,7 +338,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 String longitudeFormattedStr = longitudeStr.substring(0, Math.min(longitudeStr.length(), 7));
 
                 Log.i("zoom", "" + mapView.getMapCenter().getLatitude() + ", " + mapView.getMapCenter().getLongitude());
-                TextView latLongTv = (TextView) findViewById(R.id.textView);
+                //TextView latLongTv = (TextView) findViewById(R.id.textView);
 //                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
                 return true;
             }
@@ -336,7 +353,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 String longitudeFormattedStr = longitudeStr.substring(0, Math.min(longitudeStr.length(), 7));
 
                 Log.i("scroll", "" + mapView.getMapCenter().getLatitude() + ", " + mapView.getMapCenter().getLongitude());
-                TextView latLongTv = (TextView) findViewById(R.id.textView);
+                //TextView latLongTv = (TextView) findViewById(R.id.textView);
 //                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
                 return true;
             }
@@ -395,11 +412,14 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -414,33 +434,33 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         }
     }
 
-    protected void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+//    protected void onStart() {
+//        mGoogleApiClient.connect();
+//        super.onStart();
+//    }
+//
+//    protected void onStop() {
+//        mGoogleApiClient.disconnect();
+//        super.onStop();
+//    }
+//    @Override
+//    public void onConnected(Bundle connectionHint) {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//
+//    }
+//
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//
+//    }
 
     @Override
     public void onDrawerOpened(View arg0) {

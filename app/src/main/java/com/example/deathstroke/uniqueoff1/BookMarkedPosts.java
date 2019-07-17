@@ -32,6 +32,7 @@ import Service.SaveSharedPreference;
 import Service.SetTypefaces;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
 import entities.Post;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -183,11 +184,14 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -267,4 +271,5 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
         
 
     }
+
 }

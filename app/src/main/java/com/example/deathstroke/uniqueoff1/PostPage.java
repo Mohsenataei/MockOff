@@ -2,6 +2,7 @@ package com.example.deathstroke.uniqueoff1;
 
 import android.content.Context;
 
+import Service.CustomTypefaceSpan;
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import adapters.SliderAdapter;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -21,7 +23,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -63,6 +67,8 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     private NumberPicker mNumberPicker;
     private static String[] persianNumbers = new String[]{ "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
     private Button buy;
+
+    DonutProgress donutProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +80,15 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         navigationView = findViewById(R.id.nav_view);
         main = findViewById(R.id.postPage);
         drawer = findViewById(R.id.drawebtn);
+        Typeface yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         discount = (TextView) findViewById(R.id.post_discount_percentage);
         original_price_tv = findViewById(R.id.post_page_original_price);
         discount_tv = findViewById(R.id.post_page_discount_price);
 
+        donutProgress = findViewById(R.id.discount_progress);
 
+        donutProgress.setProgress(15f);
+        donutProgress.setStartingDegree(270);
         // setting pie chart
 
         //PieChart mpieChart = findViewById(R.id.pieChart);
@@ -114,16 +124,16 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         tabLayout = findViewById(R.id.indicator);
         getExtrainfo();
         bottomNavigationView = findViewById(R.id.navigation);
+        CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
 
-//        for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
-//            MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
-//            SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
-//            spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
-//            mMenuitem.setTitle(spannableTitle);
-//            if (i==3) {
-//                mMenuitem.setChecked(true);
-//            }
-//        }
+        for (int i=0;i<bottomNavigationView.getMenu().size();i++) {
+            MenuItem mMenuitem = bottomNavigationView.getMenu().getItem(i);
+            SpannableStringBuilder spannableTitle = new SpannableStringBuilder(mMenuitem.getTitle());
+            spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
+            mMenuitem.setTitle(spannableTitle);
+              //  mMenuitem.setChecked(false);
+        }
 
 
 
@@ -163,7 +173,8 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         Toast.makeText(this, "count is :"+post_count[0], Toast.LENGTH_SHORT).show();
 
         String price = getPrice();
-        setPriceTextView(price,post_count[0]);
+        // uncomment this later
+//        setPriceTextView(price,post_count[0]);
 
         buy = findViewById(R.id.buy_button);
 
@@ -211,7 +222,7 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         if (getIntent().hasExtra("price")){
             return getIntent().getStringExtra("price");
         }
-        return null;
+        return "";
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -288,6 +299,9 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             String use_date = getIntent().getStringExtra("e_date_use");
             String post_id = getIntent().getStringExtra("post_id");
             String discount_percentage = getIntent().getStringExtra("discount");
+            float temp = Float.parseFloat(discount_percentage);
+            donutProgress.setProgress(temp);
+            donutProgress.setStartingDegree(270);
             String[] img_urls = getIntent().getStringArrayExtra("img_urls");
             if (img_urls.length == 1){
                 tabLayout.setVisibility(View.GONE);

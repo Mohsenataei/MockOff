@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 
 import Service.RetrofitClient;
+import Service.SaveSharedPreference;
 import adapters.SliderAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import Service.CustomTypefaceSpan;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import entities.Detail;
 import entities.ShopShits;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -53,11 +55,14 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     private String[] images ;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
+    NavigationView navigationView;
     private static final String TAG = "Shop";
     private String shopname;
-    private int shopid;
+    TextView appname;
+    private String shopid;
     private double lat;
     private double lon;
+    private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
 
     public double getLat() {
         return lat;
@@ -82,6 +87,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(this);
         drawerLayout.setDrawerElevation(0);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
+        //drawerLayout.setDrawerElevation(0);
         main = findViewById(R.id.this_one);
         off_flag = map_flag = info_flag = notify_me_flag = false;
         shop_location = findViewById(R.id.shop_location_image_view);
@@ -94,6 +101,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         shop_offs = findViewById(R.id.shop_offs_image_view);
         shop_offs_text_view = findViewById(R.id.shop_offs_textView);
         shop_offs_text_view.setTypeface(yekanFont);
+        navigationView = findViewById(R.id.nav_view);
 //
 //        ImageButton imageButton = findViewById(R.id.drawebtn);
 //
@@ -118,7 +126,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
         });
 
-        main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
+        //main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
         if(drawerLayout == null){
             Toast.makeText(this, "drawerLayout is null", Toast.LENGTH_SHORT).show();
         }
@@ -133,7 +141,6 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 else {
                     drawebtn.setOnClickListener(view -> {
                         Toast.makeText(this, "clicked on a button", Toast.LENGTH_SHORT).show();
-                        NavigationView navigationView = findViewById(R.id.nav_view);
                         drawerLayout.openDrawer(navigationView);
                     });
                 }
@@ -143,7 +150,16 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
 
 
+
         }
+
+        View header_items = navigationView.getHeaderView(0);
+
+        initilizeheaderbuttons(header_items);
+
+
+        setHeaderitems();
+        handleNavDrawerItemClick();
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.shopViewPager);
 //        setViewPager();
@@ -259,11 +275,12 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 
     //get intent extras :
     private void getIntentExtras(){
+
         if (getIntent().hasExtra("shopname") && getIntent().hasExtra("shopid") &&
             getIntent().hasExtra("latitude") && getIntent().hasExtra("longitude")){
             Log.d(TAG, "getIntentExtras: found extras ");
             shopname = getIntent().getStringExtra("shopname");
-            shopid =Integer.parseInt(getIntent().getStringExtra("shopid"));
+            shopid = getIntent().getStringExtra("shopid");
             lat = Double.parseDouble(getIntent().getStringExtra("latitude"));
             lon = Double.parseDouble(getIntent().getStringExtra("longitude"));
 
@@ -369,8 +386,82 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
         });
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+    private void initilizeheaderbuttons(View header_items) {
+        //ButterKnife.bind(header_items);
+        signup = header_items.findViewById(R.id.header_sign_up);
+        signin = header_items.findViewById(R.id.header_sign_in);
+        bookmarks = header_items.findViewById(R.id.bookmark_centers);
+        followed_centers = header_items.findViewById(R.id.followed_centers);
+        frequently_asked_questions = header_items.findViewById(R.id.header_faq);
+        terms_off_service = header_items.findViewById(R.id.terms);
+        contactus = header_items.findViewById(R.id.contact_us);
+        share_with_friends = header_items.findViewById(R.id.share_us);
+        exit = header_items.findViewById(R.id.exit);
+        edit = header_items.findViewById(R.id.edit);
+        appname = header_items.findViewById(R.id.header_app_name);
+    }
+    private void setHeaderitems() {
+        if(SaveSharedPreference.getAPITOKEN(Shop.this).length() > 0  ){
+            signin.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
+            appname.setVisibility(View.VISIBLE);
+            appname.setText(R.string.title_activity_test_navigation_drawer);
+            //appname.setTypeface(yekanfont);
+        }
+    }
+
+    private void handleNavDrawerItemClick(){
+        signup.setOnClickListener(view->{
+            startActivity(new Intent(Shop.this,SignUpActivity.class));
+        });
+        signin.setOnClickListener(view->{
+            startActivity(new Intent(Shop.this,SingInActivity.class));
+        });
+
+        bookmarks.setOnClickListener(view -> {
+            startActivity(new Intent(Shop.this,BookMarkedPosts.class));
+        });
+
+        followed_centers.setOnClickListener(view -> {
+            startActivity(new Intent(Shop.this,FollowedShops.class));
+            //drawerLayout.closeDrawer(navigationView);
+        });
+
+        frequently_asked_questions.setOnClickListener(view -> {
+            startActivity(new Intent(Shop.this,FAQ.class));
+        });
+
+//        terms_off_service.setOnClickListener(view->{
+//            startActivity(new Intent(MyCodes.this,.class));
+//        });
+
+        contactus.setOnClickListener(view->{
+            startActivity(new Intent(Shop.this,contact_us.class));
+            //drawerLayout.closeDrawer(navigationView);
+        });
+
+        share_with_friends.setOnClickListener(view -> {
+            //startActivity(new Intent(MyCodes.this,BookMarkedPosts.class));
+            Toast.makeText(this, "پیشنهاد به دوستان", Toast.LENGTH_SHORT).show();
+        });
+
+        exit.setOnClickListener(view ->{
+            //finish();
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
+        });
+
+        edit.setOnClickListener(view->{
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
+        });
+
+
     }
 }

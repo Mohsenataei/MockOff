@@ -70,11 +70,12 @@ public class shop_map_fragment extends Fragment {
         mapView = layoutInflater.findViewById(R.id.shop_map_location);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         IMapController mapController = mapView.getController();
+
         mapController.setZoom(15.5);
-        GeoPoint startPoint = new GeoPoint(getLat(), getLon());
+        GeoPoint startPoint = new GeoPoint(34.796840, 48.514855);
         mapController.setCenter(startPoint);
         Marker marker = new Marker(mapView);
-        marker.setPosition(new GeoPoint(getLat(),getLon()));
+        marker.setPosition(new GeoPoint(34.796840,48.514855));
         marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
         marker.setTitle("custom marker");
         marker.setInfoWindow(null);

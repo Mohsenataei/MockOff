@@ -91,7 +91,7 @@ public class MapPageBottomSheet extends BottomSheetDialogFragment {
             Intent intent = new Intent(getContext(),Shop.class);
             intent.putExtra("shopname",shopname);
             intent.putExtra("shopid",String.valueOf(shopid));
-            intent.putExtra("latitiude",getLat());
+            intent.putExtra("latitude",getLat());
             intent.putExtra("longitude",getLon());
             startActivity(intent);
         });

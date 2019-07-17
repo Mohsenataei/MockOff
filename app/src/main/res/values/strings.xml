@@ -48,7 +48,7 @@
     <string name="title_home">خانه</string>
     <string name="address">همدان، ساختمان زاگرس، واحد 2</string>
     <string name="phone_number">081-3335555</string>
-    <string name="email">info@uniqeoff.com</string>
+    <string name="email">info@mocatag.ir</string>
     <string name="social_network">شبکه های اجتماعی</string>
     <string name="cooperation_request">درخواست همکاری</string>
     <string name="notif">اعلانات</string>
@@ -119,5 +119,12 @@
     <string name="networkstatustextview">networkstatustextview</string>
     <string name="networkstatus_disconnected">ارتباط شما با اینترنت قطع است</string>
     <string name="retry">تلاش مجدد</string>
+    <string name="info_circle">info_circle</string>
+    <string name="information">اطلاعات</string>
+    <string name="attributes">ویژگی ها</string>
+    <string name="clipboard_list">clipboard_list</string>
+    <string name="qrcode">کد</string>
+    <integer name="google_play_services_version">12451000</integer>
+
 
 </resources>

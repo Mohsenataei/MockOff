@@ -33,6 +33,12 @@ public interface Api {
     );
 
     @FormUrlEncoded
+    @POST("google_signin")
+    Call<String> googleSingIn(
+            @Field("email") String email
+    );
+
+    @FormUrlEncoded
     @POST("login/client")
     Call<String> userLogin(
             //@HeaderMap Map<String, String> headers,

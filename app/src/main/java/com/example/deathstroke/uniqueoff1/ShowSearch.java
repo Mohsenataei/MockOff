@@ -61,6 +61,7 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
 
         String query = getntentExtra();
 
+
     }
 
     private void ShowSearch(){

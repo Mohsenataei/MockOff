@@ -87,14 +87,14 @@ public class shop_info_fragment extends Fragment {
 
 
 
-    private int shopid;
+    private String shopid;
     private String shopname;
 
-    public int getShopid() {
+    public String getShopid() {
         return shopid;
     }
 
-    public void setShopid(int shopid) {
+    public void setShopid(String shopid) {
         this.shopid = shopid;
     }
 
@@ -146,7 +146,7 @@ public class shop_info_fragment extends Fragment {
     }
 
     private void getShopDetails(){
-        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails(String.valueOf(getShopid()));
+        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails(getShopid());
         call.enqueue(new Callback<ShopShits>() {
             @Override
             public void onResponse(Call<ShopShits> call, Response<ShopShits> response) {

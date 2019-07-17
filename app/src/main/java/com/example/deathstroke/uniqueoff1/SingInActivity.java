@@ -1,5 +1,6 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,10 +38,12 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
     private static final int REQ_SIGN_IN = 8;
     EditText email_field;
     EditText password_field;
-    ImageButton sign_in_back_btn;
+    ImageButton sign_in_back_btn,pass_toggle;
 
-    Button google_btn;
+    //Button google_btn;
     Button button;
+
+    boolean p1;
 
     // google sign in ui components
     GoogleApiClient gApiClient;
@@ -56,8 +61,8 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
         email_field.setTypeface(hintFont);
         password_field = findViewById(R.id.sign_in_password);
         password_field.setTypeface(hintFont);
-        google_btn = findViewById(R.id.google_sign_up);
-        google_btn.setTypeface(hintFont);
+        //google_btn = findViewById(R.id.google_sign_in);
+       // google_btn.setTypeface(hintFont);
         sign_in_back_btn = findViewById(R.id.sign_in_back_btn);
         sign_in_back_btn.setOnClickListener((view)->{
             finish();
@@ -68,6 +73,21 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
         button.setOnClickListener((view) -> {
 
             userlogin();
+        });
+
+
+        pass_toggle = findViewById(R.id.password_toggle3);
+
+        pass_toggle.setOnClickListener(view->{
+            if(!p1){
+                p1 = true;
+                password_field.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                pass_toggle.setImageResource(R.drawable.ic_eye_clicked);
+            }else{
+                p1 = false;
+                password_field.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                pass_toggle.setImageResource(R.drawable.ic_eye);
+            }
         });
 
 
@@ -83,7 +103,6 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
 
-
         signInButton.setOnClickListener(view->{
             SignIn();
         });
@@ -96,6 +115,8 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
         startActivityForResult(signInIntent,REQ_SIGN_IN);
     }
 
+
+
     private void gotoHomePage(){
         Intent gotohome = new Intent(this,MainActivity.class);
         startActivity(gotohome);
@@ -104,7 +125,7 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
     private void userlogin (){
       String email = email_field.getText().toString();
       String passWord = password_field.getText().toString();
-
+      //password_field.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
       //form validation goes here :
 
 //        HashMap<String, String> header = new HashMap<>();
@@ -142,6 +163,7 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQ_SIGN_IN){
+            Log.d(TAG, "onActivityResult: request code match " + requestCode);
             GoogleSignInResult gsResut = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             HandleSignInResult(gsResut);
         }
@@ -150,16 +172,55 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     private void HandleSignInResult(GoogleSignInResult gsResut) {
-        Log.d(TAG, "HandleSignInResult: " + gsResut);
+        Log.d(TAG, "HandleSignInResult: " );
+        //signInWithGoogle(gsResut.getSignInAccount());
         if(gsResut.isSuccess()){
+            Log.d(TAG, "HandleSignInResult: gs result is successful" + gsResut.isSuccess());
             GoogleSignInAccount googleAccount = gsResut.getSignInAccount();
+            signInWithGoogle(googleAccount);
         }else{
-
+            signInWithGoogle(null);
         }
+    }
+
+    private void signInWithGoogle(GoogleSignInAccount account){
+        if(account == null){
+            Toast.makeText(this, "حساب کاربری گوگل پیدا نشد", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String email = account.getEmail();
+        googleSignIn(email);
+    }
+
+
+    private void googleSignIn(String email){
+        Call<String> call = RetrofitClient.getmInstance().getApi().googleSingIn(email);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: Sign in activity " + response.body());
+                    String APITOKEN = response.body();
+                    SaveSharedPreference.setAPITOKEN(SingInActivity.this,APITOKEN);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, "onFailure: sign in activity ", t );
+            }
+        });
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(TAG, "onConnectionFailed: connection failed" + connectionResult);
 
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }

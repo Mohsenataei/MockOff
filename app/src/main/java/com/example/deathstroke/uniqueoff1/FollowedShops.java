@@ -1,5 +1,6 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -27,8 +28,10 @@ import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
 import adapters.SubShopsAdapter;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
 import entities.SubShop;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -194,11 +197,16 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
+
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -262,6 +270,9 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
 //            e.printStackTrace();
 //        }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
 
     }

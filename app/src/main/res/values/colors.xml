@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FBFBFB</color>
+    <color name="colorPrimaryDark">#005</color>
     <color name="colorAccent">#D81B60</color>
     <color name="Azure">#F1F5F8</color>
     <color name="background_color">#FBFBFB</color>
@@ -25,5 +25,5 @@
     <color name="price_color">#30E3CA</color>
     <color name="pink">#F85F73</color>
     <color name="bottom_sheet_border_color">#454D56</color>
-    <color name="pirchart_round_color">#30E3CA</color>
+    <color name="progress_round_color">#30E3CA</color>
 </resources>

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import entities.Post;
+
 public class SaveSharedPreference {
     private static final String APITOKEN= "ApiToken";
     private static final String CITY ="city";
@@ -11,6 +13,7 @@ public class SaveSharedPreference {
     private static final String SHOP_NAME = "shop_name";
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
+    private static final String POST = "post";
 
     private static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -77,6 +80,11 @@ public class SaveSharedPreference {
     public static String getLongitude(Context context){
         return getSharedPreferences(context).getString(LONGITUDE,"");
     }
+
+//    public static void setPost (Context context, Post post){
+//        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+//        editor.put
+//    }
 
 }
 
