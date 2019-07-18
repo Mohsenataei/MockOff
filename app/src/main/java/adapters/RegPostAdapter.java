@@ -83,7 +83,9 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
 
         String tmp = String.valueOf(Integer.parseInt(model.getPrice()) - ((Integer.parseInt(model.getPrice()) * model.getDiscount())/100));
         holder.price_with_discount.setText(tmp + context.getString(R.string.toman));
+        //holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.get().load(model.getPics().get(0).getThumblink()).into(holder.post_imageview);
+        holder.progressBar.setVisibility(View.GONE);
 
         holder.location.setText(model.getAddress());
 
@@ -190,6 +192,7 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
         boolean flag = false;
         OnPostClickListener onPostClickListener;
         ConstraintLayout main;
+        ProgressBar progressBar;
 
         public PostViewHolder(@NonNull View itemView, OnPostClickListener onPostClickListener) {
             super(itemView);
@@ -204,6 +207,7 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             bookmark = itemView.findViewById(R.id.post_bookmark);
             post_imageview = itemView.findViewById(R.id.post_image);
             main = itemView.findViewById(R.id.main_post_constraint_layout);
+            progressBar = itemView.findViewById(R.id.regular_posts_progressBar);
             this.onPostClickListener = onPostClickListener;
         }
 

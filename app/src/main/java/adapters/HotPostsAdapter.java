@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +79,7 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
         //RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create();
 
         Picasso.get().load(model.getPics().get(0).getThumblink()).into(holder.post_imageview);
+        holder.progressBar.setVisibility(View.GONE);
         //Picasso.with(context).load(model.getPics().get(0).getThumblink()).into(holder.post_imageview);
 
         holder.bookmark.setOnClickListener(view->{
@@ -180,6 +182,7 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
         ImageView post_imageview,bookmark;
         boolean flag = false;
         LinearLayout main;
+        ProgressBar progressBar;
 
         public HotViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -191,6 +194,7 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
             post_imageview = itemView.findViewById(R.id.hot_post_image_view);
             bookmark = itemView.findViewById(R.id.hot_bookmark);
             main = itemView.findViewById(R.id.hot_posts_container);
+            progressBar = itemView.findViewById(R.id.hot_progressBar);
 
         }
     }
