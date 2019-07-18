@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import entities.Post;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -175,4 +176,5 @@ public class shop_offs_fragment extends Fragment {
 //        // TODO: Update argument type and name
 //        void onShopOffsFragmentInteraction(Uri uri);
 //    }
+
 }

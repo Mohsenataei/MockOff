@@ -63,7 +63,17 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
         Log.d(TAG, "onBindViewHolder: "+ position);
         final PostViewHolder postViewHolder = holder;
         Post model = posts.get(position);
-        holder.post_title.setText(model.getTitle());
+
+        if(model.getTitle().length() > 18){
+            Log.d("check size", "onBindViewHolder: title size is bigger than 18 ");
+            String tmp = model.getTitle().substring(0,17);
+            tmp = tmp.concat("...");
+            holder.post_title.setText(tmp);
+        }else {
+            Log.d("check size", "onBindViewHolder: title size is smaller than 18 ");
+            holder.post_title.setText(model.getTitle());
+        }
+
         holder.shop_name.setText(model.getShop_name());
 
         holder.discount.setText(String.valueOf(model.getDiscount())+context.getString(R.string.percentage));
@@ -242,6 +252,16 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
 
         }
     };
+
+    public void addPosts(List<Post> newposts){
+
+        for(Post post : newposts){
+            posts.add(post);
+        }
+        notifyDataSetChanged();
+
+
+    }
 
 
 }

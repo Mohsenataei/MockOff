@@ -48,7 +48,7 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
     RecyclerView.LayoutManager layoutManager;
     List<Post> postList = new ArrayList<>();
 
-    SearchView searchView;
+    androidx.appcompat.widget.SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +67,7 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
         getSerarchResult(query);
         
         searchView.setQueryHint("جستجو");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 getSerarchResult(query);
@@ -79,6 +79,18 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
                 return false;
             }
         });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                getSerarchResult(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
 
 
     }
@@ -162,7 +174,7 @@ public class ShowSearch extends AppCompatActivity implements DrawerLayout.Drawer
 
     private void getSerarchResult(String query){
         String city = SaveSharedPreference.getCity(this);
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getcategoryPosts("2","همدان");
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getcategoryPosts("3","همدان");
 
         call.enqueue(new Callback<List<Post>>() {
             @Override

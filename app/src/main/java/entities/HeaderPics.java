@@ -9,6 +9,19 @@ public class HeaderPics {
     @Expose
     private String thumblink;
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @SerializedName("url")
+    @Expose
+    private String url;
+
+
     @SerializedName("shop_id")
     @Expose
     private String shop_id;
@@ -21,11 +34,12 @@ public class HeaderPics {
     @Expose
     private String city_id;
 
-    public HeaderPics(String thumblink, String shop_id, String post_id, String city_id) {
+    public HeaderPics(String thumblink, String shop_id, String post_id, String city_id, String url) {
         this.thumblink = "https://www.mocatag.ir/" +  thumblink;
         this.shop_id = shop_id;
         this.post_id = post_id;
         this.city_id = city_id;
+        this.url = url;
     }
 
 

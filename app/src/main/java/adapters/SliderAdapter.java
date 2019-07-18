@@ -64,18 +64,18 @@ public class SliderAdapter extends PagerAdapter {
         Picasso.get()
                 .load(imgurls[position])
                 .fit()
-                .centerCrop()
                 .into(imageView);
 
 
         Log.d("aghamohsen", "instantiateItem: " + imgurls[position]);
         container.addView(imageView);
 
+        if(headerPics != null){
         if(!headerPics.isEmpty()){
             //listening to image click
             imageView.setOnClickListener(view-> {
-                if(headerPics.get(position).getThumblink() != null)
-                    context.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(headerPics.get(position).getThumblink())));
+                if(headerPics.get(position).getUrl() != null)
+                    context.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(headerPics.get(position).getUrl())));
                 else if(headerPics.get(position).getPost_id() != null) {
                     Intent intent = new Intent(context, PostPage.class);
                     intent.putExtra("post_id",headerPics.get(position).getPost_id());
@@ -87,6 +87,7 @@ public class SliderAdapter extends PagerAdapter {
                 }
             });
 
+        }
         }
 
 

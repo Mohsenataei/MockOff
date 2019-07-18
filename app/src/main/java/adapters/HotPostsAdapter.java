@@ -58,7 +58,16 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
 
         Post model = hotPosts.get(position);
 
-        holder.post_title.setText(model.getTitle());
+        if(model.getTitle().length() > 15){
+            Log.d("check size", "onBindViewHolder: title size is bigger than 18 ");
+            String tmp = model.getTitle().substring(0,14);
+            tmp = tmp.concat("...");
+            holder.post_title.setText(tmp);
+        }else {
+            Log.d("check size", "onBindViewHolder: title size is smaller than 18 ");
+            holder.post_title.setText(model.getTitle());
+        }
+        //holder.post_title.setText(model.getTitle());
         holder.shop_name.setText(model.getShop_name());
         holder.original_price.setText(String.valueOf(model.getPrice()) + context.getString(R.string.toman));
         holder.original_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -85,20 +94,29 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
 
         holder.main.setOnClickListener(view ->{
             Intent intent = new Intent(context,PostPage.class);
-            String title = model.getTitle();
-            if(title.length() > 18){
-                title = title.substring(0,17);
-                title = title.concat("...");
-                intent.putExtra("post_title",title);
-            }else{
-                intent.putExtra("post_title",model.getTitle());
-            }
+            intent.putExtra("post_title",model.getTitle());
             intent.putExtra("quantity",String.valueOf(model.getQuantity()));
+            intent.putExtra("price",model.getPrice());
+            intent.putExtra("discount",String.valueOf(model.getDiscount()));
+            Log.d("PostPage", "Reg post adapter -> onBindViewHolder: " + model.getPrice());
+            intent.putExtra("post_id",model.getId());
+            intent.putExtra("e_date_use",model.getE_date_show());
+            intent.putExtra("e_date_show",model.getE_date_use());
+            intent.putExtra("shop_name",model.getShop_name());
             List<Pics> pics = model.getPics();
-            String[] headerimgs = new String[pics.size()-1];
-            for (int i=1;i<pics.size()-1;i++){
-                headerimgs[i] = pics.get(i).getThumblink();
+            String[] headerimgs = new String[pics.size()];
+
+            if (pics.size() == 1){
+                headerimgs[0] = pics.get(0).getThumblink();
+                Log.d("headerimgs", "onBindViewHolder: header pic size is 1");
+            }else {
+                Log.d("headerimgs", "onBindViewHolder: pic size is : "+pics.size());
+                for (int i=0;i<pics.size();i++){
+                    headerimgs[i] = pics.get(i).getThumblink();
+                    Log.d("headerimgs", "onBindViewHolder: "+headerimgs[i]);
+                }
             }
+
             intent.putExtra("img_urls",headerimgs);
             Log.d(TAG, "onBindViewHolder: quantity" + model.getQuantity());
             context.startActivity(intent);

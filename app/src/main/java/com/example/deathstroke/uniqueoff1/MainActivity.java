@@ -41,6 +41,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,7 +113,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private LoadMoreRecyclerViewAdapter loadMoreRecyclerViewAdapter;
 
 
-    private boolean isLoading = false;
+    //private boolean isLoading = false;
+
+
+    //pagination shits
+    private ProgressBar progressBar;
+    private RecyclerView pagination_recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private int skipp = 0;
+    private RegPostAdapter paginationAdapter;
+
+    private boolean isLoading = true;
+    private int pastVisibleItems,visibleItemCount,totalItemCount,previousTotal=0;
+    private int viewTreshold =10;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             intent.putExtra("flag","MainActivity");
             startActivity(intent);
         }
+
         searchView = findViewById(R.id.searchView);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -204,9 +220,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         });
        // tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.viewPager);
-        viewPager.setClipToPadding(false);
-        viewPager.setPadding(40, 0, 40, 0);
-        viewPager.setPageMargin(20);
+//        viewPager.setClipToPadding(false);
+//        viewPager.setPadding(40, 0, 40, 0);
+//        viewPager.setPageMargin(20);
         getHeaderAdPics();
         //Log.d(TAG, "onCreate: " + imagesurl[0]);
 
@@ -276,41 +292,46 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
 
 
-        regpostrecycler = findViewById(R.id.req_home_post_recycler);
+        //regpostrecycler = findViewById(R.id.req_home_post_recycler);
         hotPostsRecyclerView = findViewById(R.id.hot_posts_recyclerView);
         getHotPosts();
 
         //getRegularPosts();
 
 
-        lazyposts = LazyLoadPosts(skip);
+//        LazyLoadPosts(skip);
+//
+//        if(lazyposts.isEmpty()){
+//            Log.d("lazyload", "onCreate: lazypost is empty");
+//        }
 
-        regpostrecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
-        loadMoreRecyclerViewAdapter = new LoadMoreRecyclerViewAdapter(MainActivity.this,lazyposts,regpostrecycler);
+//        regpostrecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
+//        loadMoreRecyclerViewAdapter = new LoadMoreRecyclerViewAdapter(MainActivity.this,lazyposts,regpostrecycler);
 
-        loadMoreRecyclerViewAdapter.setOnLoadMoreListener(new LoadMoreRecyclerViewAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                if(lazyposts.size() <= 40){
-                    lazyposts.add(null);
-                    loadMoreRecyclerViewAdapter.notifyItemInserted(lazyposts.size()-1);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            lazyposts.remove(lazyposts.size()-1);
-                            loadMoreRecyclerViewAdapter.notifyItemRemoved(lazyposts.size());
-                            // get more posts :
-                            skip++;
-                            lazyposts = LazyLoadPosts(skip);
-                            loadMoreRecyclerViewAdapter.notifyDataSetChanged();
-                            loadMoreRecyclerViewAdapter.setLoaded();
-                        }
-                    },5000);
-                }else {
-                    Toast.makeText(MainActivity.this, "Loading data completed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        /loadMoreRecyclerViewAdapter.setOnLoadMoreListener(new LoadMoreRecyclerViewAdapter.OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//                Log.d("lazyload", "onLoadMore: loading more posts");
+//                if(lazyposts.size() <= 40){
+//                    lazyposts.add(null);
+//                    loadMoreRecyclerViewAdapter.notifyItemInserted(lazyposts.size()-1);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            lazyposts.remove(lazyposts.size()-1);
+//                            loadMoreRecyclerViewAdapter.notifyItemRemoved(lazyposts.size());
+//                            // get more posts :
+//                            skip++;
+//                            lazyposts = LazyLoadPosts(skip);
+//                            loadMoreRecyclerViewAdapter.notifyDataSetChanged();
+//                            loadMoreRecyclerViewAdapter.setLoaded();
+//                        }
+//                    },5000);
+//                }else {
+//                    Toast.makeText(MainActivity.this, "Loading data completed", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
 
 
@@ -334,6 +355,66 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 return false;
             }
         });
+
+
+        // pagination do shits
+        progressBar = findViewById(R.id.home_progressbar);
+        pagination_recyclerView = findViewById(R.id.req_home_post_recycler);
+        linearLayoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        pagination_recyclerView.setLayoutManager(linearLayoutManager);
+
+        progressBar.setVisibility(View.VISIBLE);
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(
+                SaveSharedPreference.getCity(this),skipp
+        );
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    List<Post> postList = response.body();
+                    paginationAdapter = new RegPostAdapter(postList,MainActivity.this);
+                    pagination_recyclerView.setAdapter(paginationAdapter);
+                    progressBar.setVisibility(View.GONE);
+                    Log.d("pagination", "onResponse: First call for pagination adapter");
+                    Toast.makeText(MainActivity.this, "First call for pagination adapter", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
+
+        pagination_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                visibleItemCount = linearLayoutManager.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if(dy>0){
+                    if(isLoading){
+                        if(totalItemCount>previousTotal){
+                            isLoading=false;
+                            previousTotal = totalItemCount;
+                        }
+
+                    }
+
+                    if(!isLoading && (totalItemCount-visibleItemCount)<= (pastVisibleItems+viewTreshold)){
+                        skipp++;
+                        performPagination();
+                        isLoading=true;
+                    }
+                }
+            }
+        });
+
+
+
     }
 
     private void initilizeheaderbuttons(View header_items) {
@@ -716,16 +797,23 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private List<Post> LazyLoadPosts(int skip){
 
         List<Post> postList;
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),skip);
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),2);
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if(response.isSuccessful() && response.body() != null){
-                    Log.d(TAG, "onResponse: lazy load was successful");
+                    Log.d("lazyload", "onResponse: lazy load was successful");
+                    if(response.body() == null){
+                        Log.d("lazyload", "onResponse: response body is empty.");
+                    }
                     lazyposts = response.body();
+                    regpostrecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
+                    loadMoreRecyclerViewAdapter = new LoadMoreRecyclerViewAdapter(MainActivity.this,response.body(),regpostrecycler);
+
+
                 }else {
-                    Log.d(TAG, "onResponse: lazy post, something went wrong");
+                    Log.d("lazyload", "onResponse: lazy post, something went wrong");
                 }
 
             }
@@ -738,6 +826,32 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         postList = lazyposts;
         return postList;
+
+    }
+
+    private void performPagination(){
+
+        progressBar.setVisibility(View.VISIBLE);
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(
+                SaveSharedPreference.getCity(this),skipp
+        );
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    List<Post> new_posts = response.body();
+                    paginationAdapter.addPosts(new_posts);
+                    Log.d("pagination", "onResponse:" + skipp + "st call for pagination adapter");
+                    Toast.makeText(MainActivity.this, "onResponse:" + skipp + "st call for pagination adapter", Toast.LENGTH_SHORT).show();
+                }
+             progressBar.setVisibility(View.GONE);
+            }
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+
+            }
+        });
 
     }
 

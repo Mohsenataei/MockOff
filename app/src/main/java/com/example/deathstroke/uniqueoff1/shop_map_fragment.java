@@ -72,10 +72,10 @@ public class shop_map_fragment extends Fragment {
         IMapController mapController = mapView.getController();
 
         mapController.setZoom(15.5);
-        GeoPoint startPoint = new GeoPoint(34.796840, 48.514855);
+        GeoPoint startPoint = new GeoPoint(getLat(), getLon());
         mapController.setCenter(startPoint);
         Marker marker = new Marker(mapView);
-        marker.setPosition(new GeoPoint(34.796840,48.514855));
+        marker.setPosition(new GeoPoint(getLat(), getLon()));
         marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
         marker.setTitle("custom marker");
         marker.setInfoWindow(null);

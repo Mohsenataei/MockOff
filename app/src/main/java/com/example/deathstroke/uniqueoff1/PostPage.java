@@ -81,13 +81,16 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         main = findViewById(R.id.postPage);
         drawer = findViewById(R.id.drawebtn);
         Typeface yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
-        discount = (TextView) findViewById(R.id.post_discount_percentage);
+        discount = findViewById(R.id.post_discount_percentage);
+
+
+
         original_price_tv = findViewById(R.id.post_page_original_price);
         discount_tv = findViewById(R.id.post_page_discount_price);
 
         donutProgress = findViewById(R.id.discount_progress);
 
-        donutProgress.setProgress(15f);
+        //donutProgress.setProgress(15f);
         donutProgress.setStartingDegree(270);
         // setting pie chart
 
@@ -213,14 +216,16 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     void setPriceTextView(String price, int count){
         Log.d(TAG, "setPriceTextView: "+price +"// " + count);
         String discount = getIntent().getStringExtra("discount");
-        String tmp = String.valueOf(Integer.parseInt(price)-(Integer.parseInt(price) * Integer.parseInt(discount) /100)) + getString(R.string.toman);
+        //String tmp = String.valueOf(Integer.parseInt(price)-(Integer.parseInt(price) * Integer.parseInt(discount) /100)) + getString(R.string.toman);
         String totalval = String.valueOf(Integer.parseInt(price)*count);
         price_textView.setText(totalval);
 
     }
     private String getPrice(){
-        if (getIntent().hasExtra("price")){
-            return getIntent().getStringExtra("price");
+        if (getIntent().hasExtra("price") && getIntent().hasExtra("discount")){
+            String dis = getIntent().getStringExtra("discount");
+            String price =  getIntent().getStringExtra("price");
+            return String.valueOf(Integer.parseInt(price) - ((Integer.parseInt(price) * Integer.parseInt(dis)/100)));
         }
         return "";
     }
@@ -311,12 +316,12 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             tabLayout.setupWithViewPager(mviewPager,true);
             discount_percentage = toPersianNumber(discount_percentage);
             discount_percentage.concat(getResources().getString(R.string.percentage));
-            discount.setText(discount_percentage);
+            //discount.setText(discount_percentage);
             String tmp = String.valueOf(Integer.parseInt(price) - ((Integer.parseInt(price) * Integer.parseInt(discount_percentage)/100)));
             price = toPersianNumber(price);
             original_price_tv.setText(price);
             original_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            tmp = toPersianNumber(tmp);
+           // tmp = toPersianNumber(tmp);
             discount_tv.setText(tmp);
 
             //-------------------------- calculate price with discount and set it in text view -----------------------

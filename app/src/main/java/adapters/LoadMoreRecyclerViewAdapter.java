@@ -79,6 +79,10 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public LoadMoreRecyclerViewAdapter(Context ctx, List<Post> myPosts, RecyclerView recyclerView){
         mcontext = ctx;
         mactivity = (Activity)ctx;
+        
+        if (myPosts == null){
+            Log.d("lazyload", "LoadMoreRecyclerViewAdapter: argument is empty");
+        }
         mPosts = myPosts;
 
         final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();

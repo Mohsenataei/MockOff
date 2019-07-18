@@ -601,8 +601,8 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
             MapPageBottomSheet mapPageBottomSheet = new MapPageBottomSheet();
             mapPageBottomSheet.setShopname(shop.getName());
             mapPageBottomSheet.setShopid(shop.getId());
-            mapPageBottomSheet.setLat(lat);
-            mapPageBottomSheet.setLon(lon);
+            mapPageBottomSheet.setLat(String.valueOf(lat));
+            mapPageBottomSheet.setLon(String.valueOf(lon));
             marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker, MapView mapView) {

@@ -50,7 +50,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     boolean flag = false;
     boolean off_flag, map_flag, info_flag,notify_me_flag;
     private ImageView shop_location,shop_info,shop_offs;
-    private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view,appbar_tv;
+    private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view,shop_name_text_view;
     private Button notify_me_button;
     private String[] images ;
     protected DrawerLayout drawerLayout;
@@ -102,6 +102,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         shop_offs_text_view = findViewById(R.id.shop_offs_textView);
         shop_offs_text_view.setTypeface(yekanFont);
         navigationView = findViewById(R.id.nav_view);
+        shop_name_text_view = findViewById(R.id.shop_name);
 //
 //        ImageButton imageButton = findViewById(R.id.drawebtn);
 //
@@ -152,6 +153,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 
 
         }
+
+        getIntentExtras();
 
         View header_items = navigationView.getHeaderView(0);
 
@@ -280,6 +283,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             getIntent().hasExtra("latitude") && getIntent().hasExtra("longitude")){
             Log.d(TAG, "getIntentExtras: found extras ");
             shopname = getIntent().getStringExtra("shopname");
+            shop_name_text_view.setText(shopname);
             shopid = getIntent().getStringExtra("shopid");
             lat = Double.parseDouble(getIntent().getStringExtra("latitude"));
             lon = Double.parseDouble(getIntent().getStringExtra("longitude"));
@@ -360,32 +364,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         float slideX = drawerView.getWidth() * slideOffset;
         main.setTranslationX(-slideX);
     }
-    private void justfottest(){
-        retrofit2.Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
-        call.enqueue(new Callback<ShopShits>() {
-            @Override
-            public void onResponse(retrofit2.Call<ShopShits> call, Response<ShopShits> response) {
-                Log.d("fragment", "onResponse: connected");
-                if (response.isSuccessful() && response.body() != null){
-                    Log.d("fragment", "onResponse: so far so good ");
 
-                    Detail detail = response.body().getDetail();
-                    if (detail == null){
-                        Log.d("fragment", "onResponse: detail is empty ");
-                    }else {
-                        Log.d("fragment", "onResponse: sample info : " + detail.getAddress());
-                    }
-                }else {
-                    Log.d("fragment", "onResponse: this is not working at all ");
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<ShopShits> call, Throwable t) {
-                Log.d("fragment", "onFailure: really ? what is the fucking problem ?");
-            }
-        });
-    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
