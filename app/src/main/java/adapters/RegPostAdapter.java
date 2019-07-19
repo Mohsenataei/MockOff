@@ -36,14 +36,6 @@ import retrofit2.Response;
 import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
 
 
-class LoadingViewHolder extends RecyclerView.ViewHolder {
-
-    private ProgressBar loadmoreprogressbar;
-    public LoadingViewHolder(@NonNull View itemView) {
-        super(itemView);
-        loadmoreprogressbar = itemView.findViewById(R.id.progressBar);
-    }
-}
 
 public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostViewHolder> implements Filterable {
     private List<Post> posts;
