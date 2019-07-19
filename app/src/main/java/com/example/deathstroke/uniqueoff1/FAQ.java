@@ -1,5 +1,6 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -20,7 +21,9 @@ import android.widget.Toast;
 import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
@@ -164,11 +167,14 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -216,5 +222,9 @@ public class FAQ extends AppCompatActivity implements DrawerLayout.DrawerListene
     @Override
     public void onDrawerStateChanged(int arg0) {
         //write your code
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }

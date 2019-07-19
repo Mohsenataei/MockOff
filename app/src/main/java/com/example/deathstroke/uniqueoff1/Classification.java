@@ -13,6 +13,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import entities.ClientCodesList;
@@ -67,6 +70,15 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classification);
 //        ButterKnife.bind(this);
+
+        //check network connection
+
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(Classification.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","Classification");
+            startActivity(intent);
+        }
+
         yekanfont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         bottomNavigationView = findViewById(R.id.navigation);
         main = findViewById(R.id.classification_page);
@@ -88,6 +100,7 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
 
         amusmentLayout.setOnClickListener(view->{
             OnClickAmusmentLayout();
+
             StartShowClassificationActivity("تفریحی");
         });
 
@@ -173,7 +186,7 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
                 // parent.getItemAtPosition(pos)
                 String city = parent.getItemAtPosition(pos).toString();
                 SaveSharedPreference.setCity(Classification.this,city);
-                Toast.makeText(Classification.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Classification.this, "you selected " + city +" as city " , Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -304,11 +317,16 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
+
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
+
         });
 
 
@@ -353,28 +371,120 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid_onclick),textViewflags[AMUSMENT]);
             layoutflags[AMUSMENT]=true;
             textViewflags[AMUSMENT]=true;
-        }else {
-            ChangeLayoutBackgroundToDefault(amusmentLayout);
-            ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
-            layoutflags[AMUSMENT]=false;
-            textViewflags[AMUSMENT]=false;
-        }
 
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+            if(layoutflags[RESTAURANT]){
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_utensils),textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT]=false;
+                textViewflags[RESTAURANT]=false;
+            }
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+
+        }
     }
+
+
     private void OnClickServicesLayout(){
         if(!layoutflags[SERVICE]){
             ChangeLayoutBackgroundToBlue(servicesLayout);
             ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid_onclick),textViewflags[SERVICE]);
             layoutflags[SERVICE]=true;
             textViewflags[SERVICE]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(servicesLayout);
-            ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
-            layoutflags[SERVICE]=false;
-            textViewflags[SERVICE]=false;
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[RESTAURANT]){
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_utensils),textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT]=false;
+                textViewflags[RESTAURANT]=false;
+            }
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+
+
         }
 
     }
+
     private void OnClickRestaurantLayout(){
 
         if(!layoutflags[RESTAURANT]){
@@ -382,11 +492,56 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_utensils_onclick),textViewflags[RESTAURANT]);
             layoutflags[RESTAURANT]=true;
             textViewflags[RESTAURANT]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(restaurantLayout);
-            ChangeTextViewDrawableTop(restauranttextView,getResources().getDrawable(R.drawable.ic_utensils),textViewflags[RESTAURANT]);
-            layoutflags[RESTAURANT]=false;
-            textViewflags[RESTAURANT]=false;
+
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+
         }
 
     }
@@ -396,11 +551,57 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure_onclick),textViewflags[CLOTHES]);
             layoutflags[CLOTHES]=true;
             textViewflags[CLOTHES]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(clothesLayout);
-            ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
-            layoutflags[CLOTHES]=false;
-            textViewflags[CLOTHES]=false;
+
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+            if(layoutflags[RESTAURANT]) {
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView, getResources().getDrawable(R.drawable.ic_utensils), textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT] = false;
+                textViewflags[RESTAURANT] = false;
+            }
+
+
         }
     }
     private void OnClickCafeLayout(){
@@ -409,11 +610,56 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette_onclick),textViewflags[CAFE]);
             layoutflags[CAFE]=true;
             textViewflags[CAFE]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(cafeLayout);
-            ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
-            layoutflags[CAFE]=false;
-            textViewflags[CAFE]=false;
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+            if(layoutflags[RESTAURANT]) {
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView, getResources().getDrawable(R.drawable.ic_utensils), textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT] = false;
+                textViewflags[RESTAURANT] = false;
+            }
+
         }
     }
     private void OnClickHealthtLayout(){
@@ -422,11 +668,58 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat_onclick),textViewflags[HEALTH]);
             layoutflags[HEALTH]=true;
             textViewflags[HEALTH]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(healthLayout);
-            ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
-            layoutflags[HEALTH]=false;
-            textViewflags[HEALTH]=false;
+
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+            if(layoutflags[RESTAURANT]) {
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView, getResources().getDrawable(R.drawable.ic_utensils), textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT] = false;
+                textViewflags[RESTAURANT] = false;
+            }
+
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+
+
         }
     }
     private void OnClickMakeUpsLayout(){
@@ -435,11 +728,59 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category_onclick),textViewflags[MAKEUP]);
             layoutflags[MAKEUP]=true;
             textViewflags[MAKEUP]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(makeupsLayout);
-            ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
-            layoutflags[MAKEUP]=false;
-            textViewflags[MAKEUP]=false;
+
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+            if(layoutflags[RESTAURANT]) {
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView, getResources().getDrawable(R.drawable.ic_utensils), textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT] = false;
+                textViewflags[RESTAURANT] = false;
+            }
+
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+
+
         }
     }
     private void OnClickCulturalLayout(){
@@ -448,11 +789,60 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags_onclick),textViewflags[CULTURAL]);
             layoutflags[CULTURAL]=true;
             textViewflags[CULTURAL]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(culturalLayout);
-            ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
-            layoutflags[CULTURAL]=false;
-            textViewflags[CULTURAL]=false;
+
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[EDUCATION]){
+                ChangeLayoutBackgroundToDefault(educationLayout);
+                ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
+                layoutflags[EDUCATION]=false;
+                textViewflags[EDUCATION]=false;
+            }
+            if(layoutflags[RESTAURANT]) {
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView, getResources().getDrawable(R.drawable.ic_utensils), textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT] = false;
+                textViewflags[RESTAURANT] = false;
+            }
+
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
+
+
+
         }
     }
     private void OnClickEducationLayout(){
@@ -461,11 +851,56 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
             ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap_onclick),textViewflags[EDUCATION]);
             layoutflags[EDUCATION]=true;
             textViewflags[EDUCATION]=true;
-        }else{
-            ChangeLayoutBackgroundToDefault(educationLayout);
-            ChangeTextViewDrawableTop(educationtextView,getResources().getDrawable(R.drawable.ic_graduation_cap),textViewflags[EDUCATION]);
-            layoutflags[EDUCATION]=false;
-            textViewflags[EDUCATION]=false;
+            if(layoutflags[HEALTH]){
+                ChangeLayoutBackgroundToDefault(healthLayout);
+                ChangeTextViewDrawableTop(healthtextView,getResources().getDrawable(R.drawable.ic_heartbeat),textViewflags[HEALTH]);
+                layoutflags[HEALTH]=false;
+                textViewflags[HEALTH]=false;
+            }
+
+            if(layoutflags[MAKEUP]){
+                ChangeLayoutBackgroundToDefault(makeupsLayout);
+                ChangeTextViewDrawableTop(makeupstextView,getResources().getDrawable(R.drawable.ic_grin_beam_category),textViewflags[MAKEUP]);
+                layoutflags[MAKEUP]=false;
+                textViewflags[MAKEUP]=false;
+            }
+            if(layoutflags[CULTURAL]){
+                ChangeLayoutBackgroundToDefault(culturalLayout);
+                ChangeTextViewDrawableTop(culturaltextView,getResources().getDrawable(R.drawable.ic_tags),textViewflags[CULTURAL]);
+                layoutflags[CULTURAL]=false;
+                textViewflags[CULTURAL]=false;
+            }
+            if(layoutflags[RESTAURANT]) {
+                ChangeLayoutBackgroundToDefault(restaurantLayout);
+                ChangeTextViewDrawableTop(restauranttextView, getResources().getDrawable(R.drawable.ic_utensils), textViewflags[RESTAURANT]);
+                layoutflags[RESTAURANT] = false;
+                textViewflags[RESTAURANT] = false;
+            }
+
+            if(layoutflags[CLOTHES]){
+                ChangeLayoutBackgroundToDefault(clothesLayout);
+                ChangeTextViewDrawableTop(clothestextView,getResources().getDrawable(R.drawable.ic_plane_departure),textViewflags[CLOTHES]);
+                layoutflags[CLOTHES]=false;
+                textViewflags[CLOTHES]=false;
+            }
+            if(layoutflags[AMUSMENT]){
+                ChangeLayoutBackgroundToDefault(amusmentLayout);
+                ChangeTextViewDrawableTop(amusmenttextView,getResources().getDrawable(R.drawable.ic_swimming_pool_solid),textViewflags[AMUSMENT]);
+                layoutflags[AMUSMENT]=false;
+                textViewflags[AMUSMENT]=false;
+            }
+            if(layoutflags[SERVICE]){
+                ChangeLayoutBackgroundToDefault(servicesLayout);
+                ChangeTextViewDrawableTop(servicestextView,getResources().getDrawable(R.drawable.ic_wrench_solid),textViewflags[SERVICE]);
+                layoutflags[SERVICE]=false;
+                textViewflags[SERVICE]=false;
+            }
+            if(layoutflags[CAFE]){
+                ChangeLayoutBackgroundToDefault(cafeLayout);
+                ChangeTextViewDrawableTop(cafetextView,getResources().getDrawable(R.drawable.ic_palette),textViewflags[CAFE]);
+                layoutflags[CAFE]=false;
+                textViewflags[CAFE]=false;
+            }
         }
     }
 
@@ -509,5 +944,12 @@ public class Classification extends AppCompatActivity  implements DrawerLayout.D
     private void ChangeTextViewDrawableTopToDefault(TextView tv, Drawable defaultdrawable){
         tv.setCompoundDrawables(null,defaultdrawable,null,null);
 
+    }
+    private boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+        else return false;
     }
 }

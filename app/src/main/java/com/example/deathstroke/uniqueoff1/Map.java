@@ -3,11 +3,18 @@ package com.example.deathstroke.uniqueoff1;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
@@ -47,13 +54,17 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import Service.CustomTypefaceSpan;
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
+import bottomsheetdialoges.MapPageBottomSheet;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import entities.NearestShops;
@@ -61,9 +72,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Map extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DrawerLayout.DrawerListener {
+public class Map extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     private static final int MULTIPLE_PERMISSION_REQUEST_CODE = 4;
+    private static final String TAG = "Map" ;
     private  MapView mapView ;
 //    private MyLocationOverlay myLocationoverlay;
 //    private MapController mapController;
@@ -81,6 +93,25 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
     @Bind(R.id.back_button)
     ImageButton backbtn;
 
+    private double lat;
+    private double lon;
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
     List<NearestShops> nearestShopsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +125,13 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         drawerLayout.setDrawerElevation(0);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(this);
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
+//        if (mGoogleApiClient == null) {
+//            mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                    .addConnectionCallbacks(this)
+//                    .addOnConnectionFailedListener(this)
+//                    .addApi(LocationServices.API)
+//                    .build();
+//        }
         openDrawwer();
         backbtn.setOnClickListener(view -> {
             finish();
@@ -109,18 +140,28 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 //
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-//        initializemap();
-//        myLocationoverlay = new MyLocationOverlay(this, map);
-//        myLocationoverlay.disableMyLocation(); // not on by default
-//        myLocationoverlay.disableCompass();
-//        myLocationoverlay.disableFollowLocation();
-//        myLocationoverlay.setDrawAccuracyEnabled(true);
-//        map = findViewById(R.id.main_map);
+//
         mapView = findViewById(R.id.main_map);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         IMapController mapController = mapView.getController();
-        mapController.setZoom(9.5);
+        mapController.setZoom(15.5);
         GeoPoint startPoint = new GeoPoint(34.796830, 48.514820);
+
+
+        // set a custom marker on map
+        Marker marker = new Marker(mapView);
+        marker.setPosition(new GeoPoint(34.796840,48.514855));
+        marker.setTitle("custom marker");
+        marker.setInfoWindow(null);
+        marker.showInfoWindow();
+        mapView.getOverlays().add(marker);
+        mapView.invalidate();
+        marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
+
+
+
+
+
         mapController.setCenter(startPoint);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
@@ -137,6 +178,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 
         SetTypefaces.setButtonTypefaces(yekanFont, signup, signin, followed_centers, bookmarks, terms_off_service, frequently_asked_questions, contactus, share_with_friends, exit, edit);
 
+        //setMarker();
         bottomNavigationView = findViewById(R.id.navigation);
 
         CustomTypefaceSpan typefaceSpan = new CustomTypefaceSpan("", yekanFont);
@@ -167,6 +209,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
             return false;
         });
         getnearDiscount();
+        setNearestShops(nearestShopsList);
 
 
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
@@ -206,6 +249,12 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         startmarker.setIcon(getResources().getDrawable(R.drawable.shop_map_marker));
         mapView.getOverlays().add(startmarker);
 
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(Map.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","Map");
+            startActivity(intent);
+        }
+
     }
 
     private void openDrawwer() {
@@ -240,7 +289,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 fineLocationPermissionCheck == PackageManager.PERMISSION_GRANTED &&
                 wifiStatePermissionCheck == PackageManager.PERMISSION_GRANTED) {
 
-            setupMap();
+           // setupMap();
 
         } else {
             ActivityCompat.requestPermissions(this,
@@ -289,7 +338,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 String longitudeFormattedStr = longitudeStr.substring(0, Math.min(longitudeStr.length(), 7));
 
                 Log.i("zoom", "" + mapView.getMapCenter().getLatitude() + ", " + mapView.getMapCenter().getLongitude());
-                TextView latLongTv = (TextView) findViewById(R.id.textView);
+                //TextView latLongTv = (TextView) findViewById(R.id.textView);
 //                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
                 return true;
             }
@@ -304,7 +353,7 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                 String longitudeFormattedStr = longitudeStr.substring(0, Math.min(longitudeStr.length(), 7));
 
                 Log.i("scroll", "" + mapView.getMapCenter().getLatitude() + ", " + mapView.getMapCenter().getLongitude());
-                TextView latLongTv = (TextView) findViewById(R.id.textView);
+                //TextView latLongTv = (TextView) findViewById(R.id.textView);
 //                latLongTv.setText("" + latitudeFormattedStr + ", " + longitudeFormattedStr);
                 return true;
             }
@@ -363,11 +412,14 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -382,33 +434,33 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
         }
     }
 
-    protected void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+//    protected void onStart() {
+//        mGoogleApiClient.connect();
+//        super.onStart();
+//    }
+//
+//    protected void onStop() {
+//        mGoogleApiClient.disconnect();
+//        super.onStop();
+//    }
+//    @Override
+//    public void onConnected(Bundle connectionHint) {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//
+//    }
+//
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//
+//    }
 
     @Override
     public void onDrawerOpened(View arg0) {
@@ -433,7 +485,54 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
     }
 
     private void getnearDiscount(){
-        Call<List<NearestShops>> call = RetrofitClient.getmInstance().getApi().getNearestDiscounts("34.797732","48.514845");
+
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        int coarseLocationPermissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        int fineLocationPermissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (coarseLocationPermissionCheck == PackageManager.PERMISSION_GRANTED &&
+                fineLocationPermissionCheck == PackageManager.PERMISSION_GRANTED){
+
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(location != null) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            }else{
+               final LocationListener locationListener = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        setLocation(location);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                };
+            }
+        }else{
+            lat = lon = 0;
+        }
+
+        String latitude = String.valueOf(lat);
+        String longitude = String.valueOf(lon);
+
+
+        Call<List<NearestShops>> call = RetrofitClient.getmInstance().getApi().getNearestDiscounts("34.796830","48.514820");
         call.enqueue(new Callback<List<NearestShops>>() {
             @Override
             public void onResponse(Call<List<NearestShops>> call, Response<List<NearestShops>> response) {
@@ -444,8 +543,9 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
                     }
 
                     nearestShopsList = response.body();
+                    setNearestShops(response.body());
                 }else {
-                    Toast.makeText(Map.this, "Response is empty", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onResponse: response is empty");
                 }
 
             }
@@ -456,5 +556,112 @@ public class Map extends AppCompatActivity implements GoogleApiClient.Connection
             }
         });
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Toast.makeText(this, "MapActivity Resumed.", Toast.LENGTH_SHORT).show();
+        if (!isNetworkConnected()){
+            Intent intent = new Intent(Map.this,CheckNetworkConnection.class);
+            intent.putExtra("flag","Map");
+            startActivity(intent);
+        }
+    }
+
+    private boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+        else return false;
+    }
+
+    private void setNearestShops(List<NearestShops> nearestShops){
+        double lat,lon;
+        lat = lon = 0;
+        NearestShops shop;
+        if(nearestShops.isEmpty()){
+            Log.d(TAG, "setNearestShops: list is empty ");
+        }
+        for (int i=0;i<nearestShops.size();i++){
+            shop = nearestShops.get(i);
+            lat = Double.parseDouble(shop.getLatitude());
+            lon = Double.parseDouble(shop.getLongitude());
+
+            Log.d("Map", "setNearestShops: marker set at lat = " + lat + ", lon = " + lon);
+
+            Marker marker = new Marker(mapView);
+            marker.setPosition(new GeoPoint(lat,lon));
+            marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
+            //marker.setImage(getResources().getDrawable(R.drawable.marker));
+            final NearestShops near = shop;
+
+            MapPageBottomSheet mapPageBottomSheet = new MapPageBottomSheet();
+            mapPageBottomSheet.setShopname(shop.getName());
+            mapPageBottomSheet.setShopid(shop.getId());
+            mapPageBottomSheet.setLat(String.valueOf(lat));
+            mapPageBottomSheet.setLon(String.valueOf(lon));
+            marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("shopname",near.getName());
+                    mapPageBottomSheet.show(getSupportFragmentManager(),"just a simple marker");
+                    Toast.makeText(Map.this, "Clicked", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+            marker.setTitle("custom marker");
+            marker.setInfoWindow(null);
+            marker.showInfoWindow();
+            mapView.getOverlays().add(marker);
+            mapView.invalidate();
+
+            //setMarker(lat,lon);
+        }
+    }
+    private void setMarker(double latitude, double longitude){
+        Marker marker = new Marker(mapView);
+        marker.setPosition(new GeoPoint(latitude,longitude));
+        marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
+        //marker.setImage(getResources().getDrawable(R.drawable.marker));
+        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                Toast.makeText(Map.this, "Clicked", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        marker.setTitle("custom marker");
+        marker.setInfoWindow(null);
+        marker.showInfoWindow();
+        mapView.getOverlays().add(marker);
+        mapView.invalidate();
+
+
+    }
+
+    private void showMyAddress(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        Geocoder myLocation = new Geocoder(getApplicationContext(), Locale.getDefault());
+        List<Address> myList;
+        try {
+            myList = myLocation.getFromLocation(latitude, longitude, 1);
+            if(myList.size() == 1) {
+                //lala.setText(myList.get(0).toString());
+            }
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+    }
+
+    private void setLocation(Location location){
+        setLat(location.getLatitude());
+        setLon(location.getLongitude());
     }
 }

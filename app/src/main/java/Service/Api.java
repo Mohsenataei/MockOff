@@ -2,10 +2,12 @@ package Service;
 
 import java.util.List;
 
+import entities.BankResponse;
 import entities.Code;
 import entities.Detail;
 import entities.HeaderPics;
 import entities.NearestShops;
+import entities.Order;
 import entities.Post;
 import entities.ShopShits;
 import entities.SubShop;
@@ -20,7 +22,7 @@ import retrofit2.http.Url;
 
 public interface Api {
     @FormUrlEncoded
-    @POST("signup/client")
+    @POST("signup")
     Call<String> userSignUp(
             //@HeaderMap Map<String, String> headers,
             @Field("name") String name,
@@ -31,7 +33,13 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("login/client")
+    @POST("google_signin")
+    Call<String> googleSingIn(
+            @Field("email") String email
+    );
+
+    @FormUrlEncoded
+    @POST("login")
     Call<String> userLogin(
             //@HeaderMap Map<String, String> headers,
             @Field("email") String email,
@@ -135,4 +143,11 @@ public interface Api {
             @Field("cat_id") String cat_id,
             @Field("city") String city
             );
+
+    @FormUrlEncoded
+    @POST("create_order")
+    Call<BankResponse> create_order (
+            @Field("orders") List<Order> orders
+    );
+
 }

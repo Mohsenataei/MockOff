@@ -37,12 +37,11 @@
         <activity
             android:name=".SingInActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".CooperationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Pop"
-            android:theme="@style/AppTheme.CustomTheme" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".contact_us"
             android:screenOrientation="portrait" />
@@ -77,15 +76,14 @@
             android:name=".FollowedShops"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RetrofitTest"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".PostPage"
             android:screenOrientation="portrait" />
         <activity android:name=".ShowClassification" />
         <activity android:name=".EditProfie" />
         <activity android:name=".SearchResult" />
-        <activity android:name=".ShowSearch"></activity>
+        <activity android:name=".ShowSearch" />
+        <activity android:name=".CheckNetworkConnection" />
+        <activity android:name=".Circular_Progressbar"></activity>
     </application>
 
 </manifest>

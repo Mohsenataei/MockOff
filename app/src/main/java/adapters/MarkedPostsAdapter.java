@@ -97,7 +97,7 @@ public class MarkedPostsAdapter extends RecyclerView.Adapter<MarkedPostsAdapter.
         holder.original_price.setText(String.valueOf(model.getPrice()) + context.getString(R.string.toman));
         holder.original_price.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-        String tmp = String.valueOf(model.getPrice() - ((model.getPrice() * model.getDiscount())/100)) + context.getString(R.string.toman);
+        String tmp = String.valueOf(Integer.parseInt(model.getPrice()) - ((Integer.parseInt(model.getPrice()) * model.getDiscount())/100)) + context.getString(R.string.toman);
         holder.price_with_discount.setText(tmp);
         Picasso.get().load(model.getPics().get(0).getThumblink()).into(holder.post_imageview);
         holder.location.setText(model.getAddress());

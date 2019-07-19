@@ -84,6 +84,28 @@ public class shop_info_fragment extends Fragment {
     public void setModel(Detail model) {
         this.model = model;
     }
+
+
+
+    private String shopid;
+    private String shopname;
+
+    public String getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,17 +117,17 @@ public class shop_info_fragment extends Fragment {
         shop_work_time = view.findViewById(R.id.shop_work_time);
         Log.d("fragment", "onCreateView: is it working ? ");
         getShopDetails();
-////        setTextViews();
-//        justfottest();
-//        shop_address.setText(model.getAddress());
-//        shop_work_time.setText(model.getWork_time());
-//        shop_work_days.setText(model.getWork_date());
-//        shop_phone_number.setText(model.getHome_phone());
+        //++++++++++++++++++++++++++++++++++++++++++setTextViews();
+        //justfottest();
+
         return view;
     }
 
     private void setTextViews(){
-
+        shop_address.setText(model.getAddress());
+        shop_work_time.setText(model.getWork_time());
+        shop_work_days.setText(model.getWork_date());
+        shop_phone_number.setText(model.getHome_phone());
     }
 
     @Override
@@ -114,7 +136,7 @@ public class shop_info_fragment extends Fragment {
         Log.d("fragment", "onAttach: testing on attath");
         justfottest();
         getShopDetails();
-//        setTextViews();
+        //setTextViews();
       //  justfottest();
 //        shop_address.setText(model.getAddress());
 //        shop_work_time.setText(model.getWork_time());
@@ -124,23 +146,27 @@ public class shop_info_fragment extends Fragment {
     }
 
     private void getShopDetails(){
-        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
+        Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails(getShopid());
         call.enqueue(new Callback<ShopShits>() {
             @Override
             public void onResponse(Call<ShopShits> call, Response<ShopShits> response) {
-                Log.d("fragment", "onResponse: get shop Details really ?");
+                Log.d("info-fragment", "onResponse: get shop Details really ?");
                 if (response.isSuccessful() && response.body() != null){
-                    Log.d("fragment", "onResponse: get shop Details response not null");
+                    Log.d("info-fragment", "onResponse: get shop Details response not null");
 
                     model = response.body().getDetail();
+                    shop_address.setText(model.getAddress());
+                    shop_work_time.setText(model.getWork_time());
+                    shop_work_days.setText(model.getWork_date());
+                    shop_phone_number.setText(model.getHome_phone());
                 }else{
-                    Log.d("fragment", "onResponse: get shop Details response failed");
+                    Log.d("info-fragment", "onResponse: get shop Details response failed");
                 }
             }
 
             @Override
             public void onFailure(Call<ShopShits> call, Throwable t) {
-                Log.d("fragment", "onFailure: get shop Details failed");
+                Log.d("info-fragment", "onFailure: get shop Details failed");
 
             }
         });

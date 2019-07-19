@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import entities.Post;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +41,16 @@ public class shop_offs_fragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Post> shopPosts = new ArrayList<>();
-//
+    private String shopid;
+
+    public String getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
+    }
+    //
 //    // TODO: Rename and change types of parameters
 //    private String mParam1;
 //    private String mParam2;
@@ -100,7 +110,7 @@ public class shop_offs_fragment extends Fragment {
 
     private void getshopPosts(){
 
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts("18");
+        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getShopPosts(getShopid());
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
@@ -166,4 +176,5 @@ public class shop_offs_fragment extends Fragment {
 //        // TODO: Update argument type and name
 //        void onShopOffsFragmentInteraction(Uri uri);
 //    }
+
 }

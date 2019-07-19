@@ -11,6 +11,7 @@
     <string name="didnot_signed_text">هنوز ثبت نام نکرده اید؟</string>
     <string name="enter">ورود</string>
     <string name="sign_up_with_google_btn">ثبت نام از طریق گوگل</string>
+    <string name="sign_in_with_google_btn">ورود از طریق گوگل</string>
     <string name="classification_btn">دسته بندی</string>
     <string name="cooperation_name_field">نام</string>
     <string name="cooperation_family_field"> نام خانوادگی</string>
@@ -47,7 +48,7 @@
     <string name="title_home">خانه</string>
     <string name="address">همدان، ساختمان زاگرس، واحد 2</string>
     <string name="phone_number">081-3335555</string>
-    <string name="email">info@uniqeoff.com</string>
+    <string name="email">info@mocatag.ir</string>
     <string name="social_network">شبکه های اجتماعی</string>
     <string name="cooperation_request">درخواست همکاری</string>
     <string name="notif">اعلانات</string>
@@ -115,5 +116,15 @@
     <string name="tours">تور و سفر</string>
     <string name="arts">هنر</string>
     <string name="apply_filter">اعمال فیلتر</string>
+    <string name="networkstatustextview">networkstatustextview</string>
+    <string name="networkstatus_disconnected">ارتباط شما با اینترنت قطع است</string>
+    <string name="retry">تلاش مجدد</string>
+    <string name="info_circle">info_circle</string>
+    <string name="information">اطلاعات</string>
+    <string name="attributes">ویژگی ها</string>
+    <string name="clipboard_list">clipboard_list</string>
+    <string name="qrcode">کد</string>
+    <integer name="google_play_services_version">12451000</integer>
+
 
 </resources>

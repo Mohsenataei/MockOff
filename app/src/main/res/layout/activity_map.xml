@@ -7,7 +7,10 @@
     android:id="@+id/map_page"
     android:layoutDirection="ltr"
     tools:context=".Map">
-    <include layout="@layout/just_fucking_appbar"/>
+
+    <include
+        android:id="@+id/include5"
+        layout="@layout/just_fucking_appbar" />
 
     <org.osmdroid.views.MapView
         android:layout_marginTop="60dp"
@@ -20,18 +23,16 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
-        app:labelVisibilityMode="labeled"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        app:itemTextColor="@color/nav_color"
-        app:itemIconTint="@color/nav_color"
-        app:itemBackground="@color/white"
         android:background="?android:attr/windowBackground"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/nav_color"
+        app:itemTextColor="@color/nav_color"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_map"
         app:menu="@menu/navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

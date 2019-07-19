@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 
 import Service.RetrofitClient;
+import Service.SaveSharedPreference;
 import adapters.SliderAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import Service.CustomTypefaceSpan;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import entities.Detail;
 import entities.ShopShits;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
@@ -48,11 +50,36 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     boolean flag = false;
     boolean off_flag, map_flag, info_flag,notify_me_flag;
     private ImageView shop_location,shop_info,shop_offs;
-    private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view,appbar_tv;
+    private TextView shop_location_text_view,shop_info_text_view,shop_offs_text_view,shop_name_text_view;
     private Button notify_me_button;
     private String[] images ;
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
+    NavigationView navigationView;
+    private static final String TAG = "Shop";
+    private String shopname;
+    TextView appname;
+    private String shopid;
+    private double lat;
+    private double lon;
+    private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +87,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(this);
         drawerLayout.setDrawerElevation(0);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
+        //drawerLayout.setDrawerElevation(0);
         main = findViewById(R.id.this_one);
         off_flag = map_flag = info_flag = notify_me_flag = false;
         shop_location = findViewById(R.id.shop_location_image_view);
@@ -72,6 +101,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         shop_offs = findViewById(R.id.shop_offs_image_view);
         shop_offs_text_view = findViewById(R.id.shop_offs_textView);
         shop_offs_text_view.setTypeface(yekanFont);
+        navigationView = findViewById(R.id.nav_view);
+        shop_name_text_view = findViewById(R.id.shop_name);
 //
 //        ImageButton imageButton = findViewById(R.id.drawebtn);
 //
@@ -96,7 +127,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
         });
 
-        main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
+        //main.setOnClickListener(view -> Toast.makeText(this, "on main click", Toast.LENGTH_SHORT).show());
         if(drawerLayout == null){
             Toast.makeText(this, "drawerLayout is null", Toast.LENGTH_SHORT).show();
         }
@@ -111,7 +142,6 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 else {
                     drawebtn.setOnClickListener(view -> {
                         Toast.makeText(this, "clicked on a button", Toast.LENGTH_SHORT).show();
-                        NavigationView navigationView = findViewById(R.id.nav_view);
                         drawerLayout.openDrawer(navigationView);
                     });
                 }
@@ -121,7 +151,18 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
 
 
+
         }
+
+        getIntentExtras();
+
+        View header_items = navigationView.getHeaderView(0);
+
+        initilizeheaderbuttons(header_items);
+
+
+        setHeaderitems();
+        handleNavDrawerItemClick();
         tabLayout = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.shopViewPager);
 //        setViewPager();
@@ -137,6 +178,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 undoOffsOOnclick();
                 info_flag = true;
                 shop_info_fragment info_fragment = new shop_info_fragment();
+                info_fragment.setShopid(shopid);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, info_fragment);
@@ -160,6 +202,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 b2.clearFocus();
                 off_flag = true;
                 shop_offs_fragment offs_fragment = new shop_offs_fragment();
+                offs_fragment.setShopid(String.valueOf(shopid));
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder,offs_fragment);
@@ -182,6 +225,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 undoOffsOOnclick();
                 map_flag = true;
                 shop_map_fragment map_fragment = new shop_map_fragment();
+                map_fragment.setLat(lat);
+                map_fragment.setLon(lon);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, map_fragment);
@@ -229,6 +274,21 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         });
 
         //justfottest();
+    }
+
+    //get intent extras :
+    private void getIntentExtras(){
+
+        if (getIntent().hasExtra("shopname") && getIntent().hasExtra("shopid") &&
+            getIntent().hasExtra("latitude") && getIntent().hasExtra("longitude")){
+            Log.d(TAG, "getIntentExtras: found extras ");
+            shopname = getIntent().getStringExtra("shopname");
+            shop_name_text_view.setText(shopname);
+            shopid = getIntent().getStringExtra("shopid");
+            lat = Double.parseDouble(getIntent().getStringExtra("latitude"));
+            lon = Double.parseDouble(getIntent().getStringExtra("longitude"));
+
+        }
     }
 
     private void doNotifyMeOnclick() {
@@ -304,34 +364,83 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         float slideX = drawerView.getWidth() * slideOffset;
         main.setTranslationX(-slideX);
     }
-    private void justfottest(){
-        retrofit2.Call<ShopShits> call = RetrofitClient.getmInstance().getApi().getShopDetails("23");
-        call.enqueue(new Callback<ShopShits>() {
-            @Override
-            public void onResponse(retrofit2.Call<ShopShits> call, Response<ShopShits> response) {
-                Log.d("fragment", "onResponse: connected");
-                if (response.isSuccessful() && response.body() != null){
-                    Log.d("fragment", "onResponse: so far so good ");
 
-                    Detail detail = response.body().getDetail();
-                    if (detail == null){
-                        Log.d("fragment", "onResponse: detail is empty ");
-                    }else {
-                        Log.d("fragment", "onResponse: sample info : " + detail.getAddress());
-                    }
-                }else {
-                    Log.d("fragment", "onResponse: this is not working at all ");
-                }
-            }
 
-            @Override
-            public void onFailure(retrofit2.Call<ShopShits> call, Throwable t) {
-                Log.d("fragment", "onFailure: really ? what is the fucking problem ?");
-            }
-        });
-    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+    private void initilizeheaderbuttons(View header_items) {
+        //ButterKnife.bind(header_items);
+        signup = header_items.findViewById(R.id.header_sign_up);
+        signin = header_items.findViewById(R.id.header_sign_in);
+        bookmarks = header_items.findViewById(R.id.bookmark_centers);
+        followed_centers = header_items.findViewById(R.id.followed_centers);
+        frequently_asked_questions = header_items.findViewById(R.id.header_faq);
+        terms_off_service = header_items.findViewById(R.id.terms);
+        contactus = header_items.findViewById(R.id.contact_us);
+        share_with_friends = header_items.findViewById(R.id.share_us);
+        exit = header_items.findViewById(R.id.exit);
+        edit = header_items.findViewById(R.id.edit);
+        appname = header_items.findViewById(R.id.header_app_name);
+    }
+    private void setHeaderitems() {
+        if(SaveSharedPreference.getAPITOKEN(Shop.this).length() > 0  ){
+            signin.setVisibility(View.INVISIBLE);
+            signup.setVisibility(View.INVISIBLE);
+            appname.setVisibility(View.VISIBLE);
+            appname.setText(R.string.title_activity_test_navigation_drawer);
+            //appname.setTypeface(yekanfont);
+        }
+    }
+
+    private void handleNavDrawerItemClick(){
+        signup.setOnClickListener(view->{
+            startActivity(new Intent(Shop.this,SignUpActivity.class));
+        });
+        signin.setOnClickListener(view->{
+            startActivity(new Intent(Shop.this,SingInActivity.class));
+        });
+
+        bookmarks.setOnClickListener(view -> {
+            startActivity(new Intent(Shop.this,BookMarkedPosts.class));
+        });
+
+        followed_centers.setOnClickListener(view -> {
+            startActivity(new Intent(Shop.this,FollowedShops.class));
+            //drawerLayout.closeDrawer(navigationView);
+        });
+
+        frequently_asked_questions.setOnClickListener(view -> {
+            startActivity(new Intent(Shop.this,FAQ.class));
+        });
+
+//        terms_off_service.setOnClickListener(view->{
+//            startActivity(new Intent(MyCodes.this,.class));
+//        });
+
+        contactus.setOnClickListener(view->{
+            startActivity(new Intent(Shop.this,contact_us.class));
+            //drawerLayout.closeDrawer(navigationView);
+        });
+
+        share_with_friends.setOnClickListener(view -> {
+            //startActivity(new Intent(MyCodes.this,BookMarkedPosts.class));
+            Toast.makeText(this, "پیشنهاد به دوستان", Toast.LENGTH_SHORT).show();
+        });
+
+        exit.setOnClickListener(view ->{
+            //finish();
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
+        });
+
+        edit.setOnClickListener(view->{
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
+        });
+
+
     }
 }

@@ -108,7 +108,7 @@
                 style="?attr/borderlessButtonStyle"
                 android:background="@drawable/sendbtnstyle"
                 android:textColor="@color/white"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:id="@+id/alright"
                 android:layout_gravity="center_vertical"
                 android:text="@string/allright"

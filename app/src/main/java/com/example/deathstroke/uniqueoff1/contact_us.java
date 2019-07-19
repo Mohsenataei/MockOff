@@ -1,8 +1,10 @@
 package com.example.deathstroke.uniqueoff1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,18 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import Service.CustomTypefaceSpan;
 import Service.SaveSharedPreference;
 import Service.SetTypefaces;
+import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.ButterKnife;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class contact_us extends AppCompatActivity implements  DrawerLayout.DrawerListener {
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
     BottomNavigationView bottomNavigationView;
+    ImageView instagram_iv,telegram_iv;
     NavigationView navigationView;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     TextView appbar_tv,appname;
@@ -64,6 +70,18 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
         handleNavDrawerItemClick();
         SetTypefaces.setButtonTypefaces(yekanfont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
 
+        instagram_iv = findViewById(R.id.instagram);
+        telegram_iv = findViewById(R.id.telegram);
+
+
+        instagram_iv.setOnClickListener(view->{
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/mocatag/")));
+        });
+
+
+        telegram_iv.setOnClickListener(view->{
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/mocatagir")));
+        });
         bottomNavigationView = findViewById(R.id.navigation);
 //        Menu menu = bottomNavigationView.getMenu();
 //        MenuItem menuItem = menu.getItem(0);
@@ -76,6 +94,7 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
             spannableTitle.setSpan(typefaceSpan, 0, spannableTitle.length(), 0);
             mMenuitem.setTitle(spannableTitle);
         }
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -146,11 +165,14 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
 
         exit.setOnClickListener(view ->{
             //finish();
-            System.exit(0);
+            //System.exit(0);
+            ConfirmExitbottomSheet confirmExitbottomSheet = new ConfirmExitbottomSheet();
+            confirmExitbottomSheet.show(getSupportFragmentManager(),"ConfirmExit");
         });
 
         edit.setOnClickListener(view->{
-            Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "this part is yet to be complete", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,EditProfie.class));
         });
 
 
@@ -185,5 +207,9 @@ public class contact_us extends AppCompatActivity implements  DrawerLayout.Drawe
     @Override
     public void onDrawerStateChanged(int arg0) {
         //write your code
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 }
