@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="190dp"
     android:layout_height="142dp"
     android:id="@+id/hot_posts_container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginBottom="8dp"
-    app:layout_gravity="end"
     android:orientation="horizontal"
     android:layout_gravity="center_horizontal">
 
@@ -35,6 +32,7 @@
                 android:id="@+id/hot_post_image_view"
                 android:layout_width="166dp"
                 android:layout_height="93dp"
+                android:layout_marginStart="16dp"
                 android:contentDescription="image"
                 android:elevation="10dp"
                 android:scaleType="fitXY"
@@ -48,13 +46,14 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/hot_post_image_view"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/hot_bookmark"
@@ -73,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
-                android:src="@drawable/img_corner1"
+                android:src="@drawable/off"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,7 +96,7 @@
             android:id="@+id/linearLayout13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginBottom="8dp"
             android:elevation="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -108,7 +107,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="8dp"
-                android:elevation="10dp"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="10dp"
                 app:layout_constraintStart_toStartOf="parent"

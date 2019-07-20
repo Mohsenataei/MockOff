@@ -19,8 +19,11 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,7 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
     private MarkedPostsAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Post> postList = new ArrayList<>();
+    private Spinner cities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +129,25 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
 
         recyclerView = findViewById(R.id.bookmarked_posts_recyclerView);
         loadBooksMarkPosts();
+
+
+        cities = header_items.findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
+        adapter.setDropDownViewResource(R.layout.spinner_text_view);
+        cities.setAdapter(adapter);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String city = parent.getItemAtPosition(position).toString();
+                SaveSharedPreference.setCity(BookMarkedPosts.this,city);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
     @Override

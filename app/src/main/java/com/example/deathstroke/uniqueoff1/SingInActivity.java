@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class SingInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = "mohsen" ;
+    private static final String TAG = "SignIn" ;
     private static final int REQ_SIGN_IN = 8;
     EditText email_field;
     EditText password_field;
@@ -120,6 +120,8 @@ public class SingInActivity extends AppCompatActivity implements GoogleApiClient
                     SaveSharedPreference.setAPITOKEN(SingInActivity.this, s);
                     gotoHomePage();
                 } else {
+                    Log.d(TAG, "onResponse: response body :" + response.body());
+                    Log.d(TAG, "onResponse: response.isSuccessful :" + response.isSuccessful());
                     Toast.makeText(SingInActivity.this, "pls enter correct email or password ", Toast.LENGTH_SHORT).show();
                 }
             }

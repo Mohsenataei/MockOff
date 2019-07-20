@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -14,11 +19,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="16" />
-                            <entry key="outputName" value="ic_eye" />
+                            <entry key="height" value="22" />
+                            <entry key="outputName" value="ic_shopping_bag" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Deathstroke\Desktop\New folder\icons\fontawesome-pro-5.2.0-web\svgs\regular\eye.svg" />
-                            <entry key="width" value="18" />
+                            <entry key="sourceFile" value="C:\Users\Deathstroke\Desktop\New folder\icons\fontawesome-pro-5.2.0-web\svgs\solid\shopping-bag.svg" />
+                            <entry key="width" value="20" />
                           </map>
                         </option>
                       </PersistentState>

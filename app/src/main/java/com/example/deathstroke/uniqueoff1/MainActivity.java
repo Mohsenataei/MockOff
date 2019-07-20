@@ -174,11 +174,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             startActivity(new Intent(this,ShowSearch.class));
         });
 
-        b12 = findViewById(R.id.go_to_post);
-        b12.setVisibility(View.GONE);
-        b12.setOnClickListener(view->{
-            startActivity(new Intent(this,PostPage.class));
-        });
+
 
         filter_line.setOnClickListener(v->{
             if (!line_flag){
@@ -197,12 +193,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         handleNavDrawerItemClick();
 
         SetTypefaces.setButtonTypefaces(hintFont,signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit);
-
+        // spinner adapter
         cities = header_items.findViewById(R.id.cities_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
         adapter.setDropDownViewResource(R.layout.spinner_text_view);
         cities.setAdapter(adapter);
-        cities.setAdapter(adapter);
+        //cities.setAdapter(adapter);
         cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -521,85 +517,47 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         float slideX = drawerView.getWidth() * slideOffset;
         main.setTranslationX(-slideX);
     }
-    private void search(){
-    }
 
-    private void handlebottomnavigation(){
 
-    }
-
-//    @Override
-//    public void onItemClick(View view, int position) {
-//        Post post = regularPostList.get(position);
-//        Intent intent = new Intent(this,PostPage.class);
-//        intent.putExtra("sale_count",String.valueOf(post.getQuantity()));
-//        intent.putExtra("discount",String.valueOf(post.getDiscount()));
-//        intent.putExtra("price",String.valueOf(post.getPrice()));
-//        intent.putExtra("remain_date",post.getE_date_use());
-//        intent.putExtra("more_days",post.getS_date_use());
-//        String img_url = "img_url";
-//        for (int i = 1 ; i<post.getPics().size();i++){
-//            img_url = img_url+i;
-//            intent.putExtra(img_url,post.getPics().size());
-//        }
-//        startActivity(intent);
-//    }
-
-//    private class SliderTimer extends TimerTask {
-//
-//        @Override
-//        public void run() {
-//            MainActivity.this.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (viewPager.getCurrentItem() < images.length -1) {
-//                        viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
-//                    }else {
-//                        viewPager.setCurrentItem(0);
-//                    }
-//                }
-//            });
-//        }
-//    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
-    private void getRegularPosts(){
-
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts("همدان",0);
-
-       // Toast.makeText(MainActivity.this, "is it even working ? line 346", Toast.LENGTH_SHORT).show();
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                //Toast.makeText(MainActivity.this, "is it even working ? line 350", Toast.LENGTH_SHORT).show();
-                if (response.isSuccessful() && response.body() != null){
-                    Toast.makeText(MainActivity.this, "regular posts response is successful line 352"+response.body().get(0).getTitle(), Toast.LENGTH_SHORT).show();
-                    if (regularPostList.isEmpty()) {
-                        regularPostList.clear();
-                    }
-
-
-                    //Toast.makeText(MainActivity.this, "even here ?", Toast.LENGTH_SHORT).show();
-                    regularPostList = response.body();
-                    regPostAdapter = new RegPostAdapter(regularPostList,MainActivity.this);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-                    regpostrecycler.setLayoutManager(layoutManager);
-                    regpostrecycler.setAdapter(regPostAdapter);
-                }else {
-                    Toast.makeText(MainActivity.this, "response is unsuccessful", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "is it even working ? line 369" + t, Toast.LENGTH_LONG).show();
-                Log.d(TAG, "onFailure: failed " , t);
-            }
-        });
-    }
+//    private void getRegularPosts(){
+//
+//        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts("همدان",0);
+//
+//       // Toast.makeText(MainActivity.this, "is it even working ? line 346", Toast.LENGTH_SHORT).show();
+//        call.enqueue(new Callback<List<Post>>() {
+//            @Override
+//            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+//                //Toast.makeText(MainActivity.this, "is it even working ? line 350", Toast.LENGTH_SHORT).show();
+//                if (response.isSuccessful() && response.body() != null){
+//                    Toast.makeText(MainActivity.this, "regular posts response is successful line 352"+response.body().get(0).getTitle(), Toast.LENGTH_SHORT).show();
+//                    if (regularPostList.isEmpty()) {
+//                        regularPostList.clear();
+//                    }
+//
+//
+//                    //Toast.makeText(MainActivity.this, "even here ?", Toast.LENGTH_SHORT).show();
+//                    regularPostList = response.body();
+//                    regPostAdapter = new RegPostAdapter(regularPostList,MainActivity.this);
+//                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+//                    regpostrecycler.setLayoutManager(layoutManager);
+//                    regpostrecycler.setAdapter(regPostAdapter);
+//                }else {
+//                    Toast.makeText(MainActivity.this, "response is unsuccessful", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Post>> call, Throwable t) {
+//                Toast.makeText(MainActivity.this, "is it even working ? line 369" + t, Toast.LENGTH_LONG).show();
+//                Log.d(TAG, "onFailure: failed " , t);
+//            }
+//        });
+//    }
 
     private void getHotPosts(){
         Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeHotPosts("همدان");
@@ -678,103 +636,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         Log.d(TAG, "getSearchedPosts: you have entered :" + query);
     }
 
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            //You can replace it with your name
-            return !ipAddr.equals("");
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    private void getNewPosts(){
-        isLoading = true;
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),limit*step);
-
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                if(response.isSuccessful() && response.body() != null){
-                    Log.d(TAG, "onResponse: in get new posts: so far so good");
-
-                    if (!newPosts.isEmpty()){
-                        newPosts.clear();
-                    }
-                    step+=1;
-                    newPosts = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void recyclerviewInitializer(){
-        Log.d(TAG, "recycler view Initializer: ");
-        currentPosts.addAll(newPosts);
-        regPostAdapter = new RegPostAdapter(currentPosts,this);
-        if (currentPosition < currentPosts.size() && currentPosts.size() >0){
-            regpostrecycler.scrollToPosition(currentPosition);
-        }
-
-    }
-
-    private void setOnscrollListeners() {
-        regpostrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-    }
-
-
-    private void lazyLoading(){
-        getPosts(0);
-        adapter.setLoadMore(new LoadMore() {
-            @Override
-            public void onLoadMore() {
-
-                newPosts.add(null);
-            }
-        });
-
-
-
-    }
-
-    private void getPosts(int skip){
-
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),skip);
-
-        List<Post> mynewposts;
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-
-                if(response.isSuccessful() && response.body() != null){
-                    Log.d(TAG, "onResponse: in getpost so far so good");
-                    newPosts = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-
-            }
-        });
-
-    }
     private boolean isNetworkConnected(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
@@ -794,41 +655,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         }
     }
 
-    private List<Post> LazyLoadPosts(int skip){
-
-        List<Post> postList;
-        Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getHomeRegPosts(SaveSharedPreference.getCity(this),2);
-
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                if(response.isSuccessful() && response.body() != null){
-                    Log.d("lazyload", "onResponse: lazy load was successful");
-                    if(response.body() == null){
-                        Log.d("lazyload", "onResponse: response body is empty.");
-                    }
-                    lazyposts = response.body();
-                    regpostrecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
-                    loadMoreRecyclerViewAdapter = new LoadMoreRecyclerViewAdapter(MainActivity.this,response.body(),regpostrecycler);
-
-
-                }else {
-                    Log.d("lazyload", "onResponse: lazy post, something went wrong");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-
-        postList = lazyposts;
-        return postList;
-
-    }
-
     private void performPagination(){
 
         progressBar.setVisibility(View.VISIBLE);
@@ -845,6 +671,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                     Log.d("pagination", "onResponse:" + skipp + "st call for pagination adapter");
                     Toast.makeText(MainActivity.this, "onResponse:" + skipp + "st call for pagination adapter", Toast.LENGTH_SHORT).show();
                 }
+
+
              progressBar.setVisibility(View.GONE);
             }
             @Override

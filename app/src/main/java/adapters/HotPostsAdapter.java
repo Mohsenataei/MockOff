@@ -82,17 +82,27 @@ public class HotPostsAdapter extends RecyclerView.Adapter<HotPostsAdapter.HotVie
         holder.progressBar.setVisibility(View.GONE);
         //Picasso.with(context).load(model.getPics().get(0).getThumblink()).into(holder.post_imageview);
 
-        holder.bookmark.setOnClickListener(view->{
-            if(!holder.flag){
-                holder.flag = true;
-                bookmarkaPost(holder.bookmark, model.getId());
-                Toast.makeText(context, "done!", Toast.LENGTH_SHORT).show();
+        holder.bookmark.setOnClickListener(view -> {
+            if(!holder.flag) {
+                if (!SaveSharedPreference.getAPITOKEN(context).isEmpty()){
+                    holder.flag = true;
+                    bookmarkaPost(holder.bookmark,model.getId());
+                    Toast.makeText(context, "BookMarked!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "ابتدا وارد حساب کاربری خود شوید", Toast.LENGTH_SHORT).show();
+                }
+
             }else {
-                holder.flag = false;
-                deleteBookmark(holder.bookmark, model.getId());
-                Toast.makeText(context, "undone!", Toast.LENGTH_SHORT).show();
+                if(!SaveSharedPreference.getAPITOKEN(context).isEmpty()){
+                    deleteBookmark(holder.bookmark,model.getId());
+                    holder.flag = false;
+                    Toast.makeText(context, "BookMark deleted.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "ابتدا وارد حساب کاربری خود شوید", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        });
+        } );
 
         holder.main.setOnClickListener(view ->{
             Intent intent = new Intent(context,PostPage.class);

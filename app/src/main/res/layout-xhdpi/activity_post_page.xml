@@ -10,17 +10,17 @@
     <include layout="@layout/shop_app_bar"/>
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView3"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
                         android:id="@+id/post_name_post_page"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="2"
@@ -87,7 +87,7 @@
                         android:id="@+id/post_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="35dp"
                         android:layout_weight="2"
                         android:text="ایروبیک، کراس فیت، تی آر ایکس"
@@ -142,13 +142,15 @@
                                 android:id="@+id/discount_progress"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
+                                android:layout_marginBottom="8dp"
                                 app:donut_background_color="@color/grin_beam_color"
                                 app:donut_finished_color="@color/progress_round_color"
                                 app:donut_finished_stroke_width="5dp"
                                 app:donut_text_color="@color/white"
                                 app:donut_text_size="12sp"
                                 app:donut_unfinished_color="@color/white"
-                                app:donut_unfinished_stroke_width="5dp" />
+                                app:donut_unfinished_stroke_width="5dp"
+                                app:layout_constraintBottom_toBottomOf="parent" />
 
 
                             <customviews.RialTextView
@@ -169,7 +171,7 @@
                                 android:layout_marginTop="12dp"
                                 android:text="300000"
                                 android:textColor="@color/instagram_color"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -274,6 +276,7 @@
                                 android:layout_marginTop="2dp"
                                 android:layout_marginEnd="2dp"
                                 android:text="@string/use_date"
+                                android:textColor="@color/instagram_color"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -297,10 +300,10 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout18"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -310,105 +313,98 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout17">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                <customviews.RialTextView
+                    android:id="@+id/post_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|top"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="2245500"
+                    android:textColor="@color/grin_beam_color"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|bottom"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="تومان"
+                    android:textColor="@color/grin_beam_color"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout19"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    app:cardCornerRadius="5dp">
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/grin_beam_color"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/post_price_tv"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-                    <customviews.RialTextView
-                        android:id="@+id/post_price_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|top"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="2245500"
-                        android:textColor="@color/grin_beam_color"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|bottom"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginBottom="2dp"
-                        android:text="تومان"
-                        android:textColor="@color/grin_beam_color"
-                        android:textSize="15sp" />
-
-                    <LinearLayout
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="90dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@color/grin_beam_color" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="100dp"
-                        android:text="جمع کل"
-                        android:textColor="@color/grin_beam_color"
-                        android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="جمع کل"
+                    android:textColor="@color/grin_beam_color"
+                    android:textSize="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout19"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <LinearLayout
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="30dp"
-                        android:background="@drawable/shop_botton_style">
-
-                        <com.shawnlin.numberpicker.NumberPicker
-                            android:id="@+id/post_number_picker"
-                            android:layout_width="20dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="35dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="2dp"
-                            app:np_max="99"
-                            app:np_min="0"
-                            app:np_selectedTextColor="@color/grin_beam_color"
-                            app:np_selectedTextSize="16sp"
-                            app:np_textColor="@color/grin_beam_color"
-                            app:np_textSize="14sp"
-                            app:np_value="1" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="20dp"
-                        android:text="عدد"
-                        android:textAlignment="center"
-                        android:textSize="18sp" />
+                <customviews.ValueSelector
+                    android:id="@+id/valueselector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView3"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <Button
-                        android:id="@+id/buy_button"
-                        style="?attr/borderlessButtonStyle"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/buybutton"
-                        android:text="خرید"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                <Button
+                    android:id="@+id/buy_button"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/buybutton"
+                    android:text="خرید"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/valueselector"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -423,74 +419,133 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout18">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="2dp"
+
+                <LinearLayout
+                    android:id="@+id/post_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    app:cardCornerRadius="5dp">
+                    android:background="@drawable/shop_botton_style"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:id="@+id/post_details"
-                        android:layout_width="150dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="start"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/attributes"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|end"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:contentDescription="@string/clipboard_list"
+                        android:src="@drawable/post_attr" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/post_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/shop_botton_style"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline11"
+                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
                         android:layout_marginStart="10dp"
-                        android:background="@drawable/shop_botton_style"
-                        android:orientation="horizontal">
+                        android:text="@string/information"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
-                        <TextView
-                            android:layout_width="86dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="start|center"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/attributes"
-                            android:textAlignment="center"
-                            android:textSize="22sp" />
+                    <ImageView
+                        android:layout_marginEnd="4dp"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center|end"
+                        android:contentDescription="@string/info_circle"
+                        android:src="@drawable/ic_info_circle" />
+                </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="41dp"
-                            android:layout_gravity="center|end"
-                            android:layout_marginStart="8dp"
-                            android:contentDescription="@string/clipboard_list"
-                            android:src="@drawable/ic_clipboard_list" />
-                    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/post_gotoshoppage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/shop_botton_style"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline11"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0">
 
-                    <LinearLayout
-                        android:id="@+id/post_info"
-                        android:layout_width="150dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="28dp"
-                        android:background="@drawable/shop_botton_style"
-                        android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="10dp"
+                        android:text="فروشگاه"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
-                        <TextView
-                            android:layout_width="86dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="start|center"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/information"
-                            android:textAlignment="center"
-                            android:textSize="22sp" />
+                    <ImageView
+                        android:layout_marginEnd="4dp"
+                        android:layout_width="21dp"
+                        android:layout_height="31dp"
+                        android:layout_gravity="center|end"
+                        android:layout_marginStart="4dp"
+                        android:contentDescription="@string/info_circle"
+                        android:src="@drawable/ic_shopping_bag" />
+                </LinearLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.63"
+                    app:layout_constraintGuide_begin="20dp" />
 
-                        <ImageView
-                            android:layout_width="41dp"
-                            android:layout_height="41dp"
-                            android:layout_gravity="center|end"
-                            android:layout_marginStart="8dp"
-                            android:contentDescription="@string/info_circle"
-                            android:src="@drawable/ic_info_circle" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.3"
+                    app:layout_constraintGuide_begin="20dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
                 android:id="@+id/frg_holder"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -508,12 +563,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
+
         app:itemIconTint="@color/nav_color"
+
         app:itemTextColor="@color/nav_color"
         app:labelVisibilityMode="labeled"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

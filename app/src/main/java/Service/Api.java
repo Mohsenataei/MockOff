@@ -22,7 +22,7 @@ import retrofit2.http.Url;
 
 public interface Api {
     @FormUrlEncoded
-    @POST("signup")
+    @POST("signup/client")
     Call<String> userSignUp(
             //@HeaderMap Map<String, String> headers,
             @Field("name") String name,
@@ -39,7 +39,7 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("login/client")
     Call<String> userLogin(
             //@HeaderMap Map<String, String> headers,
             @Field("email") String email,
