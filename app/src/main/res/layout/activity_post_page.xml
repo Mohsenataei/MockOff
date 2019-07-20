@@ -57,7 +57,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout17"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -68,10 +68,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/postViewPager">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="5dp">
 
                     <TextView
                         android:id="@+id/post_name_post_page"
@@ -80,14 +76,13 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_weight="2"
                         android:text="تخفیف دوره لاغری"
                         android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="10dp"
                         android:background="@color/indicator_border_color" />
 
                     <TextView
@@ -95,61 +90,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="35dp"
-                        android:layout_weight="2"
+                        android:layout_marginTop="12dp"
                         android:text="ایروبیک، کراس فیت، تی آر ایکس"
                         android:textSize="14sp" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="55dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="12dp"
                         android:orientation="horizontal">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <LinearLayout
                             android:id="@+id/discount_holder"
                             android:layout_width="140dp"
                             android:layout_height="80dp"
-                            android:layout_gravity="start|center_vertical"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="1dp"
-                            android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/post_page_price"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/guideline10"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0">
+                            android:background="@drawable/post_page_price">
 
-                            <!--    <LinearLayout
-                            android:layout_width="55dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="end"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/post_discount_background"
-                            android:orientation="vertical"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <customviews.RialTextView
-                                android:id="@+id/post_discount_percentage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="6dp"
-                                android:text="50%"
-                                android:textAlignment="center"
-                                android:textColor="#F85F73" />
-
-                        </LinearLayout> -->
                             <com.github.lzyzsd.circleprogress.DonutProgress
                                 android:id="@+id/discount_progress"
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_marginBottom="8dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="10dp"
                                 app:donut_background_color="@color/grin_beam_color"
                                 app:donut_finished_color="@color/progress_round_color"
                                 app:donut_finished_stroke_width="5dp"
@@ -164,7 +129,7 @@
                                 android:id="@+id/post_page_original_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="65dp"
+                                android:layout_marginStart="25dp"
                                 android:text="450000"
                                 android:textSize="15sp"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -174,7 +139,7 @@
                                 android:id="@+id/post_page_discount_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="75dp"
+                                android:layout_marginStart="5dp"
                                 android:layout_marginTop="12dp"
                                 android:text="300000"
                                 android:textColor="@color/instagram_color"
@@ -183,112 +148,20 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
 
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="140dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="end|center_vertical"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/post_page_price"
+                        <LinearLayout
                             android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/guideline10">
+                            android:background="@drawable/post_page_price"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="150dp"
+                            android:layout_height="80dp">
 
-                            <customviews.RialTextView
-                                android:id="@+id/bought_ticket_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="257"
-                                app:layout_constraintEnd_toStartOf="@+id/textView2"
-                                app:layout_constraintHorizontal_bias="0.361"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/e_date_use"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="12dp"
-                                android:text="روز مانده"
-                                app:layout_constraintEnd_toStartOf="@+id/use_date"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/s_date_show" />
 
-                            <TextView
-                                android:id="@+id/s_date_show"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="روز مانده"
-                                app:layout_constraintEnd_toStartOf="@+id/use_date"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/bought_ticket_count" />
 
-                            <customviews.RialTextView
-                                android:id="@+id/use_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="78dp"
-                                android:text="10"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/show_date" />
 
-                            <customviews.RialTextView
-                                android:id="@+id/show_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:text="10"
-                                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                                tools:layout_editor_absoluteX="54dp" />
-
-                            <TextView
-                                android:id="@+id/textView2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginEnd="2dp"
-                                android:text="@string/bought_count"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:text="@string/remain_days"
-                                android:textColor="@color/grin_beam_color"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.833"
-                                app:layout_constraintStart_toEndOf="@+id/show_date"
-                                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-                            <TextView
-                                android:id="@+id/testt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_gravity="end"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginEnd="4dp"
-                                android:text="@string/use_date"
-                                android:textColor="@color/instagram_color"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/guideline10"
@@ -297,9 +170,9 @@
                             android:orientation="vertical"
                             app:layout_constraintGuide_percent="0.5" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
             <LinearLayout
@@ -536,8 +409,9 @@
                         android:textSize="14sp" />
 
                     <ImageView
-                        android:layout_width="31dp"
-                        android:layout_height="31dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_gravity="center|end"
                         android:layout_marginStart="4dp"
                         android:contentDescription="@string/info_circle"
