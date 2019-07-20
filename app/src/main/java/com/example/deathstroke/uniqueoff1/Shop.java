@@ -24,10 +24,13 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +66,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     private double lat;
     private double lon;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
+    private Spinner cities;
 
     public double getLat() {
         return lat;
@@ -172,7 +176,9 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 
         b1.setOnClickListener(view->{
             if (!info_flag) {
-                b1.clearFocus();
+                //b1.clearFocus();
+                b2.clearFocus();
+                b3.clearFocus();
                 doInfoOnClick();
                 undoMapOnclick();
                 undoOffsOOnclick();
@@ -187,6 +193,8 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
             }
             else {
                 b1.clearFocus();
+                b2.clearFocus();
+                b3.clearFocus();
                 undoInfoOnClick();
                 FragmentManager fm = getSupportFragmentManager();
                 for (int i=0;i < fm.getBackStackEntryCount();i++)
@@ -196,10 +204,12 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         });
         b2.setOnClickListener(view ->{
             if (!off_flag) {
+                b1.clearFocus();
+                b3.clearFocus();
                 doOffsOnClick();
                 undoMapOnclick();
                 undoInfoOnClick();
-                b2.clearFocus();
+                //b2.clearFocus();
                 off_flag = true;
                 shop_offs_fragment offs_fragment = new shop_offs_fragment();
                 offs_fragment.setShopid(String.valueOf(shopid));
@@ -210,7 +220,9 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 ft.commit();
             }else {
                 undoOffsOOnclick();
+                b1.clearFocus();
                 b2.clearFocus();
+                b3.clearFocus();
                 FragmentManager fm = getSupportFragmentManager();
                 for (int i=0;i < fm.getBackStackEntryCount();i++)
                     fm.popBackStack();
@@ -232,13 +244,17 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 ft.replace(R.id.frg_holder, map_fragment);
                 ft.addToBackStack(null);
                 ft.commit();
-                b3.clearFocus();
+                //b3.clearFocus();
+                b1.clearFocus();
+                b2.clearFocus();
             } else {
                 undoMapOnclick();
                 FragmentManager fm = getSupportFragmentManager();
                 for (int i=0;i < fm.getBackStackEntryCount();i++)
                     fm.popBackStack();
                 map_flag = false;
+                b1.clearFocus();
+                b2.clearFocus();
                 b3.clearFocus();
             }
 
@@ -274,6 +290,23 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         });
 
         //justfottest();
+        cities = header_items.findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
+        adapter.setDropDownViewResource(R.layout.spinner_text_view);
+        cities.setAdapter(adapter);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String city = parent.getItemAtPosition(position).toString();
+                SaveSharedPreference.setCity(Shop.this,city);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     //get intent extras :

@@ -29,8 +29,11 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +71,7 @@ import bottomsheetdialoges.MapPageBottomSheet;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import entities.NearestShops;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,10 +92,12 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
     private BottomNavigationView bottomNavigationView;
     Typeface yekanFont;
     private TextView appname;
+    private Spinner cities;
     @Bind(R.id.drawebtn)
     ImageButton drawerbtn;
     @Bind(R.id.back_button)
     ImageButton backbtn;
+    private IMapController mapController;
 
     private double lat;
     private double lon;
@@ -143,23 +149,9 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
 //
         mapView = findViewById(R.id.main_map);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
-        IMapController mapController = mapView.getController();
+        mapController = mapView.getController();
         mapController.setZoom(15.5);
         GeoPoint startPoint = new GeoPoint(34.796830, 48.514820);
-
-
-        // set a custom marker on map
-        Marker marker = new Marker(mapView);
-        marker.setPosition(new GeoPoint(34.796840,48.514855));
-        marker.setTitle("custom marker");
-        marker.setInfoWindow(null);
-        marker.showInfoWindow();
-        mapView.getOverlays().add(marker);
-        mapView.invalidate();
-        marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
-
-
-
 
 
         mapController.setCenter(startPoint);
@@ -212,42 +204,23 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
         setNearestShops(nearestShopsList);
 
 
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        Drawable mMarker = this.getResources().getDrawable(R.drawable.marker_default);
+        cities = header_items.findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
+        adapter.setDropDownViewResource(R.layout.spinner_text_view);
+        cities.setAdapter(adapter);
 
-
-        GeoPoint point;
-        if (nearestShopsList.size() > 0) {
-            for (int i = 0; i < 5; i++) {
-                double lat, lan;
-                lat = 34.796830 + i;
-                        //Double.parseDouble(nearestShopsList.get(i).getLatitude());
-                lan = 48.514820 + i;
-                        //Double.parseDouble(nearestShopsList.get(i).getLongitude());
-                items.add(new OverlayItem("title", "some description", new GeoPoint(lat, lan)));
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String city = parent.getItemAtPosition(position).toString();
+                SaveSharedPreference.setCity(Map.this,city);
             }
-        }
 
-        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        //do something
-                        Toast.makeText(Map.this, "click on map", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Map.this,Shop.class));
-                        return true;
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        return false;
-                    }
-                },Map.this);
-        mOverlay.setFocusItemsOnTap(true);
-        mapView.getOverlays().add(mOverlay);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        Marker startmarker = new Marker(mapView);
-        startmarker.setIcon(getResources().getDrawable(R.drawable.shop_map_marker));
-        mapView.getOverlays().add(startmarker);
+            }
+        });
 
         if (!isNetworkConnected()){
             Intent intent = new Intent(Map.this,CheckNetworkConnection.class);
@@ -531,19 +504,38 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
         String latitude = String.valueOf(lat);
         String longitude = String.valueOf(lon);
 
+        mapController.setCenter(new GeoPoint(lat,lon));
+
+        Marker marker = new Marker(mapView);
+        marker.setPosition(new GeoPoint(lat,lon));
+        marker.setTitle("custom marker");
+        marker.setInfoWindow(null);
+        marker.showInfoWindow();
+        mapView.getOverlays().add(marker);
+        mapView.invalidate();
+        marker.setIcon(getResources().getDrawable(R.drawable.ic_hand_point_down_solid));
+
+
+        Log.d("GPS", "getnearDiscount: latitude is: " + latitude + " and longitude is: "+longitude);
+
 
         Call<List<NearestShops>> call = RetrofitClient.getmInstance().getApi().getNearestDiscounts("34.796830","48.514820");
         call.enqueue(new Callback<List<NearestShops>>() {
             @Override
             public void onResponse(Call<List<NearestShops>> call, Response<List<NearestShops>> response) {
                 if (response.isSuccessful() && response.body() != null){
-                    Toast.makeText(Map.this, "response is not empty", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Map.this, "response is not empty", Toast.LENGTH_SHORT).show();
                     if(!nearestShopsList.isEmpty()){
                         nearestShopsList.clear();
                     }
 
                     nearestShopsList = response.body();
-                    setNearestShops(response.body());
+                    if (nearestShopsList.isEmpty()){
+                        Toast.makeText(Map.this, "هیچ تخفیفی اطراف شما یافت نشد", Toast.LENGTH_SHORT).show();
+                    }else{
+                        setNearestShops(response.body());
+                    }
+
                 }else {
                     Log.d(TAG, "onResponse: response is empty");
                 }
@@ -664,4 +656,9 @@ public class Map extends AppCompatActivity implements DrawerLayout.DrawerListene
         setLat(location.getLatitude());
         setLon(location.getLongitude());
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
 }

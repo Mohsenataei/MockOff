@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+
+import Service.SaveSharedPreference;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.app.ActivityCompat;
@@ -24,6 +26,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -58,10 +62,8 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
     private ImageView qrcode;
     private Button save_to_gallery, alriht;
     Button share_us, sign_up, sign_in, followed_centers, terms_of_service, Contact_us, edit, exit, bookmarks, coopreq, testbtn,mapbutton;
-    private Spinner mySpinner;
+    private Spinner cities;
     private Typeface myFont;
-    private static final String[] COUNTRIES = new String[] { "همدان",
-            "ملایر", "اراک", "تویسرکان", "اسدآباد" };
 
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
@@ -133,6 +135,25 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
 
         });
 
+
+        View  header_items = navigationView.getHeaderView(0);
+        cities = header_items.findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
+        adapter.setDropDownViewResource(R.layout.spinner_text_view);
+        cities.setAdapter(adapter);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String city = parent.getItemAtPosition(position).toString();
+                SaveSharedPreference.setCity(QRCode.this,city);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         }
 
 
@@ -146,64 +167,6 @@ public class QRCode extends AppCompatActivity implements DrawerLayout.DrawerList
     }
 
 
-
-
-    private class MyArrayAdapter extends BaseAdapter {
-
-        private LayoutInflater mInflater;
-
-        public MyArrayAdapter(QRCode con) {
-            // TODO Auto-generated constructor stub
-            mInflater = LayoutInflater.from(con);
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return COUNTRIES.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
-            final ListContent holder;
-            View v = convertView;
-            if (v == null) {
-                v = mInflater.inflate(R.layout.spinner_text_view, null);
-                holder = new ListContent();
-
-                holder.name =  v.findViewById(R.id.textView1);
-
-                v.setTag(holder);
-            } else {
-
-                holder = (ListContent) v.getTag();
-            }
-
-            holder.name.setTypeface(myFont);
-            holder.name.setText("" + COUNTRIES[position]);
-
-            return v;
-        }
-
-    }
-
-    static class ListContent {
-
-        TextView name;
-    }
 
     private void generateqrcode(String sample){
         qrcode_code.setText(sample);

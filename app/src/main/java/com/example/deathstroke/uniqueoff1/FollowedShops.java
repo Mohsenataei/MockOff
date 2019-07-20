@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +55,7 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
     List<SubShop> subShopList = new ArrayList<>();
     TextView appbar_tv,appname;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
+    private Spinner cities;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +146,25 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
 
             @Override
             public void onFailure(Call<List<SubShop>> call, Throwable t) {
+
+            }
+        });
+
+
+        cities = header_items.findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
+        adapter.setDropDownViewResource(R.layout.spinner_text_view);
+        cities.setAdapter(adapter);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String city = parent.getItemAtPosition(position).toString();
+                SaveSharedPreference.setCity(FollowedShops.this,city);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });

@@ -91,13 +91,23 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
 
         holder.bookmark.setOnClickListener(view -> {
             if(!holder.flag) {
-                holder.flag = true;
-                bookmarkaPost(holder.bookmark,model.getId());
-                Toast.makeText(context, "BookMarked!", Toast.LENGTH_SHORT).show();
+                if (!SaveSharedPreference.getAPITOKEN(context).isEmpty()){
+                    holder.flag = true;
+                    bookmarkaPost(holder.bookmark,model.getId());
+                    Toast.makeText(context, "BookMarked!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "ابتدا وارد حساب کاربری خود شوید", Toast.LENGTH_SHORT).show();
+                }
+
             }else {
-                deleteBookmark(holder.bookmark,model.getId());
-                holder.flag = false;
-                Toast.makeText(context, "BookMark deleted.", Toast.LENGTH_SHORT).show();
+                if(!SaveSharedPreference.getAPITOKEN(context).isEmpty()){
+                    deleteBookmark(holder.bookmark,model.getId());
+                    holder.flag = false;
+                    Toast.makeText(context, "BookMark deleted.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "ابتدا وارد حساب کاربری خود شوید", Toast.LENGTH_SHORT).show();
+                }
+
             }
         } );
 
@@ -105,7 +115,7 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             Intent intent = new Intent(context,PostPage.class);
             intent.putExtra("post_title",model.getTitle());
             intent.putExtra("quantity",String.valueOf(model.getQuantity()));
-            intent.putExtra("price",tmp);
+            intent.putExtra("price",model.getPrice());
             intent.putExtra("discount",String.valueOf(model.getDiscount()));
             Log.d("PostPage", "Reg post adapter -> onBindViewHolder: " + model.getPrice());
             intent.putExtra("post_id",model.getId());

@@ -24,8 +24,11 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,7 @@ import bottomsheetdialoges.ConfirmExitbottomSheet;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import entities.Code;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,6 +76,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
     RecyclerView mycodes_list;
 
     BottomNavigationView bottomNavigationView;
+    private Spinner cities;
 
 
     private RecyclerView.LayoutManager layoutManager;
@@ -104,7 +109,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
 //        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
 //                1,StaggeredGridLayoutManager.VERTICAL
 //        );
-        API_TOKEN = "YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";//"YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";
+        //API_TOKEN = "YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";//"YhPkXvBeABJaQDwDhDWNIdLCAtFjv4Az6HRHyjYElh8XY30EpVzBabfaccHq";
                 //SaveSharedPreference.getAPITOKEN(this);
       //  mycodes_list.setLayoutManager(staggeredGridLayoutManager);
 //
@@ -165,6 +170,24 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
             return false;
         });
         loadCodes();
+
+        cities = header_items.findViewById(R.id.cities_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
+        adapter.setDropDownViewResource(R.layout.spinner_text_view);
+        cities.setAdapter(adapter);
+
+        cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String city = parent.getItemAtPosition(position).toString();
+                SaveSharedPreference.setCity(MyCodes.this,city);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void setHeaderitems() {
@@ -189,7 +212,7 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
                 @Override
                 public void onResponse(Call<List<Code>> call, Response<List<Code>> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        Toast.makeText(MyCodes.this, "connection is successful" + response.body().get(0).getPrice(), Toast.LENGTH_LONG).show();
+                       // Toast.makeText(MyCodes.this, "connection is successful" + response.body().get(0).getPrice(), Toast.LENGTH_LONG).show();
                         Log.d(TAG, "loadCodes: onResponse: successful");
                         if (codes.isEmpty())
                             codes.clear();
@@ -316,4 +339,9 @@ public class MyCodes extends AppCompatActivity implements DrawerLayout.DrawerLis
             startActivity(intent);
         }
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
 }

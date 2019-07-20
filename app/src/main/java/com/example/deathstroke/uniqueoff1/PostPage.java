@@ -23,13 +23,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import customviews.ValueSelector;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -67,6 +66,12 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     private NumberPicker mNumberPicker;
     private static String[] persianNumbers = new String[]{ "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
     private Button buy;
+
+    //value selector ui
+    private ImageButton plus,minus;
+    private TextView value;
+
+    ValueSelector valueSelector;
 
     DonutProgress donutProgress;
     @Override
@@ -123,7 +128,9 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         price_textView = findViewById(R.id.post_price_tv);
         price_textView.setText(getPrice());
         use_date = findViewById(R.id.use_date);
+        //use_date.setTextColor(Color.RED);
         show_date = findViewById(R.id.show_date);
+        //show_date.setTextColor(Color.BLUE);
         tabLayout = findViewById(R.id.indicator);
         getExtrainfo();
         bottomNavigationView = findViewById(R.id.navigation);
@@ -160,22 +167,45 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             return false;
         });
 
-        final int[] post_count = new int[1];
-        mNumberPicker = findViewById(R.id.post_number_picker);
-        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                //Toast.makeText(PostPage.this, "selected "+newVal, Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onValueChange: " + newVal);
-                post_count[0] = newVal;
-                setPriceTextView(toPersianNumber(getPrice()),newVal);
-            }
-        });
+//        final int[] post_count = new int[1];
+//        mNumberPicker = findViewById(R.id.post_number_picker);
+//        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                //Toast.makeText(PostPage.this, "selected "+newVal, Toast.LENGTH_SHORT).show();
+//                Log.d(TAG, "onValueChange: " + newVal);
+//                post_count[0] = newVal;
+//                setPriceTextView(toPersianNumber(getPrice()),newVal);
+//            }
+//        });
 
-        Log.d(TAG, "onCreate: selected post count :"+post_count[0]);
+
+        //value selector
+//        int currentValue = 1;
+//        plus = findViewById(R.id.post_plus_button);
+//        minus = findViewById(R.id.post_minus_button);
+//        value = findViewById(R.id.post_count_text_view);
+//
+//        value.setText(toPersianNumber("1"));
+//
+//        plus.setOnClickListener(v->{
+//            increamentValue(value,currentValue);
+//
+//        });
+//        minus.setOnClickListener(v -> {
+//            decreamentValue(value,currentValue);
+//        });
+
+        //Log.d(TAG, "onCreate: selected post count :"+post_count[0]);
         //Toast.makeText(this, "count is :"+post_count[0], Toast.LENGTH_SHORT).show();
 
-        String price = getPrice();
+        valueSelector = findViewById(R.id.valueselector);
+        String price = getIntent().getStringExtra("price");
+        String discount = getIntent().getStringExtra("discount");
+        int pr = Integer.parseInt(price) - ((Integer.parseInt(price)*Integer.parseInt(discount))/100);
+        valueSelector.setShits(price_textView,pr);
+        //setPriceTextView(getPrice(),valueSelector.getValue());
+
         // uncomment this later
 //        setPriceTextView(price,post_count[0]);
 
@@ -183,9 +213,11 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
 
         buy.setOnClickListener(v->{
            // orderPost();
-            Toast.makeText(this, "you bought it, count :"+post_count[0], Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "you bought it, count :"+post_count[0], Toast.LENGTH_SHORT).show();
         });
     }
+
+
 
     private void orderPost(List<Order> orders) {
         Call<BankResponse> call = RetrofitClient.getmInstance().getApi().create_order(orders);
@@ -319,10 +351,10 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             //discount.setText(discount_percentage);
             String tmp = String.valueOf(Integer.parseInt(price) - ((Integer.parseInt(price) * Integer.parseInt(discount_percentage)/100)));
             price = toPersianNumber(price);
-            original_price_tv.setText(price);
+            original_price_tv.setText(price + "تومان");
             original_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
            // tmp = toPersianNumber(tmp);
-            discount_tv.setText(tmp);
+            discount_tv.setText(tmp+"تومان");
 
             //-------------------------- calculate price with discount and set it in text view -----------------------
 
