@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.os.Parcelable;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
@@ -66,6 +67,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener{
 
     private static final String TAG = "aghamohsen";
+    private static final String RECYCLER_STATE_KEY = "SAVE_RECYCLER_STATE" ;
     TextView appname , hottest_offs_txtvw;
     Typeface yekanfont;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private boolean isLoading = true;
     private int pastVisibleItems,visibleItemCount,totalItemCount,previousTotal=0;
     private int viewTreshold =10;
+    private Parcelable recyclerState;
 
 
 
@@ -198,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.cities, R.layout.spinner_text_view_1);
         adapter.setDropDownViewResource(R.layout.spinner_text_view);
         cities.setAdapter(adapter);
+
         //cities.setAdapter(adapter);
         cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -427,6 +431,27 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         edit = header_items.findViewById(R.id.edit);
         appname = header_items.findViewById(R.id.header_app_name);
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        recyclerState = linearLayoutManager.onSaveInstanceState();
+        outState.putParcelable(RECYCLER_STATE_KEY,recyclerState);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if(recyclerState != null){
+            recyclerState = savedInstanceState.getParcelable(RECYCLER_STATE_KEY);
+        }
+
+    }
+
+
+
     private void handleNavDrawerItemClick(){
         signup.setOnClickListener(view->{
             startActivity(new Intent(MainActivity.this,SignUpActivity.class));
@@ -652,6 +677,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             Intent intent = new Intent(MainActivity.this,CheckNetworkConnection.class);
             intent.putExtra("flag","MainActivity");
             startActivity(intent);
+        }
+
+        if(recyclerState != null){
+            linearLayoutManager.onRestoreInstanceState(recyclerState);
         }
     }
 

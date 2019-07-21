@@ -7,6 +7,6 @@
     android:textColor="#000000"
     android:padding="10dp"
     android:background="@drawable/spinner_item_divider"
-    android:textSize="18dp"
+    android:textSize="14sp"
     android:drawableEnd="@drawable/spinner_marker"
     android:drawablePadding="10dp"/>
