@@ -21,10 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import customviews.ValueSelector;
+import entities.Coordinate;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -67,9 +69,25 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
     private static String[] persianNumbers = new String[]{ "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
     private Button buy;
 
+    //shop coordinates
+
+    private Coordinate coordinate;
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+
     //value selector ui
     private ImageButton plus,minus;
     private TextView value;
+
+    // linearlayouts
+    private LinearLayout go_to_shop_button;
+
 
     ValueSelector valueSelector;
 
@@ -87,6 +105,19 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
         drawer = findViewById(R.id.drawebtn);
         Typeface yekanFont = Typeface.createFromAsset(getAssets(), "fonts/B Yekan+.ttf");
         discount = findViewById(R.id.post_discount_percentage);
+        go_to_shop_button = findViewById(R.id.post_gotoshoppage);
+
+        getShopCoordinate();
+        go_to_shop_button.setOnClickListener(view->{
+            shop_map_fragment shopMapFragment = new shop_map_fragment();
+            Intent intent = new Intent(this,Shop.class);
+            intent.putExtra("shopname",getShopName());
+            intent.putExtra("shopid",String.valueOf(getShopId()));
+            intent.putExtra("latitude",coordinate.getLatitude());
+            intent.putExtra("longitude",coordinate.getLongitude());
+            startActivity(intent);
+
+        });
 
 
 
@@ -362,6 +393,12 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             setTextviews(postname,count,shop_name,show_date,use_date);
         }
     }
+    private String getShopName(){
+        if(getIntent().hasExtra("shop_name")){
+            return getIntent().getStringExtra("shop_name");
+        }
+        return "";
+    }
     private void setTextviews(String post_name,String count, String shop_name, String showdate, String usedate){
         postName.setText(post_name);
         soldCount.setText(count);
@@ -424,6 +461,46 @@ public class PostPage extends AppCompatActivity implements DrawerLayout.DrawerLi
             }
         }
         return out;
+    }
+
+    private String getShopId(){
+        if(getIntent().hasExtra("shop_id")){
+            Log.d("coordinate", "getShopId: shop id found" + getIntent().getStringExtra("shop_id"));
+
+            return getIntent().getStringExtra("shop_id");
+        }
+
+        return "";
+    }
+    
+
+    private void getShopCoordinate(){
+
+        Call<Coordinate> call = RetrofitClient.getmInstance()
+                .getApi()
+                .getShopCoordinate(getShopId());
+
+        call.enqueue(new Callback<Coordinate>() {
+            @Override
+            public void onResponse(Call<Coordinate> call, Response<Coordinate> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Toast.makeText(PostPage.this, "shop coordinate successfull", Toast.LENGTH_SHORT).show();
+                    Log.d("coordinate", "onResponse: found shop coordinates.");
+                    coordinate = response.body();
+                }else{
+                    Toast.makeText(PostPage.this, "shop coordinate unsuccessful", Toast.LENGTH_SHORT).show();
+                    Log.d("coordinate", "onResponse: shop coordinates did not found.");
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Coordinate> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }

@@ -4,11 +4,13 @@ import java.util.List;
 
 import entities.BankResponse;
 import entities.Code;
+import entities.Coordinate;
 import entities.Detail;
 import entities.HeaderPics;
 import entities.NearestShops;
 import entities.Order;
 import entities.Post;
+import entities.ShopInfo;
 import entities.ShopShits;
 import entities.SubShop;
 import okhttp3.ResponseBody;
@@ -79,10 +81,20 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("subscribe_shop")
-    Call<ResponseBody> subscribeToShop(
+    Call<String> subscribeToShop(
             @Field("api_token") String api_token,
-            @Field("shop_id") Integer shop_id
+            @Field("shop_id") int shop_id
     );
+
+
+    @FormUrlEncoded
+    @POST("delete_subscribed_shop")
+    Call<String> deleteSubscribeToShop(
+            @Field("api_token") String api_token,
+            @Field("shop_id") int shop_id
+    );
+
+
 
 
 
@@ -95,16 +107,16 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("mark_post")
-    Call<ResponseBody> markPost(
+    Call<String> markPost(
             @Field("api_token") String api_token,
-            @Field("shop_id") int shop_id
+            @Field("post_id") int post_id
     );
 
     @FormUrlEncoded
     @POST("delete_marked_post")
-    Call<ResponseBody> deleteMarkedPost(
+    Call<String> deleteMarkedPost(
             @Field("api_token") String api_token,
-            @Field("shop_id") int shop_id
+            @Field("post_id") int post_id
     );
 
     @FormUrlEncoded
@@ -149,5 +161,15 @@ public interface Api {
     Call<BankResponse> create_order (
             @Field("orders") List<Order> orders
     );
+
+    @FormUrlEncoded
+    @POST("shop_coordinates")
+    Call<Coordinate> getShopCoordinate (@Field("shop_id") String shop_id);
+
+
+    @FormUrlEncoded
+    @POST("shop")
+    Call<ShopInfo> getShopInfo(@Field("shop_id") String shop_id);
+
 
 }

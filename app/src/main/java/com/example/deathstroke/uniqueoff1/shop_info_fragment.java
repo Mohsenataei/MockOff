@@ -1,6 +1,8 @@
 package com.example.deathstroke.uniqueoff1;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import Service.RetrofitClient;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +77,7 @@ public class shop_info_fragment extends Fragment {
 //    }
 
     private TextView shop_address, shop_phone_number, shop_work_time, shop_work_days;
+    private LinearLayout telLayout;
 
     private Detail model;
 
@@ -115,6 +119,17 @@ public class shop_info_fragment extends Fragment {
         shop_phone_number = view.findViewById(R.id.shop_phone_number);
         shop_work_days = view.findViewById(R.id.shop_work_days);
         shop_work_time = view.findViewById(R.id.shop_work_time);
+
+        telLayout = view.findViewById(R.id.shop_tel_holder);
+
+        telLayout.setOnClickListener(v -> {
+            String tel = shop_phone_number.getText().toString();
+
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + tel));
+
+            startActivity(intent);
+        });
         Log.d("fragment", "onCreateView: is it working ? ");
         getShopDetails();
         //++++++++++++++++++++++++++++++++++++++++++setTextViews();
@@ -156,6 +171,7 @@ public class shop_info_fragment extends Fragment {
 
                     model = response.body().getDetail();
                     shop_address.setText(model.getAddress());
+                    Log.d("address", "onResponse: " + model.getAddress() );
                     shop_work_time.setText(model.getWork_time());
                     shop_work_days.setText(model.getWork_date());
                     shop_phone_number.setText(model.getHome_phone());

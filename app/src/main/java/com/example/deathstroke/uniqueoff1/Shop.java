@@ -19,7 +19,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.MenuItem;
@@ -34,11 +33,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import Service.CustomTypefaceSpan;
 import bottomsheetdialoges.ConfirmExitbottomSheet;
+import entities.Coordinate;
 import entities.Detail;
+import entities.Pics;
+import entities.ShopInfo;
 import entities.ShopShits;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -67,6 +72,15 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
     private double lon;
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     private Spinner cities;
+
+    private ImageButton bookmark_shop_image_button;
+    private boolean shop_flag = false;
+
+    //shop coordinate
+    private Coordinate shop_coordinate;
+
+    //shop info
+    private ShopInfo shopInfo;
 
     public double getLat() {
         return lat;
@@ -160,6 +174,9 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 
         getIntentExtras();
 
+        getShopInfo();
+        getShopCoordinate();
+
         View header_items = navigationView.getHeaderView(0);
 
         initilizeheaderbuttons(header_items);
@@ -239,6 +256,7 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
                 shop_map_fragment map_fragment = new shop_map_fragment();
                 map_fragment.setLat(lat);
                 map_fragment.setLon(lon);
+                map_fragment.setShop_coordinate(shop_coordinate);
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.frg_holder, map_fragment);
@@ -307,6 +325,62 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
 
             }
         });
+        //handle shop bookmark
+
+        bookmark_shop_image_button = findViewById(R.id.shop_bookmark);
+        bookmark_shop_image_button.setOnClickListener(view->{
+            if(!shop_flag){
+                shop_flag = true;
+                subscribe();
+                bookmark_shop_image_button.setImageResource(R.drawable.ic_shop_bookmark);
+            }else {
+                shop_flag = false;
+                deleteSubscribe();
+                bookmark_shop_image_button.setImageResource(R.drawable.ic_bookmark_shop);
+            }
+        });
+
+    }
+
+    private void subscribe(){
+        Call<String> call = RetrofitClient.getmInstance().getApi().subscribeToShop(SaveSharedPreference.getAPITOKEN(this),Integer.parseInt(shopid));
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d("subscribe", "onResponse: successfully subscribed to this shop");
+                }else{
+                    Log.d("subscribe", "onResponse: sth went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void deleteSubscribe(){
+        Call<String> call = RetrofitClient.getmInstance().getApi().deleteSubscribeToShop(SaveSharedPreference.getAPITOKEN(this),Integer.parseInt(shopid));
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    Log.d("subscribe", "onResponse: successfully removed subscribed to this shop");
+                }else{
+                    Log.d("subscribe", "onResponse: sth went wrong in remove");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
     }
 
     //get intent extras :
@@ -333,10 +407,31 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         notify_me_button.setTextColor(getResources().getColor(R.color.grin_beam_color));
     }
 
-    private void setViewPager () {
-        sliderAdapter = new SliderAdapter(this, images);
-        viewPager.setAdapter(sliderAdapter);
-        tabLayout.setupWithViewPager(viewPager, true);
+    private void setViewPager (ShopInfo shopInfo) {
+
+        List<Pics> headerPics;
+
+        if(shopInfo != null)
+        {
+            Log.d("shopViewPager", "setViewPager: ");
+            headerPics = shopInfo.getPics();
+            String[] headerUrl = new String[headerPics.size()];
+            for(int i=0;i<headerPics.size();i++){
+                headerUrl[i] = headerPics.get(i).getThumblink();
+                Log.d("shopViewPager", "setViewPager: urls" + headerUrl[i]+"\n");
+            }
+
+            sliderAdapter = new SliderAdapter(this, headerUrl);
+            viewPager.setAdapter(sliderAdapter);
+            if(headerUrl.length == 1){
+                tabLayout.setVisibility(View.GONE);
+            }else {
+                tabLayout.setupWithViewPager(viewPager, true);
+            }
+        }
+
+
+
 
     }
 
@@ -475,5 +570,49 @@ public class Shop extends AppCompatActivity implements DrawerLayout.DrawerListen
         });
 
 
+    }
+
+    private void getShopCoordinate(){
+        Call<Coordinate> call = RetrofitClient.getmInstance().getApi().getShopCoordinate(shopid);
+
+        call.enqueue(new Callback<Coordinate>() {
+            @Override
+            public void onResponse(Call<Coordinate> call, Response<Coordinate> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Log.d(TAG, "onResponse: in get shop coordinate");
+                    Log.d("subshop", "onResponse: is it empty?");
+                    shop_coordinate = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Coordinate> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getShopInfo(){
+        Call<ShopInfo> call = RetrofitClient.getmInstance().getApi().getShopInfo(shopid);
+
+        call.enqueue(new Callback<ShopInfo>() {
+            @Override
+            public void onResponse(Call<ShopInfo> call, Response<ShopInfo> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    setViewPager(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShopInfo> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

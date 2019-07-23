@@ -40,18 +40,18 @@ public class MarkedPostsAdapter extends RecyclerView.Adapter<MarkedPostsAdapter.
 
     private void bookmarkaPost(ImageView imageView, int post_id){
         imageView.setImageResource(R.drawable.ic_bookmark_onclick);
-        Call<ResponseBody>  call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
+        Call<String>  call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful() && response.body() != null){
                     Toast.makeText(context, "in bookmarkaPost: this post bookmarked", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onFailure: ",t);
             }
@@ -60,18 +60,18 @@ public class MarkedPostsAdapter extends RecyclerView.Adapter<MarkedPostsAdapter.
 
     private void deleteBookmark(ImageView imageView, int post_id){
         imageView.setImageResource(R.drawable.ic_bookmark);
-        Call<ResponseBody>  call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
+        Call<String>  call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful() && response.body() != null){
                     Toast.makeText(context, "in deletebookmark: this bookmark deleted", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onFailure: ",t);
             }

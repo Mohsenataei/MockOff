@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 
 import Service.RetrofitClient;
 import adapters.MarkedPostsAdapter;
+import adapters.RegPostAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -45,7 +46,7 @@ import retrofit2.Response;
 
 public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
-    private static final String API_TOKEN = "u3A8qjssuJMG1jdqiNJDyzYN2Aco3B22oDBNdtPjZ1KQRjAxNe7Y9qvhcaxA" ;
+    private static final String API_TOKEN = "RMG4nhzyQbqEqTev9NmAtw3WVsxx1Ew6nU6QbLwCIcNSSavlkULb65ihISdc" ;
     private static final String TAG = "BookMarkedPosts";
     protected DrawerLayout drawerLayout;
     protected ConstraintLayout main;
@@ -56,7 +57,7 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
     private Button signup,signin, followed_centers, bookmarks,terms_off_service, frequently_asked_questions,contactus,share_with_friends,exit,edit;
     ImageButton drawer,backbtn;
     private RecyclerView recyclerView;
-    private MarkedPostsAdapter adapter;
+    private RegPostAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<Post> postList = new ArrayList<>();
     private Spinner cities;
@@ -253,7 +254,7 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
 
     private void loadBooksMarkPosts(){
         Call<List<Post>> call = RetrofitClient.getmInstance().getApi().getMarkedPosts(SaveSharedPreference.getAPITOKEN(BookMarkedPosts.this));
-        
+        Log.d(TAG, "loadBooksMarkPosts: " + SaveSharedPreference.getAPITOKEN(BookMarkedPosts.this));
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -263,11 +264,12 @@ public class BookMarkedPosts extends AppCompatActivity implements DrawerLayout.D
 
 
                     if (postList.isEmpty()){
+
                         postList.clear();
                     }
                     postList = response.body();
                     if (!postList.isEmpty()){
-                        adapter = new MarkedPostsAdapter(postList,BookMarkedPosts.this);
+                        adapter = new RegPostAdapter(postList,BookMarkedPosts.this);
                         layoutManager = new LinearLayoutManager(BookMarkedPosts.this);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);

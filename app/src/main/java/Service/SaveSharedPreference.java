@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import entities.Post;
+import com.google.gson.Gson;
 
 public class SaveSharedPreference {
     private static final String APITOKEN= "ApiToken";
@@ -14,6 +14,10 @@ public class SaveSharedPreference {
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
     private static final String POST = "post";
+    private static final String SHOP_IDS = "shop_ids";
+    private static final String POST_IDS = "post_ids";
+
+    private Followed followedShops;
 
     private static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -86,6 +90,40 @@ public class SaveSharedPreference {
 //        editor.put
 //    }
 
+
+    // saving ids of followed shops for later use
+    public static Followed getFollowedShops(Context context) {
+         Gson gson = new Gson();
+         String json = getSharedPreferences(context).getString(SHOP_IDS,"");
+         return gson.fromJson(json, Followed.class);
+    }
+
+    public static void setFollowedShops(Context context, Followed followedShops) {
+
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(followedShops);
+        editor.putString(SHOP_IDS,json);
+        editor.apply();
+    }
+
+
+
+    // saving ids of bookmarked posts for later use
+    public static Followed getBookmarked(Context context) {
+        Gson gson = new Gson();
+        String json = getSharedPreferences(context).getString(POST_IDS,"");
+        return gson.fromJson(json, Followed.class);
+    }
+
+    public static void setBookmarked(Context context, Followed bookmarked) {
+
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(bookmarked);
+        editor.putString(POST_IDS,json);
+        editor.apply();
+    }
 }
 
 // 09187047846

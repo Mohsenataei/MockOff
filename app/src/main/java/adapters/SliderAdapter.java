@@ -67,7 +67,7 @@ public class SliderAdapter extends PagerAdapter {
                 .into(imageView);
 
 
-        Log.d("aghamohsen", "instantiateItem: " + imgurls[position]);
+        Log.d("shopViewPager", "instantiateItem: " + imgurls[position]);
         container.addView(imageView);
 
         if(headerPics != null){

@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp"
         android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +28,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/shopViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -116,7 +117,7 @@
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="16dp"
                         android:text="@string/shop_is_closed"
-                        android:textColor="@color/shop_stat_color" />
+                        android:textColor="@color/grin_beam_color" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
 

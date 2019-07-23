@@ -10,7 +10,6 @@
     <org.osmdroid.views.MapView
         android:id="@+id/shop_map_location"
         android:layout_width="match_parent"
-        android:layout_marginBottom="60dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"

@@ -197,7 +197,7 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
         });
 
         followed_centers.setOnClickListener(view -> {
-            //startActivity(new Intent(FollowedShops.this,FollowedShops.class));
+            //startActivity(new Intent(Followed.this,Followed.class));
             drawerLayout.closeDrawer(navigationView);
         });
 
@@ -276,11 +276,11 @@ public class FollowedShops extends AppCompatActivity implements DrawerLayout.Dra
 //                @Override
 //                public void onResponse(Call<List<SubShop>> call, Response<List<SubShop>> response) {
 //                    // subShopList = response.body();
-////                Toast.makeText(FollowedShops.this, ""+subShopList.get(0).getName(), Toast.LENGTH_SHORT).show();
+////                Toast.makeText(Followed.this, ""+subShopList.get(0).getName(), Toast.LENGTH_SHORT).show();
 //                    if (!response.isSuccessful()){
-//                        Toast.makeText(FollowedShops.this, "connection is not successful", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Followed.this, "connection is not successful", Toast.LENGTH_SHORT).show();
 //                    }else {
-//                        Toast.makeText(FollowedShops.this, "connection is successful", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Followed.this, "connection is successful", Toast.LENGTH_SHORT).show();
 //                    }
 //                }
 //

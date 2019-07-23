@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import entities.Coordinate;
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ public class shop_map_fragment extends Fragment {
     MapView mapView;
     private double lat;
     private double lon;
+    private Coordinate shop_coordinate;
 
     public double getLat() {
         return lat;
@@ -52,6 +55,15 @@ public class shop_map_fragment extends Fragment {
     public void setLon(double lon) {
         this.lon = lon;
     }
+
+    public void setShop_coordinate(Coordinate coordinate){
+        shop_coordinate = coordinate;
+    }
+
+    public Coordinate getShop_coordinate(){
+        return shop_coordinate;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +87,10 @@ public class shop_map_fragment extends Fragment {
         GeoPoint startPoint = new GeoPoint(getLat(), getLon());
         mapController.setCenter(startPoint);
         Marker marker = new Marker(mapView);
-        marker.setPosition(new GeoPoint(getLat(), getLon()));
+        double latitude,logitude;
+        latitude = Double.parseDouble(shop_coordinate.getLatitude());
+        logitude = Double.parseDouble(shop_coordinate.getLongitude());
+        marker.setPosition(new GeoPoint(latitude, logitude));
         marker.setIcon(getResources().getDrawable(R.drawable.main_map_marker));
         marker.setTitle("custom marker");
         marker.setInfoWindow(null);

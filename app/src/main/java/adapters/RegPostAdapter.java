@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import Service.Followed;
 import Service.RetrofitClient;
 import Service.SaveSharedPreference;
 import androidx.annotation.NonNull;
@@ -28,24 +30,31 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import entities.Pics;
 import entities.Post;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
 
 public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostViewHolder> implements Filterable {
     private List<Post> posts;
     private List<Post> postfull;
     private Context context;
     private OnPostClickListener onPostClickListener;
-    private static final String TAG = "aghamohsenheader";
+    private static final String TAG = "Bookmarkadapter";
+    private Followed bookMarks;
+
+    private List<Integer> shop_ids;
 
     public RegPostAdapter(List<Post> posts, Context context) {
         this.posts = posts;
         this.postfull = new ArrayList<>(posts);
         this.context = context;
+        if(SaveSharedPreference.getBookmarked(context) != null){
+            Log.d("forbookmark", "RegPostAdapter: Bookmarks was not empty");
+            bookMarks = SaveSharedPreference.getBookmarked(context);
+        }else{
+            Log.d("forbookmark", "RegPostAdapter: Bookmarks was not empty");
+            bookMarks = new Followed();
+        }
     }
 
     @NonNull
@@ -89,21 +98,36 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
 
         holder.location.setText(model.getAddress());
 
+        if(bookMarks.getShop_ids().contains(model.getId())){
+            BookmarkedImageView(holder.bookmark);
+            holder.flag=true;
+        }else{
+            deleteBookmarkedImageView(holder.bookmark);
+            holder.flag=false;
+        }
+
         holder.bookmark.setOnClickListener(view -> {
             if(!holder.flag) {
                 if (!SaveSharedPreference.getAPITOKEN(context).isEmpty()){
+                    if(!bookMarks.getShop_ids().contains(model.getId()))
+                    bookmarkaPost(model.getId());
+                    BookmarkedImageView(holder.bookmark);
                     holder.flag = true;
-                    bookmarkaPost(holder.bookmark,model.getId());
-                    Toast.makeText(context, "BookMarked!", Toast.LENGTH_SHORT).show();
+                    bookMarks.addId(model.getId());
+                    //Toast.makeText(context, "BookMarked!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, "ابتدا وارد حساب کاربری خود شوید", Toast.LENGTH_SHORT).show();
                 }
 
             }else {
                 if(!SaveSharedPreference.getAPITOKEN(context).isEmpty()){
-                    deleteBookmark(holder.bookmark,model.getId());
-                    holder.flag = false;
-                    Toast.makeText(context, "BookMark deleted.", Toast.LENGTH_SHORT).show();
+                    if(bookMarks.getShop_ids().contains(model.getId())) {
+                        deleteBookmark(model.getId());
+                        deleteBookmarkedImageView(holder.bookmark);
+                        bookMarks.removeId(model.getId());
+                        holder.flag = false;
+                        Toast.makeText(context, "BookMark deleted.", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(context, "ابتدا وارد حساب کاربری خود شوید", Toast.LENGTH_SHORT).show();
                 }
@@ -122,6 +146,7 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             intent.putExtra("e_date_use",model.getE_date_show());
             intent.putExtra("e_date_show",model.getE_date_use());
             intent.putExtra("shop_name",model.getShop_name());
+            intent.putExtra("shop_id",String.valueOf(model.getShop_id()));
             List<Pics> pics = model.getPics();
             String[] headerimgs = new String[pics.size()-1];
 
@@ -135,44 +160,63 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             context.startActivity(intent);
         });
 
-
+        if(getItemCount() == position-1){
+            Log.d("forbookmark", "onBindViewHolder: bookmarks saved in shared preferences");
+            Log.d("forbookmark", "onBindViewHolder: bookmark posts are : ");
+            SaveSharedPreference.setBookmarked(context,bookMarks);
+            for (int i =0 ;i<SaveSharedPreference.getBookmarked(context).getShop_ids().size();i++){
+                Log.d("forbookmark", "onBindViewHolder: " + SaveSharedPreference.getBookmarked(context).getShop_ids().get(i));
+            }
+        }
 
     }
 
-    private void bookmarkaPost(ImageView imageView, int post_id){
-        imageView.setImageResource(R.drawable.ic_bookmark_onclick);
-        Call<ResponseBody> call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
+    private void bookmarkaPost(int post_id){
 
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<String> call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
+
+        Log.d(TAG, "bookmarkaPost: " + SaveSharedPreference.getAPITOKEN(context));
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful() && response.body() != null){
+                    Log.d("book", "onResponse: bookmark successful ");
                     Toast.makeText(context, "in bookmarkaPost: this post bookmarked", Toast.LENGTH_SHORT).show();
+
+                }if(response.body() == null){
+                    Log.d(TAG, "onResponse: response is null " + post_id);
+                }else if(!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: response is unsuccessful");
+                }else if (response.body().toString() == ""){
+                    Log.d(TAG, "onResponse: response is empty");
+
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onFailure: ",t);
+                Log.d("book", "onFailure: " + t.getMessage());
             }
         });
     }
 
-    private void deleteBookmark(ImageView imageView, int post_id){
-        imageView.setImageResource(R.drawable.ic_bookmark);
-        Call<ResponseBody>  call = RetrofitClient.getmInstance().getApi().markPost(SaveSharedPreference.getAPITOKEN(context),post_id);
+    private void deleteBookmark(int post_id){
 
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<String>  call = RetrofitClient.getmInstance().getApi().deleteMarkedPost(SaveSharedPreference.getAPITOKEN(context),post_id);
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful() && response.body() != null){
                     Toast.makeText(context, "in deletebookmark: this bookmark deleted", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onFailure: ",t);
             }
@@ -273,9 +317,15 @@ public class RegPostAdapter extends RecyclerView.Adapter<RegPostAdapter.PostView
             posts.add(post);
         }
         notifyDataSetChanged();
-
-
     }
 
+
+
+    private void BookmarkedImageView(ImageView imageView){
+        imageView.setImageResource(R.drawable.ic_bookmark_onclick);
+    }
+    private void deleteBookmarkedImageView(ImageView imageView){
+        imageView.setImageResource(R.drawable.ic_bookmark);
+    }
 
 }
